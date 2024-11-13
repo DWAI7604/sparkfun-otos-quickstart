@@ -22,4 +22,28 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Config
 @Autonomous(name = "TestRedRR", group = "Autonomous")
 public class TestRedAutoRR extends LinearOpMode{
+    @Override
+    public void runOpMode(){
+        Pose2d beginPose = new Pose2d(-5, 60, Math.toRadians(90));
+        PinpointDrive drive = new PinpointDrive(hardwareMap, beginPose);
+        drive.updatePoseEstimate();
+
+        waitForStart();
+
+        Actions.runBlocking(
+                drive.actionBuilder(beginPose)
+                        .lineToYSplineHeading(33, Math.toRadians(0))
+                        .waitSeconds(2)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(48)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(32)
+                        .strafeTo(new Vector2d(44.5, 30))
+                        .turn(Math.toRadians(180))
+                        .lineToX(47.5)
+                        .waitSeconds(3)
+                        .build());
+    }
+
+
 }
