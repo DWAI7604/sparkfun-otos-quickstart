@@ -1,25 +1,22 @@
-package com.example.meepmeeptesting;
+package com.example.meepmeeptesting2;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-
-
-
-public class MeepMeepTesting2 {
+public class YellowAuto {
     static double FORWARD = 3*Math.PI/2;
     static double BACK = Math.PI/2;
     static double LEFT = Math.PI;
     static double RIGHT = 0;
+    static double SPLINE_HEADING = 0;
     private static final double pi = Math.PI;
     private static final Pose2d SPECIMEN_POS = new Pose2d(0, 35, 3*pi/2);
-    private static final Pose2d OBSERVATION_POS = new Pose2d(-60, 50, BACK);
-    private static final Pose2d FIRST_SPECIMEN = new Pose2d(-52, 35, FORWARD);
-    private static final Pose2d SECOND_SPECIMEN = new Pose2d(-60, 35, FORWARD);
-    private static final Pose2d THIRD_SPECIMEN = new Pose2d(-70, 35, FORWARD);
+    private static final Pose2d OBSERVATION_POS = new Pose2d(60, 50, BACK);
+    private static final Pose2d FIRST_SPECIMEN = new Pose2d(52, 35, FORWARD);
+    private static final Pose2d SECOND_SPECIMEN = new Pose2d(60, 35, FORWARD);
+    private static final Pose2d THIRD_SPECIMEN = new Pose2d(70, 35, FORWARD);
 
 
 
@@ -32,20 +29,20 @@ public class MeepMeepTesting2 {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 72, Math.toRadians(270)))
-                                // move to specimen container
-                                .splineToLinearHeading(SPECIMEN_POS, pi)
-                                // grab first blue
-                                .splineToLinearHeading(FIRST_SPECIMEN, pi)
-                                .splineToLinearHeading(OBSERVATION_POS, pi)
-                                .splineToLinearHeading(SPECIMEN_POS, pi)
-                                // grab second blue
-                                .splineToLinearHeading(SECOND_SPECIMEN, pi)
-                                .splineToLinearHeading(OBSERVATION_POS, pi)
-                                .splineToLinearHeading(SPECIMEN_POS, pi)
-                                // grab last blue
-                                .splineToLinearHeading(THIRD_SPECIMEN, pi)
-                                .splineToLinearHeading(OBSERVATION_POS, pi)
-                                .splineToLinearHeading(SPECIMEN_POS, pi)
+                // move to specimen container
+                .splineToLinearHeading(SPECIMEN_POS, SPLINE_HEADING)
+                // grab first blue
+                .splineToLinearHeading(FIRST_SPECIMEN, SPLINE_HEADING)
+                .splineToLinearHeading(OBSERVATION_POS, SPLINE_HEADING)
+                .splineToLinearHeading(SPECIMEN_POS, SPLINE_HEADING)
+                // grab second blue
+                .splineToLinearHeading(SECOND_SPECIMEN, SPLINE_HEADING)
+                .splineToLinearHeading(OBSERVATION_POS, SPLINE_HEADING)
+                .splineToLinearHeading(SPECIMEN_POS, SPLINE_HEADING)
+                // grab last blue
+                .splineToLinearHeading(THIRD_SPECIMEN, SPLINE_HEADING)
+                .splineToLinearHeading(OBSERVATION_POS, SPLINE_HEADING)
+                .splineToLinearHeading(SPECIMEN_POS, SPLINE_HEADING)
 
 
 //                .turn(Math.toRadians(90))
