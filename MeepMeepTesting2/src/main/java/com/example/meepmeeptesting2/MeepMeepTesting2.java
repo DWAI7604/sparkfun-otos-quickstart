@@ -1,5 +1,6 @@
 package com.example.meepmeeptesting;
 
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Trajectory;
@@ -19,32 +20,28 @@ public class MeepMeepTesting2 {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(8.75, -57, Math.toRadians(270)))
                 .strafeTo(new Vector2d(7.5,-24))
-                .waitSeconds(0.5)
-                .splineTo(new Vector2d(48.5, -48), Math.toRadians(90))
-                .lineToY(-39.5)
-                .lineToYLinearHeading(-44, Math.toRadians(270))
-                .lineToYLinearHeading(-43, Math.toRadians(90))
-                .strafeTo(new Vector2d(42,-68))
-                .waitSeconds(0.5)
-                .splineTo(new Vector2d(5, -42), Math.toRadians(270))
-                .lineToY(-24)
-                .waitSeconds(0.5)
-                .splineTo(new Vector2d(57.5, -48), Math.toRadians(90))
-                .lineToY(-39.5)
-                .lineToYLinearHeading(-44, Math.toRadians(270))
-                .lineToYLinearHeading(-43, Math.toRadians(90))
-                .strafeTo(new Vector2d(42,-68))
-                .waitSeconds(0.5)
-                .splineTo(new Vector2d(2, -42), Math.toRadians(270))
-                .lineToY(-24)
-                .waitSeconds(0.5)
+                .lineToY(-36)
+                .splineTo(new Vector2d(36,-36), Math.toRadians(90))
+                .lineToY(-20)
+                .strafeTo(new Vector2d(48.5, -20))
+                .strafeTo(new Vector2d(48.5, -48))
+                .strafeTo(new Vector2d(48.5, -20))
+                .strafeTo(new Vector2d(57.5, -20))
+                .strafeTo(new Vector2d(57.5, -48))
+                .strafeTo(new Vector2d(57.5, -20))
+                .strafeTo(new Vector2d(63.5, -20))
+                .strafeTo(new Vector2d(63.5, -48))
+                .strafeTo(new Vector2d(37,-45))
+                .strafeTo(new Vector2d(37, -70))
+                .strafeTo(new Vector2d(5, -50))
+                .strafeTo(new Vector2d(5, -48))
+                .lineToYLinearHeading(-24, Math.toRadians(270))
+                .strafeTo(new Vector2d(37, -40))
+                .strafeTo(new Vector2d(37, -45))
+                .lineToYLinearHeading(-65, Math.toRadians(90))
+                .lineToY(-70)
 
-                .lineToYLinearHeading(-32, Math.toRadians(90))
-                .strafeTo(new Vector2d(42, -68))
-                .waitSeconds(0.5)
-                .splineTo(new Vector2d(0, -42), Math.toRadians(270))
-                .lineToY(-24)
-                .waitSeconds(0.5)
+                //.lineToYLinearHeading(-24, Math.toRadians(270))
 
                 .build());
 
