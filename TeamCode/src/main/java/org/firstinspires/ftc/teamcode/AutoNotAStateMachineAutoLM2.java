@@ -24,6 +24,7 @@ public class AutoNotAStateMachineAutoLM2 extends LinearOpMode{
 
         Actions.runBlocking(new ParallelAction(
                 drive.actionBuilder(startPose)
+
                         .strafeTo(new Vector2d(7.5,-24))
                         .build(),
                 //lift arm
