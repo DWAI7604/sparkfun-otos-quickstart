@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -62,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@TeleOp(name="MainTelOp", group="Linear OpMode")
 
 public class TeleOpMain extends RobotLinearOpMode {
 
@@ -72,9 +73,10 @@ public class TeleOpMain extends RobotLinearOpMode {
     private DcMotor leftBackDriveMotor = null;
     private DcMotor rightFrontDriveMotor = null;
     private DcMotor rightBackDriveMotor = null;
-    private DcMotor hangMotor;
     DcMotor slideUp;
+    DcMotor slipeUp2;
     DcMotor slideForward;
+    Servo clawServo;
     private boolean aPressed = false;
     private boolean bPressed = false;
     private boolean xPressed = false;
@@ -92,22 +94,25 @@ public class TeleOpMain extends RobotLinearOpMode {
         rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
         leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
         slideUp = hardwareMap.get(DcMotor.class, "slideUp");
+        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
         //slideForward = hardwareMap.get(DcMotor.class, "slideForward");
-        hangMotor = hardwareMap.get(DcMotor.class, "hangMotor");
 
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        slideUp2.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUp2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //slideForward.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        hangMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         declareHardwareProperties();
 
@@ -139,15 +144,15 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  -gamepad1.left_stick_x;
+            double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = -axial - lateral - yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+            double leftFrontPower  = axial + lateral - yaw;
+            double rightFrontPower = -axial - lateral - yaw;
+            double leftBackPower   = -axial + lateral + yaw;
+            double rightBackPower  = -axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -219,6 +224,23 @@ public class TeleOpMain extends RobotLinearOpMode {
                 encoderDrive(0.4, 15, MOVEMENT_DIRECTION.FORWARD);
                 encoderSlideUpTime(0.4, 1, MOVEMENT_DIRECTION.REVERSE);
             }
+
+
+            if (gamepad1.b && !bPressed) {
+                bPressed = true;
+            }
+            else if (!gamepad1.b && bPressed){
+                bPressed = false;
+            }
+
+            if (bPressed){
+                bPressed = false;
+                telemetry.addData("HEY", "hey");
+                telemetry.update();
+                clawServo.setPosition(90);
+            }
+
+//
 //
             if (gamepad1.y && !yPressed) {
                 yPressed = true;
@@ -227,20 +249,17 @@ public class TeleOpMain extends RobotLinearOpMode {
                 yPressed = false;
             }
 
-            slideUp.setPower(gamepad1.right_trigger);
-            slideUp.setPower(-gamepad1.left_trigger);
-
-            if (gamepad2.right_bumper){
-                hangMotor.setPower(1);
+            if (yPressed){
+                yPressed = false;
+                telemetry.addData("HEY", "hey");
+                telemetry.update();
+                clawServo.setPosition(30);
             }
 
-            if (gamepad2.left_bumper){
-                hangMotor.setPower(-1);
-            }
-
-            if (!gamepad2.right_bumper && !gamepad2.left_bumper){
-                hangMotor.setPower(0);
-            }
+            slideUp.setPower(-gamepad1.right_trigger);
+            slideUp.setPower(gamepad1.left_trigger);
+            slideUp2.setPower(-gamepad1.right_trigger);
+            slideUp2.setPower(gamepad1.left_trigger);
 
 
             // Show the elapsed game time and wheel power.
