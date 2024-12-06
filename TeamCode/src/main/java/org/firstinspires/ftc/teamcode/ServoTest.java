@@ -17,6 +17,7 @@ public class ServoTest extends RobotLinearOpMode{
     public void runOpMode() {
 
         testServo = hardwareMap.get(Servo.class, "testServo");
+        testServo.setDirection(Servo.Direction.REVERSE);
 
         waitForStart();
 
@@ -29,7 +30,7 @@ public class ServoTest extends RobotLinearOpMode{
 
             if (bPressed) {
                 bPressed = false;
-                testServo.setPosition(75 / 280);
+                testServo.setPosition(75);
             }
 
             if (gamepad1.a && !aPressed) {
@@ -40,7 +41,7 @@ public class ServoTest extends RobotLinearOpMode{
 
             if (aPressed) {
                 aPressed = false;
-                testServo.setPosition(60 / 280);
+                testServo.setPosition(60);
             }
 
             if (gamepad1.x && !xPressed) {
