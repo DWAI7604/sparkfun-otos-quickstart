@@ -233,46 +233,46 @@ public class TeleOpMain extends RobotLinearOpMode {
 //                encoderSlideUpTime(0.4, 1, MOVEMENT_DIRECTION.REVERSE);
 //            }
 
-
-            if (gamepad1.b && !bPressed) {
-                bPressed = true;
-            }
-            else if (!gamepad1.b && bPressed){
-                bPressed = false;
-            }
-
-            if (bPressed){
-                bPressed = false;
-                slideUp.setPower(-0.8);
-                slideUp2.setPower(-0.8);
-            }
-            else {
-                slideUp.setPower(0);
-                slideUp2.setPower(0);
-            }
-
 //
+//            if (gamepad2.b && !bPressed) {
+//                bPressed = true;
+//            }
+//            else if (!gamepad2.b && bPressed){
+//                bPressed = false;
+//            }
 //
-            if (gamepad1.y && !yPressed) {
-                yPressed = true;
-            }
-            else if (!gamepad1.y && yPressed){
-                yPressed = false;
-            }
+//            if (bPressed){
+//                bPressed = false;
+//                slideUp.setPower(-1);
+//                slideUp2.setPower(-1);
+//            }
+//            else {
+//                slideUp.setPower(0);
+//                slideUp2.setPower(0);
+//            }
+//
+////
+////
+//            if (gamepad2.y && !yPressed) {
+//                yPressed = true;
+//            }
+//            else if (!gamepad2.y && yPressed){
+//                yPressed = false;
+//            }
+//
+//            if (yPressed){
+//                yPressed = false;
+//                slideUp.setPower(0.5);
+//                slideUp2.setPower(0.5);
+//            }
+//            else {
+//                slideUp.setPower(0);
+//                slideUp2.setPower(0);
+//            }
 
-            if (yPressed){
-                yPressed = false;
-                slideUp.setPower(0.5);
-                slideUp2.setPower(0.5);
-            }
-            else {
-                slideUp.setPower(0);
-                slideUp2.setPower(0);
-            }
-
-            if (gamepad1.a && !aPressed) {
+            if (gamepad2.a && !aPressed) {
                 aPressed = true;
-            } else if (!gamepad1.a && aPressed) {
+            } else if (!gamepad2.a && aPressed) {
                 aPressed = false;
             }
 
@@ -281,10 +281,10 @@ public class TeleOpMain extends RobotLinearOpMode {
                 clawServo.setPosition(Math.toRadians(45));
             }
 
-//            slideUp.setPower(-gamepad1.right_trigger);
-//            slideUp.setPower(gamepad1.left_trigger);
-//            slideUp2.setPower(-gamepad1.right_trigger);
-//            slideUp2.setPower(gamepad1.left_trigger);
+            slideUp.setPower(gamepad2.right_trigger);
+            slideUp.setPower(-gamepad2.left_trigger);
+//            slideUp2.setPower(gamepad2.right_trigger);
+//            slideUp2.setPower(-gamepad2.left_trigger);
 
 
             // Show the elapsed game time and wheel power.
