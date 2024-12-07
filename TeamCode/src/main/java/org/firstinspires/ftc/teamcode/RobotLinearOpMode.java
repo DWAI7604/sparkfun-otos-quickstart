@@ -1795,6 +1795,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
         slideUp = hardwareMap.get(DcMotor.class, "slideUp");
         slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
         //slideForward = hardwareMap.get(DcMotor.class, "slideForward");
 
 
@@ -1802,7 +1803,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        slideUp2.setDirection(DcMotorEx.Direction.REVERSE);
+        slideUp.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

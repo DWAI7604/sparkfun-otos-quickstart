@@ -29,6 +29,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -83,6 +87,10 @@ public class TeleOpMain extends RobotLinearOpMode {
     private boolean yPressed = false;
     private int placeCount;
 
+    private double Kp = 0.04;
+    private double Ki = 0.4;
+    private double Kd = 2;
+
     @Override
     public void runOpMode() {
 
@@ -98,13 +106,13 @@ public class TeleOpMain extends RobotLinearOpMode {
         //slideForward = hardwareMap.get(DcMotor.class, "slideForward");
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
+        //clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        slideUp2.setDirection(DcMotorEx.Direction.REVERSE);
+        //slideUp2.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -190,40 +198,40 @@ public class TeleOpMain extends RobotLinearOpMode {
             leftBackDriveMotor.setPower(leftBackPower);
             rightBackDriveMotor.setPower(rightBackPower);
 
-            if (gamepad1.a && !aPressed) {
-                aPressed = true;
-            }
-            else if (!gamepad1.a && aPressed){
-                aPressed = false;
-            }
-
-            if (aPressed){
-                aPressed = false;
-                encoderSlideUp(0.7, 16, MOVEMENT_DIRECTION.FORWARD);
-                encoderDrive(0.2, 4, MOVEMENT_DIRECTION.REVERSE);
-                encoderSlideUp(0.7, 3, MOVEMENT_DIRECTION.REVERSE);
-                encoderDrive(0.4, 5, MOVEMENT_DIRECTION.FORWARD);
-                encoderSlideUpTime(0.7, 1.5, MOVEMENT_DIRECTION.REVERSE);
-                placeCount++;
-            }
-
-            if (gamepad1.x && !xPressed) {
-                xPressed = true;
-            }
-            else if (!gamepad1.x && xPressed){
-                xPressed = false;
-            }
-
-            if (xPressed){
-                xPressed = false;
-                encoderDrive(0.4, 3, MOVEMENT_DIRECTION.STRAFE_LEFT);
-                sleep(1000);
-                encoderDrive(0.4, 18, MOVEMENT_DIRECTION.REVERSE);
-                sleep(200);
-                encoderSlideUp(0.7, 5, MOVEMENT_DIRECTION.FORWARD);
-                encoderDrive(0.4, 15, MOVEMENT_DIRECTION.FORWARD);
-                encoderSlideUpTime(0.4, 1, MOVEMENT_DIRECTION.REVERSE);
-            }
+//            if (gamepad1.a && !aPressed) {
+//                aPressed = true;
+//            }
+//            else if (!gamepad1.a && aPressed){
+//                aPressed = false;
+//            }
+//
+//            if (aPressed){
+//                aPressed = false;
+//
+//                EncoderSlide(28, 10000, 1, Kp, Kd);
+//                encoderDrive(0.5, 3, MOVEMENT_DIRECTION.REVERSE);
+//                EncoderSlide(24, 1000, 1, Kp, Kd);
+//
+//                placeCount++;
+//            }
+//
+//            if (gamepad1.x && !xPressed) {
+//                xPressed = true;
+//            }
+//            else if (!gamepad1.x && xPressed){
+//                xPressed = false;
+//            }
+//
+//            if (xPressed){
+//                xPressed = false;
+//                encoderDrive(0.4, 3, MOVEMENT_DIRECTION.STRAFE_LEFT);
+//                sleep(1000);
+//                encoderDrive(0.4, 18, MOVEMENT_DIRECTION.REVERSE);
+//                sleep(200);
+//                encoderSlideUp(0.7, 5, MOVEMENT_DIRECTION.FORWARD);
+//                encoderDrive(0.4, 15, MOVEMENT_DIRECTION.FORWARD);
+//                encoderSlideUpTime(0.4, 1, MOVEMENT_DIRECTION.REVERSE);
+//            }
 
 
             if (gamepad1.b && !bPressed) {
@@ -235,9 +243,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (bPressed){
                 bPressed = false;
-                telemetry.addData("HEY", "hey");
-                telemetry.update();
-                clawServo.setPosition(90);
+                slideUp.setPower(-0.8);
+                slideUp2.setPower(-0.8);
+            }
+            else {
+                slideUp.setPower(0);
+                slideUp2.setPower(0);
             }
 
 //
@@ -251,15 +262,29 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (yPressed){
                 yPressed = false;
-                telemetry.addData("HEY", "hey");
-                telemetry.update();
-                clawServo.setPosition(30);
+                slideUp.setPower(0.5);
+                slideUp2.setPower(0.5);
+            }
+            else {
+                slideUp.setPower(0);
+                slideUp2.setPower(0);
             }
 
-            slideUp.setPower(-gamepad1.right_trigger);
-            slideUp.setPower(gamepad1.left_trigger);
-            slideUp2.setPower(-gamepad1.right_trigger);
-            slideUp2.setPower(gamepad1.left_trigger);
+            if (gamepad1.a && !aPressed) {
+                aPressed = true;
+            } else if (!gamepad1.a && aPressed) {
+                aPressed = false;
+            }
+
+            if (aPressed) {
+                aPressed = false;
+                clawServo.setPosition(Math.toRadians(45));
+            }
+
+//            slideUp.setPower(-gamepad1.right_trigger);
+//            slideUp.setPower(gamepad1.left_trigger);
+//            slideUp2.setPower(-gamepad1.right_trigger);
+//            slideUp2.setPower(gamepad1.left_trigger);
 
 
             // Show the elapsed game time and wheel power.
