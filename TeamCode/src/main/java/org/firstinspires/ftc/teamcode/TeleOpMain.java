@@ -270,19 +270,19 @@ public class TeleOpMain extends RobotLinearOpMode {
 //                slideUp2.setPower(0);
 //            }
 
-            if (gamepad2.a && !aPressed) {
-                aPressed = true;
-            } else if (!gamepad2.a && aPressed) {
-                aPressed = false;
-            }
-
-            if (aPressed) {
-                aPressed = false;
-                clawServo.setPosition(Math.toRadians(45));
-            }
-
-            slideUp.setPower(gamepad2.right_trigger);
-            slideUp.setPower(-gamepad2.left_trigger);
+//            if (gamepad2.a && !aPressed) {
+//                aPressed = true;
+//            } else if (!gamepad2.a && aPressed) {
+//                aPressed = false;
+//            }
+//
+//            if (aPressed) {
+//                aPressed = false;
+//                clawServo.setPosition(Math.toRadians(45));
+//            }
+//
+//            slideUp.setPower(gamepad2.right_trigger);
+//            slideUp.setPower(-gamepad2.left_trigger);
 //            slideUp2.setPower(gamepad2.right_trigger);
 //            slideUp2.setPower(-gamepad2.left_trigger);
 
