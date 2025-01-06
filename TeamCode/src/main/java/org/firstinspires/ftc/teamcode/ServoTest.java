@@ -17,7 +17,6 @@ public class ServoTest extends RobotLinearOpMode{
     public void runOpMode() {
 
         testServo = hardwareMap.get(Servo.class, "testServo");
-        testServo.setDirection(Servo.Direction.REVERSE);
 
         waitForStart();
 
