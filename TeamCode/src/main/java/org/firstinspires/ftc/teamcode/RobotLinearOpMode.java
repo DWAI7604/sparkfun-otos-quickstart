@@ -95,10 +95,12 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
     DcMotor leftFrontDriveMotor;
     DcMotor rightBackDriveMotor;
     DcMotor leftBackDriveMotor;
-    DcMotor slideUp;
-    DcMotor slideUp2;
-    //DcMotor slideForward;
+    DcMotor slideUpTop;
+    DcMotor slideUpBottom;
+    DcMotor hSlide;
     Servo clawServo;
+    Servo wristServo;
+    Servo armServo;
     NormalizedColorSensor colorSensor;
     AprilTagProcessor aprilTag;
     VisionPortal visionPortal;
@@ -282,191 +284,191 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         rightBackDriveMotor.setPower(0);
     }
 
-    public void encoderSlideUpTime(double power, double seconds, MOVEMENT_DIRECTION movement_direction){
-        runtime.reset();
-        while (runtime.seconds() < seconds){
-            if (movement_direction == MOVEMENT_DIRECTION.FORWARD){
-                slideUp.setPower(power);
-            }
-            else{
-                slideUp.setPower(-power);
-            }
-        }
-        slideUp.setPower(0);
-    }
+//    public void encoderSlideUpTime(double power, double seconds, MOVEMENT_DIRECTION movement_direction){
+//        runtime.reset();
+//        while (runtime.seconds() < seconds){
+//            if (movement_direction == MOVEMENT_DIRECTION.FORWARD){
+//                slideUp.setPower(power);
+//            }
+//            else{
+//                slideUp.setPower(-power);
+//            }
+//        }
+//        slideUp.setPower(0);
+//    }
 
-    public void EncoderSlide(double TargetPos, int TargetTime, int UpdateSpeed, double Kp, double Kd)
-    {
-        //TargetPos is the goal position in inches
-        //TargetTime is the target amount of milliseconds before the goal is reached
-        //UpdateSpeed is the amount of milleseconds between updates
+//    public void EncoderSlide(double TargetPos, int TargetTime, int UpdateSpeed, double Kp, double Kd)
+//    {
+//        //TargetPos is the goal position in inches
+//        //TargetTime is the target amount of milliseconds before the goal is reached
+//        //UpdateSpeed is the amount of milleseconds between updates
+//
+//        //Specifications of hardware
+//        final double WHEEL_DIAMETER_INCHES = 1.625;
+//        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
+//        final double COUNTS_PER_ROTATION_AT_MOTOR = 537.7;
+//        final double TICKS_PER_ROTATION = (COUNTS_PER_ROTATION_AT_MOTOR);
+//        final double TICKS_PER_INCH = (TICKS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE_INCHES);
+//        final double UncertaintyThreshold = 999999999;
+//        //final double Kp = 0.01; //Proportional gain.
+//        final double Ki = 0; //Integral gain.
+//        //final double Kd = 0.02; //Derivative gain.
+//
+//        int TargetPosInTicks = (int)(TargetPos * TICKS_PER_INCH);
+//        int TimeElapsed = 0;
+//        int Current = 0;
+//        Current = slideUp.getCurrentPosition();
+//
+//        float Target = Current;//Current target in ticks
+//
+//        double LastActive = 0;
+//        double Error = 0;
+//        double de = 0;
+//        double ErrorSum = 0;
+//        double Power = 0;
+//        double PrevPower = 0;
+//
+//        telemetry.addData("Power", Power);
+//        telemetry.addData("CurrentPos", Current);
+//        telemetry.addData("CurrentTarget", Target);
+//        telemetry.addData("Target", TargetPosInTicks);
+//
+//
+//        //Sets the target # of ticks to the target position of the motors
+//        //slideUp.setTargetPosition(TargetPosInTicks);
+//
+//        //slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        slideUp2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        Power = (TargetPosInTicks > Target ? 0.1 : -0.1);
+//
+//        slideUp.setPower(Power);
+//        slideUp2.setPower(Power);
+//
+//        while (TimeElapsed <= TargetTime && TimeElapsed - LastActive <= 250)
+//        {
+//            PrevPower = Power;
+//            Current = slideUp.getCurrentPosition();
+//
+//            de = Error;
+//
+//            Error = TargetPosInTicks - Current;
+//            //ErrorSum += 0.5 * (Error + de) * UpdateSpeed;
+//            ErrorSum += Error * (TimeElapsed / 1000.0);
+//            de = (Error - de) / (TimeElapsed / 1000.0);
+//
+//            /*Power = -Power;
+//
+//            Power += Kp * Error;
+//
+//            Power += Ki * ErrorSum;
+//
+//            Power += Kd * de;
+//
+//            double Dif = Power - PrevPower;
+//            Dif = Dif < -0.02 ? -0.02 : Dif > 0.02 ? 0.02 : Dif;
+//
+//            Power = PrevPower + Dif;
+//
+//            //PrevPower = Power;*/
+//            Power = Kp * Error + Ki * ErrorSum * Kd * de;
+//
+//            Power = (Power < -2) ? -2 : (Power > 2 ? 2 : Power);
+//
+//            /*if (Math.abs(Error) < UncertaintyThreshold)
+//            {*/
+//            Target = ((TargetPosInTicks - Current) / Math.abs((float)TargetTime - TimeElapsed));
+//            //}
+//
+//            slideUp.setPower(Power);
+//            slideUp2.setPower(Power);
+//
+//            telemetry.addData("UnboundPower", PrevPower);
+//            telemetry.addData("Power", Power);
+//            telemetry.addData("CurrentPos", Current);
+//            telemetry.addData("CurrentTarget", Target);
+//            telemetry.addData("Target", TargetPosInTicks);
+//            telemetry.addData("RemainingDist", (TargetPosInTicks - Current));
+//            telemetry.addData("RemainingTime", (TargetTime - TimeElapsed));
+//            telemetry.addData("TimeElapsed", TimeElapsed);
+//            telemetry.update();
+//
+//            sleep(UpdateSpeed);
+//            TimeElapsed += UpdateSpeed;
+//
+//            if (Math.abs(Power) > 0.1 && Math.abs(Current - TargetPosInTicks) > 10)
+//            {
+//                LastActive = TimeElapsed;
+//            }
+//        }
+//
+//        slideUp.setPower(0);
+//        slideUp2.setPower(0);
+//    }
 
-        //Specifications of hardware
-        final double WHEEL_DIAMETER_INCHES = 1.625;
-        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
-        final double COUNTS_PER_ROTATION_AT_MOTOR = 537.7;
-        final double TICKS_PER_ROTATION = (COUNTS_PER_ROTATION_AT_MOTOR);
-        final double TICKS_PER_INCH = (TICKS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE_INCHES);
-        final double UncertaintyThreshold = 999999999;
-        //final double Kp = 0.01; //Proportional gain.
-        final double Ki = 0; //Integral gain.
-        //final double Kd = 0.02; //Derivative gain.
-
-        int TargetPosInTicks = (int)(TargetPos * TICKS_PER_INCH);
-        int TimeElapsed = 0;
-        int Current = 0;
-        Current = slideUp.getCurrentPosition();
-
-        float Target = Current;//Current target in ticks
-
-        double LastActive = 0;
-        double Error = 0;
-        double de = 0;
-        double ErrorSum = 0;
-        double Power = 0;
-        double PrevPower = 0;
-
-        telemetry.addData("Power", Power);
-        telemetry.addData("CurrentPos", Current);
-        telemetry.addData("CurrentTarget", Target);
-        telemetry.addData("Target", TargetPosInTicks);
-
-
-        //Sets the target # of ticks to the target position of the motors
-        //slideUp.setTargetPosition(TargetPosInTicks);
-
-        //slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slideUp2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        Power = (TargetPosInTicks > Target ? 0.1 : -0.1);
-
-        slideUp.setPower(Power);
-        slideUp2.setPower(Power);
-
-        while (TimeElapsed <= TargetTime && TimeElapsed - LastActive <= 250)
-        {
-            PrevPower = Power;
-            Current = slideUp.getCurrentPosition();
-
-            de = Error;
-
-            Error = TargetPosInTicks - Current;
-            //ErrorSum += 0.5 * (Error + de) * UpdateSpeed;
-            ErrorSum += Error * (TimeElapsed / 1000.0);
-            de = (Error - de) / (TimeElapsed / 1000.0);
-
-            /*Power = -Power;
-
-            Power += Kp * Error;
-
-            Power += Ki * ErrorSum;
-
-            Power += Kd * de;
-
-            double Dif = Power - PrevPower;
-            Dif = Dif < -0.02 ? -0.02 : Dif > 0.02 ? 0.02 : Dif;
-
-            Power = PrevPower + Dif;
-
-            //PrevPower = Power;*/
-            Power = Kp * Error + Ki * ErrorSum * Kd * de;
-
-            Power = (Power < -2) ? -2 : (Power > 2 ? 2 : Power);
-
-            /*if (Math.abs(Error) < UncertaintyThreshold)
-            {*/
-            Target = ((TargetPosInTicks - Current) / Math.abs((float)TargetTime - TimeElapsed));
-            //}
-
-            slideUp.setPower(Power);
-            slideUp2.setPower(Power);
-
-            telemetry.addData("UnboundPower", PrevPower);
-            telemetry.addData("Power", Power);
-            telemetry.addData("CurrentPos", Current);
-            telemetry.addData("CurrentTarget", Target);
-            telemetry.addData("Target", TargetPosInTicks);
-            telemetry.addData("RemainingDist", (TargetPosInTicks - Current));
-            telemetry.addData("RemainingTime", (TargetTime - TimeElapsed));
-            telemetry.addData("TimeElapsed", TimeElapsed);
-            telemetry.update();
-
-            sleep(UpdateSpeed);
-            TimeElapsed += UpdateSpeed;
-
-            if (Math.abs(Power) > 0.1 && Math.abs(Current - TargetPosInTicks) > 10)
-            {
-                LastActive = TimeElapsed;
-            }
-        }
-
-        slideUp.setPower(0);
-        slideUp2.setPower(0);
-    }
-
-    public void encoderSlideUp(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
-
-
-        //Specifications of hardware
-        final double WHEEL_DIAMETER_INCHES = 1.5291339;
-        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
-        final double GEAR_RATIO = 19.2;
-        final double COUNTS_PER_ROTATION_AT_MOTOR = 537.7;
-        final double TICKS_PER_ROTATION = (COUNTS_PER_ROTATION_AT_MOTOR);
-        final double TICKS_PER_INCH = (TICKS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE_INCHES);
-
-        //Target # of ticks for each motor
-        int target;
-
-        //Resets motor encoders to 0 ticks
-        slideUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //Sets the target # of ticks by intaking the number of desired inches of movement and converting to ticks
-        target = slideUp.getCurrentPosition() + (int) (inches * TICKS_PER_INCH);
-
-        if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
-
-            //Sets the target # of ticks to the target position of the motors
-            slideUp.setTargetPosition(target);
-
-            //Tells the motors to drive until they reach the target position
-            slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            //Sets the motor powers to the power entered on use
-            slideUp.setPower(power);
-
-            while (slideUp.isBusy() && opModeIsActive()) {
-
-            }
-
-            //Kills the motors to prepare for next call of method
-            slideUp.setPower(0);
-        }
-
-        if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
-
-            //Sets the target # of ticks to the target position of the motors
-            slideUp.setTargetPosition(-target);
-
-            //Tells the motors to drive until they reach the target position
-            slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            //Sets the motor powers to the power entered on use
-            slideUp.setPower(-power);
-
-            while (slideUp.isBusy() && opModeIsActive()) {
-
-            }
-            //Kills the motors to prepare for next call of method
-            slideUp.setPower(0);
-        }
-
-        slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //Kills the motors to prepare for next call of method
-        slideUp.setPower(0);
-    }
+//    public void encoderSlideUp(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
+//
+//
+//        //Specifications of hardware
+//        final double WHEEL_DIAMETER_INCHES = 1.5291339;
+//        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
+//        final double GEAR_RATIO = 19.2;
+//        final double COUNTS_PER_ROTATION_AT_MOTOR = 537.7;
+//        final double TICKS_PER_ROTATION = (COUNTS_PER_ROTATION_AT_MOTOR);
+//        final double TICKS_PER_INCH = (TICKS_PER_ROTATION) / (WHEEL_CIRCUMFERENCE_INCHES);
+//
+//        //Target # of ticks for each motor
+//        int target;
+//
+//        //Resets motor encoders to 0 ticks
+//        slideUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        //Sets the target # of ticks by intaking the number of desired inches of movement and converting to ticks
+//        target = slideUp.getCurrentPosition() + (int) (inches * TICKS_PER_INCH);
+//
+//        if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
+//
+//            //Sets the target # of ticks to the target position of the motors
+//            slideUp.setTargetPosition(target);
+//
+//            //Tells the motors to drive until they reach the target position
+//            slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            //Sets the motor powers to the power entered on use
+//            slideUp.setPower(power);
+//
+//            while (slideUp.isBusy() && opModeIsActive()) {
+//
+//            }
+//
+//            //Kills the motors to prepare for next call of method
+//            slideUp.setPower(0);
+//        }
+//
+//        if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
+//
+//            //Sets the target # of ticks to the target position of the motors
+//            slideUp.setTargetPosition(-target);
+//
+//            //Tells the motors to drive until they reach the target position
+//            slideUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//            //Sets the motor powers to the power entered on use
+//            slideUp.setPower(-power);
+//
+//            while (slideUp.isBusy() && opModeIsActive()) {
+//
+//            }
+//            //Kills the motors to prepare for next call of method
+//            slideUp.setPower(0);
+//        }
+//
+//        slideUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        //Kills the motors to prepare for next call of method
+//        slideUp.setPower(0);
+//    }
 
 //    public void encoderSlideForward(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
 //
@@ -1777,43 +1779,41 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         telemetry.update();
     }
 
-    public void declareSlideProperty()
-    {
-        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
-        slideUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
-        slideUp2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
+//    public void declareSlideProperty()
+//    {
+//        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
+//        slideUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+//        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
+//        slideUp2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    }
 
     public void declareHardwareProperties() {
-
-
         rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
         leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
         rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
         leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
-        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
-        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        //slideForward = hardwareMap.get(DcMotor.class, "slideForward");
+        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
+        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
+        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
 
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        armServo = hardwareMap.get(Servo.class, "armServo");
+        clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        slideUp.setDirection(DcMotorEx.Direction.REVERSE);
 
         leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //slideForward.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
+        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     enum MOVEMENT_DIRECTION {
