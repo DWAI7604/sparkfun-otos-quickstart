@@ -100,7 +100,8 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
     DcMotor hSlide;
     Servo clawServo;
     Servo wristServo;
-    Servo armServo;
+    Servo armServoLeft;
+    Servo armServoRight;
     NormalizedColorSensor colorSensor;
     AprilTagProcessor aprilTag;
     VisionPortal visionPortal;
@@ -1799,7 +1800,8 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
-        armServo = hardwareMap.get(Servo.class, "armServo");
+        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
+        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
         clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);

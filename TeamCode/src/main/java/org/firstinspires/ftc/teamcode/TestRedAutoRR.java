@@ -33,18 +33,18 @@ public class TestRedAutoRR extends RobotLinearOpMode{
     private double Kd = 2;
     private double xPosition = 9;
     private double yPosition = -57;
-    private double heading = Math.toRadians(270);
+    private double heading = Math.toRadians(90);
     private DcMotor slideUp;
     private DcMotor slideUp2;
     private Servo clawServo;
 
     @Override
     public void runOpMode(){
-        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
-        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
-        slideUp.setDirection(DcMotorSimple.Direction.REVERSE);
+//        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
+//        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
+//        clawServo = hardwareMap.get(Servo.class, "clawServo");
+//        clawServo.setDirection(Servo.Direction.REVERSE);
+//        slideUp.setDirection(DcMotorSimple.Direction.REVERSE);
 
         Pose2d beginPose = new Pose2d(xPosition, yPosition, heading);
         PinpointDrive drive = new PinpointDrive(hardwareMap, beginPose);
@@ -55,8 +55,15 @@ public class TestRedAutoRR extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 drive.actionBuilder(beginPose)
-                        .strafeTo(new Vector2d(4.5, -36))
-                        .lineToY(-38)
+                        .setTangent(Math.toRadians(45))
+                        .lineToX(4.5)
+                        .setTangent(Math.toRadians(135))
+                        .lineToY(-42)
+                        .waitSeconds(2)
+                        .lineToY(-47)
+                        .waitSeconds(2)
+                        .setTangent(Math.toRadians(45))
+                        .lineToX(36)
                         .splineTo(new Vector2d(36,-36), Math.toRadians(0))
                         .setTangent(Math.toRadians(90))
                         .lineToYLinearHeading(-6, Math.toRadians(0))
@@ -77,7 +84,7 @@ public class TestRedAutoRR extends RobotLinearOpMode{
                         .build()
         );
 
-        clawServo.setPosition(60);
+        //clawServo.setPosition(60);
         sleep(4000);
 
     }
