@@ -80,10 +80,12 @@ public class TeleOpMain extends RobotLinearOpMode {
     DcMotor slideUpTop;
     DcMotor slideUpBottom;
     DcMotor hSlide;
+    DcMotor intakeMotor;
     private Servo clawServo;
     private Servo wristServo;
     private Servo armServoLeft;
     private Servo armServoRight;
+    private Servo intakeServo;
     private boolean aPressed = false;
     private boolean bPressed = false;
     private boolean xPressed = false;
@@ -92,6 +94,14 @@ public class TeleOpMain extends RobotLinearOpMode {
     private boolean b2Pressed = false;
     private boolean x2Pressed = false;
     private boolean y2Pressed = false;
+    private boolean rBumpPressed1 = false;
+    private boolean rBumpPressed2 = false;
+    private boolean lBumpPressed1 = false;
+    private boolean lBumpPressed2 = false;
+    private boolean dPadUpPressed = false;
+    private boolean dPadDownPressed = false;
+    private boolean dPadLeftPressed = false;
+    private boolean dPadRightPressed = false;
     private int placeCount;
 
     private double Kp = 0.04;
@@ -111,11 +121,13 @@ public class TeleOpMain extends RobotLinearOpMode {
         slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
         slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
         armServoRight = hardwareMap.get(Servo.class, "armServoRight");
+        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
         clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
@@ -221,7 +233,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (bPressed) {
                 bPressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.55);
+                clawServo.setPosition(0.9);
             }
 
             //
@@ -235,7 +247,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (xPressed) {
                 xPressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.45);
+                clawServo.setPosition(0.1);
             }
 
             //
@@ -328,6 +340,110 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoRight.setPosition(0.7);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
                 armServoLeft.setPosition(0.8);
+            }
+
+            //
+
+            if (gamepad1.left_bumper && !lBumpPressed1) {
+                lBumpPressed1 = true;
+            } else if (!gamepad1.left_bumper && lBumpPressed1) {
+                lBumpPressed1 = false;
+            }
+
+            if (lBumpPressed1) {
+                lBumpPressed1 = false;
+                encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.FORWARD);
+            }
+
+            //
+
+            if (gamepad2.left_bumper && !lBumpPressed2) {
+                lBumpPressed2 = true;
+            } else if (!gamepad2.left_bumper && lBumpPressed2) {
+                lBumpPressed2 = false;
+            }
+
+            if (lBumpPressed2) {
+                lBumpPressed2 = false;
+                encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.REVERSE);
+            }
+
+            //
+
+            if (gamepad1.right_bumper && !rBumpPressed1) {
+                rBumpPressed1 = true;
+            } else if (!gamepad1.right_bumper && rBumpPressed1) {
+                lBumpPressed2 = false;
+            }
+
+            if (rBumpPressed1) {
+                rBumpPressed1 = false;
+                encoderSlideForwardTime(0.5, 1, MOVEMENT_DIRECTION.FORWARD);
+            }
+
+            //
+
+            if (gamepad2.right_bumper && !rBumpPressed2) {
+                rBumpPressed2 = true;
+            } else if (!gamepad2.right_bumper && rBumpPressed2) {
+                rBumpPressed2 = false;
+            }
+
+            if (rBumpPressed2) {
+                rBumpPressed2 = false;
+                encoderSlideForwardTime(0.5, 1, MOVEMENT_DIRECTION.REVERSE);
+            }
+
+            //
+
+            if (gamepad1.dpad_up && !dPadUpPressed) {
+                dPadUpPressed = true;
+            } else if (gamepad1.dpad_up && dPadUpPressed) {
+                dPadUpPressed = false;
+            }
+
+            if (dPadUpPressed) {
+                dPadUpPressed = false;
+                intakeServo.setPosition(0.5);
+            }
+
+            //
+
+            if (gamepad1.dpad_down && !dPadDownPressed) {
+                dPadDownPressed = true;
+            } else if (gamepad1.dpad_down && dPadDownPressed) {
+                dPadDownPressed = false;
+            }
+
+            if (dPadDownPressed) {
+                dPadDownPressed = false;
+                intakeServo.setPosition(0.01);
+            }
+
+            //
+
+            if (gamepad1.dpad_left && !dPadLeftPressed) {
+                dPadLeftPressed = true;
+            } else if (gamepad1.dpad_left && dPadLeftPressed) {
+                dPadLeftPressed = false;
+            }
+
+            if (dPadLeftPressed) {
+                dPadLeftPressed = false;
+                intakeMotor.setPower(1);
+            }
+
+            //
+
+            if (gamepad1.dpad_right && !dPadRightPressed) {
+                dPadRightPressed = true;
+            } else if (gamepad1.dpad_right && dPadRightPressed) {
+                dPadRightPressed = false;
+            }
+
+            if (dPadRightPressed) {
+                dPadRightPressed = false;
+                intakeMotor.setPower(-1);
             }
 
 //
