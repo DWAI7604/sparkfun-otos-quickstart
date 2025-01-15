@@ -100,6 +100,7 @@ public class TeleOpMain extends RobotLinearOpMode {
     private boolean lBumpPressed2 = false;
     private boolean dPadUpPressed = false;
     private boolean dPadDownPressed = false;
+    private boolean dPadDownPressed2 = false;
     private boolean dPadLeftPressed = false;
     private boolean dPadRightPressed = false;
     private int placeCount;
@@ -123,12 +124,12 @@ public class TeleOpMain extends RobotLinearOpMode {
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        //clawServo = hardwareMap.get(Servo.class, "//clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
         armServoRight = hardwareMap.get(Servo.class, "armServoRight");
         intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
+        //clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
@@ -232,8 +233,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (bPressed) {
                 bPressed = false;
-                clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.9);
+                //clawServo.setDirection(Servo.Direction.FORWARD);
+                //clawServo.setPosition(0.9);
             }
 
             //
@@ -246,8 +247,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.1);
+                //clawServo.setDirection(Servo.Direction.FORWARD);
+                //clawServo.setPosition(0.1);
             }
 
             //
@@ -261,7 +262,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (aPressed) {
                 aPressed = false;
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.05);
             }
 
             //
@@ -275,7 +276,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (yPressed) {
                 yPressed = false;
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.5);
+                wristServo.setPosition(0.75);
             }
 
             //
@@ -320,10 +321,10 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (y2Pressed) {
                 y2Pressed = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.3);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.4);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.01);
+//                armServoLeft.setDirection(Servo.Direction.FORWARD);
+//                armServoLeft.setPosition(0.4);
             }
 
             //
@@ -336,10 +337,10 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (a2Pressed) {
                 a2Pressed = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.7);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.8);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.99);
+//                armServoLeft.setDirection(Servo.Direction.FORWARD);
+//                armServoLeft.setPosition(0.8);
             }
 
             //
@@ -444,6 +445,19 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (dPadRightPressed) {
                 dPadRightPressed = false;
                 intakeMotor.setPower(-1);
+            }
+
+            //
+
+            if (gamepad2.dpad_down && !dPadDownPressed2) {
+                dPadDownPressed2 = true;
+            } else if (gamepad2.dpad_down && dPadDownPressed2) {
+                dPadDownPressed2 = false;
+            }
+
+            if (dPadDownPressed2) {
+                dPadDownPressed2 = false;
+                intakeMotor.setPower(0);
             }
 
 //

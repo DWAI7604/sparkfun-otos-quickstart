@@ -1812,12 +1812,12 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
 
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        //clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
         armServoRight = hardwareMap.get(Servo.class, "armServoRight");
         intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
+        //clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
