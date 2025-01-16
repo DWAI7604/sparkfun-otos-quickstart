@@ -490,7 +490,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
 
         //Sets the target # of ticks by intaking the number of desired inches of movement and converting to ticks
         target = slideUpTop.getCurrentPosition() + (int) (inches * TICKS_PER_INCH) * (movement_direction == MOVEMENT_DIRECTION.FORWARD ? 1 : -1);
-        power = movement_direction == MOVEMENT_DIRECTION.FORWARD ? power : -power
+        power = movement_direction == MOVEMENT_DIRECTION.FORWARD ? power : -power;
 
         //Sets the target # of ticks to the target position of the motors
         slideUpTop.setTargetPosition(target);
@@ -502,7 +502,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
 
         //Sets the motor powers to the power entered on use
         slideUpTop.setPower(power);
-        slideUpBottom.SetPower(power)
+        slideUpBottom.setPower(power);
 
         while (slideUpTop.isBusy() && slideUpBottom.isBusy() && opModeIsActive()) {
 
