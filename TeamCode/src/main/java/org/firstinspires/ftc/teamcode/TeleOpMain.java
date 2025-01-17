@@ -234,7 +234,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (bPressed) {
                 bPressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.5);
+                clawServo.setPosition(0.3);
             }
 
             //
@@ -247,8 +247,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.1);
+                clawServo.setDirection(Servo.Direction.REVERSE);
+                clawServo.setPosition(0.2);
             }
 
             //
