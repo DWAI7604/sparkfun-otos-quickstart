@@ -290,9 +290,9 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (x2Pressed) {
                 x2Pressed = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.01);
+                armServoRight.setPosition(0.06);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.01);
+                armServoLeft.setPosition(0.06);
             }
 
             //
@@ -306,9 +306,9 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (b2Pressed) {
                 b2Pressed = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.99);
+                armServoRight.setPosition(0.90);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.99);
+                armServoLeft.setPosition(0.90);
             }
 
             //
