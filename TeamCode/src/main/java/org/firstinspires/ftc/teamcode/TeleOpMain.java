@@ -124,12 +124,12 @@ public class TeleOpMain extends RobotLinearOpMode {
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
-        //clawServo = hardwareMap.get(Servo.class, "//clawServo");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
         armServoRight = hardwareMap.get(Servo.class, "armServoRight");
         intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        //clawServo.setDirection(Servo.Direction.REVERSE);
+        clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
@@ -233,8 +233,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (bPressed) {
                 bPressed = false;
-                //clawServo.setDirection(Servo.Direction.FORWARD);
-                //clawServo.setPosition(0.9);
+                clawServo.setDirection(Servo.Direction.FORWARD);
+                clawServo.setPosition(0.5);
             }
 
             //
@@ -247,8 +247,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                //clawServo.setDirection(Servo.Direction.FORWARD);
-                //clawServo.setPosition(0.1);
+                clawServo.setDirection(Servo.Direction.FORWARD);
+                clawServo.setPosition(0.1);
             }
 
             //
@@ -262,7 +262,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (aPressed) {
                 aPressed = false;
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.05);
+                wristServo.setPosition(0.02);
             }
 
             //
@@ -276,7 +276,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (yPressed) {
                 yPressed = false;
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.75);
+                wristServo.setPosition(0.70);
             }
 
             //
@@ -290,11 +290,12 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (x2Pressed) {
                 x2Pressed = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.06);
+                armServoRight.setPosition(0.01);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.06);
+                armServoLeft.setPosition(0.01);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.70);
             }
-
             //
 
             if (gamepad2.b && !b2Pressed) {
@@ -306,9 +307,12 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (b2Pressed) {
                 b2Pressed = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.90);
+                armServoRight.setPosition(0.95);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.90);
+                armServoLeft.setPosition(0.95);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.02);
+
             }
 
             //
