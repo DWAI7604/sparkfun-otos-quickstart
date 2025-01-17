@@ -99,6 +99,7 @@ public class TeleOpMain extends RobotLinearOpMode {
     private boolean lBumpPressed1 = false;
     private boolean lBumpPressed2 = false;
     private boolean dPadUpPressed = false;
+    private boolean dPadUpPressed2 = false;
     private boolean dPadDownPressed = false;
     private boolean dPadDownPressed2 = false;
     private boolean dPadLeftPressed = false;
@@ -460,6 +461,24 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (dPadDownPressed2) {
                 dPadDownPressed2 = false;
                 intakeMotor.setPower(0);
+            }
+
+            //
+
+            if (gamepad2.dpad_up && !dPadUpPressed2) {
+                dPadUpPressed2 = true;
+            } else if (gamepad2.dpad_up && dPadUpPressed2) {
+                dPadUpPressed2 = false;
+            }
+
+            if (dPadUpPressed2) {
+                dPadUpPressed2 = false;
+                armServoRight.setDirection(Servo.Direction.REVERSE);
+                armServoRight.setPosition(0.5);
+                armServoLeft.setDirection(Servo.Direction.FORWARD);
+                armServoLeft.setPosition(0.5);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.02);
             }
 
 //
