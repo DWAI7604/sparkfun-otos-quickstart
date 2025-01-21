@@ -235,7 +235,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (bPressed) {
                 bPressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.3);
+                clawServo.setPosition(0.9);
             }
 
             //
@@ -248,8 +248,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                clawServo.setDirection(Servo.Direction.REVERSE);
-                clawServo.setPosition(0.2);
+                clawServo.setDirection(Servo.Direction.FORWARD);
+                clawServo.setPosition(0.6);
             }
 
             //
@@ -291,9 +291,9 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (x2Pressed) {
                 x2Pressed = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.01);
+                armServoRight.setPosition(0.02);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.01);
+                armServoLeft.setPosition(0.02);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.70);
             }
@@ -474,11 +474,11 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (dPadUpPressed2) {
                 dPadUpPressed2 = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.5);
+                armServoRight.setPosition(0.3);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.5);
-                wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.02);
+                armServoLeft.setPosition(0.3);
+                //wristServo.setDirection(Servo.Direction.FORWARD);
+                //wristServo.setPosition(0.02);
             }
 
 //
