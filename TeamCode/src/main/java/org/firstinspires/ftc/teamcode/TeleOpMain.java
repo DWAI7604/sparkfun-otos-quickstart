@@ -104,6 +104,8 @@ public class TeleOpMain extends RobotLinearOpMode {
     private boolean dPadDownPressed2 = false;
     private boolean dPadLeftPressed = false;
     private boolean dPadRightPressed = false;
+    private boolean dPadLeftPressed2 = false;
+    private boolean dPadRightPressed2 = false;
     private int placeCount;
 
     private double Kp = 0.04;
@@ -226,6 +228,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            slideUpBottom.setPower(gamepad2.left_trigger);
 //            slideUpTop.setPower(-gamepad2.left_trigger);
 
+            //Controller 1 Controls
+
             if (gamepad1.b && !bPressed) {
                 bPressed = true;
             } else if (!gamepad1.b && bPressed) {
@@ -234,8 +238,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (bPressed) {
                 bPressed = false;
-                clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.9);
+                intakeMotor.setPower(0);
             }
 
             //
@@ -248,8 +251,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.6);
+//                clawServo.setDirection(Servo.Direction.FORWARD);
+//                clawServo.setPosition(0.1);
             }
 
             //
@@ -262,8 +265,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (aPressed) {
                 aPressed = false;
-                wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.02);
+                intakeMotor.setPower(0.5);
             }
 
             //
@@ -276,11 +278,86 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (yPressed) {
                 yPressed = false;
-                wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.70);
+                intakeMotor.setPower(-.9);
+            }
+
+//            if (gamepad1.left_bumper && !lBumpPressed1) {
+//                lBumpPressed1 = true;
+//            } else if (!gamepad1.left_bumper && lBumpPressed1) {
+//                lBumpPressed1 = false;
+//            }
+
+            if (gamepad1.left_bumper) {
+                hSlide.setPower(0.6);
+            }
+            else{
+                hSlide.setPower(0);
+            }
+
+//            if (gamepad1.right_bumper && !rBumpPressed1) {
+//                rBumpPressed1 = true;
+//            } else if (!gamepad1.right_bumper && rBumpPressed1) {
+//                rBumpPressed1 = false;
+//            }
+
+            if (gamepad1.right_bumper) {
+                hSlide.setPower(-0.6);
+            }
+            else{
+                hSlide.setPower(0);
+            }
+
+            if (gamepad1.dpad_up && !dPadUpPressed) {
+                dPadUpPressed = true;
+            } else if (gamepad1.dpad_up && dPadUpPressed) {
+                dPadUpPressed = false;
+            }
+
+            if (dPadUpPressed) {
+                dPadUpPressed = false;
+                //intakeServo.setPosition(0.8);
             }
 
             //
+
+            if (gamepad1.dpad_down && !dPadDownPressed) {
+                dPadDownPressed = true;
+            } else if (gamepad1.dpad_down && dPadDownPressed) {
+                dPadDownPressed = false;
+            }
+
+            if (dPadDownPressed) {
+                dPadDownPressed = false;
+//                intakeServo.setPosition(0.4);
+            }
+
+            //
+
+            if (gamepad1.dpad_left && !dPadLeftPressed) {
+                dPadLeftPressed = true;
+            } else if (gamepad1.dpad_left && dPadLeftPressed) {
+                dPadLeftPressed = false;
+            }
+
+            if (dPadLeftPressed) {
+                dPadLeftPressed = false;
+                //intakeMotor.setPower(.9);
+            }
+
+            //
+
+            if (gamepad1.dpad_right && !dPadRightPressed) {
+                dPadRightPressed = true;
+            } else if (gamepad1.dpad_right && dPadRightPressed) {
+                dPadRightPressed = false;
+            }
+
+            if (dPadRightPressed) {
+                dPadRightPressed = false;
+                //intakeMotor.setPower(-.9);
+            }
+
+            //Controller 2 Controls
 
             if (gamepad2.x && !x2Pressed) {
                 x2Pressed = true;
@@ -290,12 +367,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (x2Pressed) {
                 x2Pressed = false;
+                clawServo.setDirection(Servo.Direction.FORWARD);
+                clawServo.setPosition(0.1);
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.02);
+                armServoRight.setPosition(0.3);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.02);
-                wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.70);
+                armServoLeft.setPosition(0.3);
             }
             //
 
@@ -307,12 +384,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (b2Pressed) {
                 b2Pressed = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.95);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.95);
-                wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.02);
+                clawServo.setDirection(Servo.Direction.FORWARD);
+                clawServo.setPosition(0.7);
 
             }
 
@@ -326,9 +399,10 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (y2Pressed) {
                 y2Pressed = false;
-                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.FORWARD);
-                slideUpTop.setPower(0.01);
-                slideUpBottom.setPower(0.01);
+                intakeServo.setPosition(0.8);
+//                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.FORWARD);
+//                slideUpTop.setPower(0.01);
+//                slideUpBottom.setPower(0.01);
             }
 
             //
@@ -341,113 +415,57 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (a2Pressed) {
                 a2Pressed = false;
-                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.REVERSE);
-                slideUpTop.setPower(0.01);
-                slideUpBottom.setPower(0.01);
+                intakeServo.setPosition(0.4);
+//                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.REVERSE);
+//                slideUpTop.setPower(0.01);
+//                slideUpBottom.setPower(0.01);
             }
 
             //
 
-            if (gamepad1.left_bumper && !lBumpPressed1) {
-                lBumpPressed1 = true;
-            } else if (!gamepad1.left_bumper && lBumpPressed1) {
-                lBumpPressed1 = false;
+//            if (gamepad2.left_bumper && !lBumpPressed2) {
+//                lBumpPressed2 = true;
+//            } else if (!gamepad2.left_bumper && lBumpPressed2) {
+//                lBumpPressed2 = false;
+//            }
+//
+//            if (lBumpPressed2) {
+//                lBumpPressed2 = false;
+//                slideUpTop.setPower(-0.3);
+//                slideUpBottom.setPower(-0.3);
+//                //encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.REVERSE);
+//            }
+
+            if (gamepad2.left_bumper) {
+                slideUpTop.setPower(-0.8);
+                slideUpBottom.setPower(-0.8);
             }
-
-            if (lBumpPressed1) {
-                lBumpPressed1 = false;
-                encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.FORWARD);
-            }
-
-            //
-
-            if (gamepad2.left_bumper && !lBumpPressed2) {
-                lBumpPressed2 = true;
-            } else if (!gamepad2.left_bumper && lBumpPressed2) {
-                lBumpPressed2 = false;
-            }
-
-            if (lBumpPressed2) {
-                lBumpPressed2 = false;
-                encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.REVERSE);
-            }
-
-            //
-
-            if (gamepad1.right_bumper && !rBumpPressed1) {
-                rBumpPressed1 = true;
-            } else if (!gamepad1.right_bumper && rBumpPressed1) {
-                lBumpPressed2 = false;
-            }
-
-            if (rBumpPressed1) {
-                rBumpPressed1 = false;
-                encoderSlideForwardTime(0.5, 1, MOVEMENT_DIRECTION.FORWARD);
+            else{
+                slideUpTop.setPower(0);
+                slideUpBottom.setPower(0);
             }
 
             //
 
-            if (gamepad2.right_bumper && !rBumpPressed2) {
-                rBumpPressed2 = true;
-            } else if (!gamepad2.right_bumper && rBumpPressed2) {
-                rBumpPressed2 = false;
+//            if (gamepad2.right_bumper && !rBumpPressed2) {
+//                rBumpPressed2 = true;
+//            } else if (!gamepad2.right_bumper && rBumpPressed2) {
+//                rBumpPressed2 = false;
+//            }
+//
+//            if (rBumpPressed2) {
+//                rBumpPressed2 = false;
+//                slideUpTop.setPower(0.3);
+//                slideUpBottom.setPower(0.3);
+//            }
+
+            if (gamepad2.right_bumper) {
+                slideUpTop.setPower(0.8);
+                slideUpBottom.setPower(0.8);
             }
-
-            if (rBumpPressed2) {
-                rBumpPressed2 = false;
-                encoderSlideForwardTime(0.5, 1, MOVEMENT_DIRECTION.REVERSE);
-            }
-
-            //
-
-            if (gamepad1.dpad_up && !dPadUpPressed) {
-                dPadUpPressed = true;
-            } else if (gamepad1.dpad_up && dPadUpPressed) {
-                dPadUpPressed = false;
-            }
-
-            if (dPadUpPressed) {
-                dPadUpPressed = false;
-                intakeServo.setPosition(0.5);
-            }
-
-            //
-
-            if (gamepad1.dpad_down && !dPadDownPressed) {
-                dPadDownPressed = true;
-            } else if (gamepad1.dpad_down && dPadDownPressed) {
-                dPadDownPressed = false;
-            }
-
-            if (dPadDownPressed) {
-                dPadDownPressed = false;
-                intakeServo.setPosition(0.01);
-            }
-
-            //
-
-            if (gamepad1.dpad_left && !dPadLeftPressed) {
-                dPadLeftPressed = true;
-            } else if (gamepad1.dpad_left && dPadLeftPressed) {
-                dPadLeftPressed = false;
-            }
-
-            if (dPadLeftPressed) {
-                dPadLeftPressed = false;
-                intakeMotor.setPower(1);
-            }
-
-            //
-
-            if (gamepad1.dpad_right && !dPadRightPressed) {
-                dPadRightPressed = true;
-            } else if (gamepad1.dpad_right && dPadRightPressed) {
-                dPadRightPressed = false;
-            }
-
-            if (dPadRightPressed) {
-                dPadRightPressed = false;
-                intakeMotor.setPower(-1);
+            else{
+                slideUpTop.setPower(0);
+                slideUpBottom.setPower(0);
             }
 
             //
@@ -460,7 +478,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (dPadDownPressed2) {
                 dPadDownPressed2 = false;
-                intakeMotor.setPower(0);
+                //intakeMotor.setPower(0);
             }
 
             //
@@ -479,6 +497,42 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setPosition(0.3);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
+            }
+
+            //
+
+            if (gamepad2.dpad_left && !dPadLeftPressed2) {
+                dPadLeftPressed2 = true;
+            } else if (gamepad2.dpad_left && dPadLeftPressed2) {
+                dPadLeftPressed2 = false;
+            }
+
+            if (dPadLeftPressed2) {
+                dPadLeftPressed2 = false;
+                armServoRight.setDirection(Servo.Direction.REVERSE);
+                armServoRight.setPosition(0.02);
+                armServoLeft.setDirection(Servo.Direction.FORWARD);
+                armServoLeft.setPosition(0.02);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.63);
+            }
+
+            //
+
+            if (gamepad2.dpad_right && !dPadRightPressed2) {
+                dPadRightPressed2 = true;
+            } else if (gamepad2.dpad_right && dPadRightPressed2) {
+                dPadRightPressed2 = false;
+            }
+
+            if (dPadRightPressed2) {
+                dPadRightPressed2 = false;
+                armServoRight.setDirection(Servo.Direction.REVERSE);
+                armServoRight.setPosition(0.65);
+                armServoLeft.setDirection(Servo.Direction.FORWARD);
+                armServoLeft.setPosition(0.65);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.01);
             }
 
 //
