@@ -399,7 +399,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (y2Pressed) {
                 y2Pressed = false;
-                intakeServo.setPosition(0.8);
+                intakeServo.setPosition(0.7);
 //                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.FORWARD);
 //                slideUpTop.setPower(0.01);
 //                slideUpBottom.setPower(0.01);
