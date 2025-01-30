@@ -31,9 +31,9 @@ public class TestRedAutoRR extends RobotLinearOpMode{
     private double Kp = 0.04;
     private double Ki = 0.4;
     private double Kd = 2;
-    private double xPosition = 9;
-    private double yPosition = -57;
-    private double heading = Math.toRadians(90);
+    private double xPosition = -48;
+    private double yPosition = 0;
+    private double heading = Math.toRadians(270);
     private DcMotor slideUp;
     private DcMotor slideUp2;
     private Servo clawServo;
@@ -55,32 +55,13 @@ public class TestRedAutoRR extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 drive.actionBuilder(beginPose)
-                        .setTangent(Math.toRadians(45))
-                        .lineToX(4.5)
-                        .setTangent(Math.toRadians(135))
-                        .lineToY(-42)
+                        //.setTangent(Math.toRadians(90))
+                        .lineToY(-24)
                         .waitSeconds(2)
-                        .lineToY(-47)
-                        .waitSeconds(2)
-                        .setTangent(Math.toRadians(45))
-                        .lineToX(36)
-                        .splineTo(new Vector2d(36,-36), Math.toRadians(0))
-                        .setTangent(Math.toRadians(90))
-                        .lineToYLinearHeading(-6, Math.toRadians(0))
-                        .setTangent(Math.toRadians(180))
-                        .lineToX(44.5)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-48)
-                        .lineToY(-6)
-                        .setTangent(Math.toRadians(180))
-                        .lineToX(54.5)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-48)
-                        .lineToY(-6)
-                        .setTangent(Math.toRadians(180))
-                        .lineToX(61)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-52)
+                        //.setTangent(Math.toRadians(180))
+                        .splineTo(new Vector2d(0,-48), Math.toRadians(0))
+                        .waitSeconds(5)
+                        .splineTo(new Vector2d(48,0), Math.toRadians(90))
                         .build()
         );
 

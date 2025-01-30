@@ -222,6 +222,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             rightFrontDriveMotor.setPower(rightFrontPower);
             leftBackDriveMotor.setPower(leftBackPower);
             rightBackDriveMotor.setPower(rightBackPower);
+            hSlide.setPower(0.1);
 
 //            slideUpBottom.setPower(-gamepad2.right_trigger);
 //            slideUpTop.setPower(gamepad2.right_trigger);
