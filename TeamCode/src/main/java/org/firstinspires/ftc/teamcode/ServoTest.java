@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="SlideTele", group="Linear OpMode")
+@Disabled
 public class ServoTest extends RobotLinearOpMode{
     private Servo testServo;
     private boolean bPressed;
