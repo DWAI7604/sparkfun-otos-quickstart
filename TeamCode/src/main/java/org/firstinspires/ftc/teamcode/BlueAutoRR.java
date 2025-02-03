@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.opencv.core.Mat;
 
 @Config
-@Autonomous(name = "BlueAuto", group = "Autonomous")
+@Autonomous(name = "BlueAuto", group = "RRAutos")
 public class BlueAutoRR extends RobotLinearOpMode{
     private DcMotor leftFrontDriveMotor = null;
     private DcMotor leftBackDriveMotor = null;
