@@ -36,6 +36,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -139,6 +140,7 @@ public class TeleOpMain extends RobotLinearOpMode {
         rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
+
         leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -240,6 +242,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (bPressed) {
                 bPressed = false;
                 intakeMotor.setPower(0);
+                intakeServo.setPosition(0.7);
             }
 
             //
@@ -266,7 +269,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (aPressed) {
                 aPressed = false;
-                intakeMotor.setPower(0.5);
+                intakeMotor.setPower(0.8);
+                intakeServo.setPosition(0.7);
             }
 
             //
@@ -280,6 +284,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (yPressed) {
                 yPressed = false;
                 intakeMotor.setPower(-.9);
+                intakeServo.setPosition(0.4);
             }
 
 //            if (gamepad1.left_bumper && !lBumpPressed1) {
@@ -289,10 +294,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            }
 
             if (gamepad1.left_bumper) {
-                hSlide.setPower(0.6);
+                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+                hSlide.setPower(0.75);
             }
             else{
-                hSlide.setPower(0);
+                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+                hSlide.setPower(0.05);
             }
 
 //            if (gamepad1.right_bumper && !rBumpPressed1) {
@@ -302,10 +309,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            }
 
             if (gamepad1.right_bumper) {
-                hSlide.setPower(-0.6);
+                hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+                hSlide.setPower(0.9);
             }
             else{
-                hSlide.setPower(0);
+                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+                hSlide.setPower(0.05);
             }
 
             if (gamepad1.dpad_up && !dPadUpPressed) {
