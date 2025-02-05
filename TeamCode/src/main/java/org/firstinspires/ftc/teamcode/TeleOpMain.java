@@ -556,6 +556,6 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            telemetry.addData("Status", "Run Time: " + runtime.toString());
 //            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
 //            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
+            //telemetry.update();
         }
     }}
