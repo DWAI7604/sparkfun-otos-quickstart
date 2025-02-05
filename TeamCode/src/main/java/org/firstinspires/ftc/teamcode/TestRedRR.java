@@ -360,7 +360,7 @@ public class TestRedRR extends RobotLinearOpMode{
                         .build()
         );
         telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
-
+        telemetry.update();
     }
 
 
