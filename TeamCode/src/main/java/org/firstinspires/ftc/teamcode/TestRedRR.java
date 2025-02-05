@@ -45,7 +45,7 @@ public class TestRedRR extends RobotLinearOpMode{
     private Servo armServoLeft;
     private Servo armServoRight;
     private Servo intakeServo;
-    private double xPosition = -1;
+    private double xPosition = 2;
     private double yPosition = -65;
     private double heading = Math.toRadians(90);
     double getBatteryVoltage() { double result = Double.POSITIVE_INFINITY; for (VoltageSensor sensor : hardwareMap.voltageSensor) { double voltage = sensor.getVoltage(); if (voltage > 0) { result = Math.min(result, voltage); } } return result; }
@@ -102,7 +102,7 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to first place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .lineToY(-38)
+                        .lineToY(-40)
                         .build()
         );
 
@@ -147,31 +147,39 @@ public class TestRedRR extends RobotLinearOpMode{
                         .setTangent(Math.toRadians(90))
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
-                        .lineToX(46)
+                        .lineToX(45)
                         .setTangent(Math.toRadians(90))
                         .lineToY(-50)
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
-                        .lineToX(56)
+                        .lineToX(55.5)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-50)
-                        .strafeTo(new Vector2d(38, -52))
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-57)
+                        .lineToY(-55)
+//                        .strafeTo(new Vector2d(38, -52))
+//                        .setTangent(Math.toRadians(90))
+//                        .lineToY(-57)
 
                         .build()
         );
 
-        xPosition = 38;
-        yPosition = -57;
+        xPosition = 55.5;
+        yPosition = -56;
 
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Pick up #1
-
+        rightFrontDriveMotor.setPower(-0.3);
+        rightBackDriveMotor.setPower(-0.3);
+        leftFrontDriveMotor.setPower(-0.3);
+        leftBackDriveMotor.setPower(-0.3);
+        sleep(150);
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.1);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -182,7 +190,7 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(0, -36))
+                        .strafeTo(new Vector2d(0, -37))
 
                         .build()
         );
@@ -249,7 +257,7 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(-2.5, -36))
+                        .strafeTo(new Vector2d(-2.5, -37))
 
                         .build()
         );
@@ -315,13 +323,13 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(-3.5, -36))
+                        .strafeTo(new Vector2d(-4, -37))
 
                         .build()
         );
 
         yPosition = -34;
-        xPosition = -3.5;
+        xPosition = -4;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #4
@@ -355,11 +363,12 @@ public class TestRedRR extends RobotLinearOpMode{
         //Park
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(40, -62))
+                        .strafeTo(new Vector2d(35, -58))
 
                         .build()
         );
         telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
+        telemetry.update();
 
     }
 
