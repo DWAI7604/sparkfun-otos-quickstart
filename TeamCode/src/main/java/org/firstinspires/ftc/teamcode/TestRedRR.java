@@ -98,7 +98,7 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to first place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .lineToY(-34)
+                        .lineToY(-38)
                         .build()
         );
 
@@ -107,6 +107,10 @@ public class TestRedRR extends RobotLinearOpMode{
 
         //Place #1
 
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -115,6 +119,10 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.7);
 
@@ -143,7 +151,7 @@ public class TestRedRR extends RobotLinearOpMode{
                         .lineToX(56)
                         .setTangent(Math.toRadians(90))
                         .lineToY(-50)
-                        .strafeTo(new Vector2d(38, -47))
+                        .strafeTo(new Vector2d(38, -52))
                         .setTangent(Math.toRadians(90))
                         .lineToY(-57)
 
@@ -169,18 +177,21 @@ public class TestRedRR extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(0, -34))
-                        .lineToY(-32.5)
+                        .setTangent(Math.toRadians(90))
+                        .strafeTo(new Vector2d(0, -36))
 
                         .build()
         );
 
-        yPosition = -32.5;
+        yPosition = -34;
         xPosition = 0;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #2
-
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -189,6 +200,10 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.7);
 
@@ -205,13 +220,14 @@ public class TestRedRR extends RobotLinearOpMode{
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
                         .strafeTo(new Vector2d(26, -47))
-                        .lineToY(-58)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-57)
 
                         .build()
         );
 
         xPosition = 26;
-        yPosition = -58;
+        yPosition = -57;
 
         activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
 
@@ -228,18 +244,21 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(-2.5, -34))
-                        .lineToY(-32.5)
+                        .setTangent(Math.toRadians(90))
+                        .strafeTo(new Vector2d(-2.5, -36))
 
                         .build()
         );
 
-        yPosition = -32.5;
+        yPosition = -34;
         xPosition = -2.5;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #3
-
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -248,6 +267,10 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.7);
 
@@ -264,6 +287,7 @@ public class TestRedRR extends RobotLinearOpMode{
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
                         .strafeTo(new Vector2d(26, -47))
+                        .setTangent(Math.toRadians(90))
                         .lineToY(-58)
 
                         .build()
@@ -287,18 +311,20 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(-3.5, -34))
-                        .lineToY(-32.5)
+                        .strafeTo(new Vector2d(-3.5, -36))
 
                         .build()
         );
 
-        yPosition = -32.5;
+        yPosition = -34;
         xPosition = -3.5;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #4
-
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -307,6 +333,10 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.7);
 
