@@ -29,10 +29,10 @@ import org.opencv.core.Mat;
 @Config
 @Autonomous(name = "RedAuto", group = "RRAutos")
 public class TestRedRR extends RobotLinearOpMode{
-    private DcMotor leftFrontDriveMotor = null;
-    private DcMotor leftBackDriveMotor = null;
-    private DcMotor rightFrontDriveMotor = null;
-    private DcMotor rightBackDriveMotor = null;
+//    private DcMotor leftFrontDriveMotor = null;
+//    private DcMotor leftBackDriveMotor = null;
+//    private DcMotor rightFrontDriveMotor = null;
+//    private DcMotor rightBackDriveMotor = null;
     DcMotor slideUpTop;
     DcMotor slideUpBottom;
     DcMotor hSlide;
@@ -42,16 +42,16 @@ public class TestRedRR extends RobotLinearOpMode{
     private Servo armServoLeft;
     private Servo armServoRight;
     private Servo intakeServo;
-    private double xPosition = -64;
-    private double yPosition = -0.5;
-    private double heading = Math.toRadians(0);
+    private double xPosition = -1;
+    private double yPosition = -65;
+    private double heading = Math.toRadians(90);
 
     @Override
     public void runOpMode(){
-        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
-        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
-        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
-        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
+//        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
+//        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
+//        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
+//        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
         slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
         slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
@@ -64,15 +64,15 @@ public class TestRedRR extends RobotLinearOpMode{
         intakeServo = hardwareMap.get(Servo.class, "intakeServo");
         clawServo.setDirection(Servo.Direction.REVERSE);
 
-        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
+//        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
 
-        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -98,12 +98,11 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to first place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .setTangent(Math.toRadians(0))
-                        .lineToX(-29)
+                        .lineToY(-34)
                         .build()
         );
 
-        xPosition = -35;
+        yPosition = -34;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #1
@@ -130,31 +129,31 @@ public class TestRedRR extends RobotLinearOpMode{
         //Push 2 reds into Observation zone and drive to pick up position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .lineToX(-38)
-                        .splineToConstantHeading(new Vector2d(-42,-40), Math.toRadians(0))
-                        .waitSeconds(5)
-                        //.splineToConstantHeading(new Vector2d(42,-30), Math.toRadians(90))
-                        //.splineToConstantHeading(new Vector2d(42,-30), Math.toRadians(90))
-//                        .strafeTo(new Vector2d(42,-12))
-//                        .strafeTo(new Vector2d(42,-12))
-                        //.splineToConstantHeading(new Vector2d(42,-12), Math.toRadians(90))
+                        .lineToY(-37)
                         .setTangent(Math.toRadians(0))
-                        .lineToXLinearHeading(42, Math.toRadians(180))
+                        .lineToX(35)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-17)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(46)
                         .setTangent(Math.toRadians(90))
                         .lineToY(-50)
-                        .lineToY(-12)
+                        .lineToY(-17)
                         .setTangent(Math.toRadians(0))
-                        .lineToX(52)
+                        .lineToX(56)
                         .setTangent(Math.toRadians(90))
                         .lineToY(-50)
-                        .lineToYLinearHeading(-45, Math.toRadians(90))
-                        .strafeTo(new Vector2d(38, -65))
+                        .strafeTo(new Vector2d(38, -47))
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-57)
+
                         .build()
         );
 
         xPosition = 38;
-        yPosition = -65;
-        heading = Math.toRadians(90);
+        yPosition = -57;
+
+        activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Pick up #1
 
@@ -170,13 +169,14 @@ public class TestRedRR extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(0.5, -32))
+                        .strafeTo(new Vector2d(0, -34))
+                        .lineToY(-32.5)
 
                         .build()
         );
 
-        yPosition = -32;
-        xPosition = 0.5;
+        yPosition = -32.5;
+        xPosition = 0;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #2
@@ -203,15 +203,17 @@ public class TestRedRR extends RobotLinearOpMode{
         //Drive to pickup position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(38, -65))
+                        .setTangent(Math.toRadians(90))
+                        .strafeTo(new Vector2d(26, -47))
+                        .lineToY(-58)
 
                         .build()
         );
 
-        xPosition = 38;
-        yPosition = -65;
+        xPosition = 26;
+        yPosition = -58;
 
-        activePose = new Pose2d(new Vector2d(38, -65), heading);
+        activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
 
         //Pick up #2
 
@@ -226,13 +228,14 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(0, -32))
+                        .strafeTo(new Vector2d(-2.5, -34))
+                        .lineToY(-32.5)
 
                         .build()
         );
 
-        yPosition = -32;
-        xPosition = 0;
+        yPosition = -32.5;
+        xPosition = -2.5;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #3
@@ -259,15 +262,17 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to pickup position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(38, -65))
+                        .setTangent(Math.toRadians(90))
+                        .strafeTo(new Vector2d(26, -47))
+                        .lineToY(-58)
 
                         .build()
         );
 
-        xPosition = 38;
-        yPosition = -65;
+        xPosition = 26;
+        yPosition = -58;
 
-        activePose = new Pose2d(new Vector2d(38, -65), heading);
+        activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
 
         //Pick up #3
 
@@ -282,13 +287,14 @@ public class TestRedRR extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(-0.5, -32))
+                        .strafeTo(new Vector2d(-3.5, -34))
+                        .lineToY(-32.5)
 
                         .build()
         );
 
-        yPosition = -32;
-        xPosition = -0.5;
+        yPosition = -32.5;
+        xPosition = -3.5;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #4
