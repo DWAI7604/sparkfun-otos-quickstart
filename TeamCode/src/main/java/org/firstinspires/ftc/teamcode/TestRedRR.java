@@ -23,6 +23,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.opencv.core.Mat;
 
@@ -45,6 +48,7 @@ public class TestRedRR extends RobotLinearOpMode{
     private double xPosition = -1;
     private double yPosition = -65;
     private double heading = Math.toRadians(90);
+    double getBatteryVoltage() { double result = Double.POSITIVE_INFINITY; for (VoltageSensor sensor : hardwareMap.voltageSensor) { double voltage = sensor.getVoltage(); if (voltage > 0) { result = Math.min(result, voltage); } } return result; }
 
     @Override
     public void runOpMode(){
@@ -355,6 +359,7 @@ public class TestRedRR extends RobotLinearOpMode{
 
                         .build()
         );
+        telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
 
     }
 
