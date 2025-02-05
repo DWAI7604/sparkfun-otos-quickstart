@@ -223,14 +223,14 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(26, -47))
+                        .strafeTo(new Vector2d(38, -47))
                         .setTangent(Math.toRadians(90))
                         .lineToY(-57)
 
                         .build()
         );
 
-        xPosition = 26;
+        xPosition = 38;
         yPosition = -57;
 
         activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
@@ -290,14 +290,14 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(26, -47))
+                        .strafeTo(new Vector2d(38, -47))
                         .setTangent(Math.toRadians(90))
                         .lineToY(-58)
 
                         .build()
         );
 
-        xPosition = 26;
+        xPosition = 38;
         yPosition = -58;
 
         activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
