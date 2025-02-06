@@ -19,29 +19,36 @@ public class MeepMeepTesting2 {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-1, -65, Math.toRadians(90)))
+                .lineToY(-34)
+
+
                 .lineToY(-37)
-                .setTangent(Math.toRadians(0))
-                .lineToX(35.5)
+                .strafeToLinearHeading(new Vector2d(32,-42), Math.toRadians(45))
+
+
+                .waitSeconds(1)
+
+
                 .setTangent(Math.toRadians(90))
-                .lineToY(-18)
-                .setTangent(Math.toRadians(0))
-                .lineToX(47)
+                .lineToYLinearHeading(-40, Math.toRadians(-45))
+
+
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(46, -42), Math.toRadians(45))
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(90))
-                .lineToY(-50)
-                .lineToY(-18)
-                .setTangent(Math.toRadians(0))
-                .lineToX(56)
+                .lineToYLinearHeading(-40, Math.toRadians(-45))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(56, -42), Math.toRadians(45))
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(90))
-                .lineToY(-50)
-                .strafeTo(new Vector2d(38, -45))
+                .lineToYLinearHeading(-40, Math.toRadians(-45))
+                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(38, -52), Math.toRadians(90))
                 .setTangent(Math.toRadians(90))
                 .lineToY(-57)
-                .strafeTo(new Vector2d(0, -32))
-                .strafeTo(new Vector2d(28, -47))
-                .lineToY(-57)
-                .strafeTo(new Vector2d(0, -32))
-                .strafeTo(new Vector2d(26, -47))
-                .lineToY(-57)
+                .waitSeconds(1)
+                .strafeTo(new Vector2d(0, -34))
 
                 .build());
 

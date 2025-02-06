@@ -5,10 +5,11 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.lang.Math;
-
+@Disabled
 @Autonomous(name = "StateMachineTest", group = "advanced")
 public class AutoStateMachineLM3 extends LinearOpMode{
     enum VerticalStates { //

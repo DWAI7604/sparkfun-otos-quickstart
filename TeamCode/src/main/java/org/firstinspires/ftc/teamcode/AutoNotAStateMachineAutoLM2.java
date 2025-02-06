@@ -5,9 +5,11 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.lang.Math;
+@Disabled
 @Autonomous(name = "LM2Auto", group = "advanced")
 public class AutoNotAStateMachineAutoLM2 extends LinearOpMode{
     Pose2d startPose = new Pose2d(9, -63.5, Math.toRadians(270));
