@@ -255,8 +255,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (xPressed) {
                 xPressed = false;
-                intakeServo.setPosition(0.4);
-                intakeMotor.setPower(0.8);
+                intakeServo.setPosition(0.7);
+                intakeMotor.setPower(-0.9);
 //                clawServo.setDirection(Servo.Direction.FORWARD);
 //                clawServo.setPosition(0.1);
             }
@@ -427,7 +427,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (a2Pressed) {
                 a2Pressed = false;
-                //intakeServo.setPosition(0.4);
+                intakeMotor.setPower(0.8);
+                intakeServo.setPosition(0.4);
 //                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.REVERSE);
 //                slideUpTop.setPower(0.01);
 //                slideUpBottom.setPower(0.01);
