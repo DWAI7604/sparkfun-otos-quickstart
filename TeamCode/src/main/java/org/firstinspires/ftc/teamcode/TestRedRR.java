@@ -128,7 +128,7 @@ public class TestRedRR extends RobotLinearOpMode{
         leftFrontDriveMotor.setPower(0);
         leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.5);
+        clawServo.setPosition(0.7);
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
@@ -154,7 +154,7 @@ public class TestRedRR extends RobotLinearOpMode{
                         .setTangent(Math.toRadians(0))
                         .lineToX(54)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-53)
+                        .lineToY(-51)
 
 //                        .strafeTo(new Vector2d(38, -52))
 //                        .setTangent(Math.toRadians(90))
@@ -204,7 +204,7 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(0, -34))
+                        .strafeTo(new Vector2d(0, -37))
 
                         .build()
         );
@@ -214,10 +214,10 @@ public class TestRedRR extends RobotLinearOpMode{
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #2
-//        rightFrontDriveMotor.setPower(0.3);
-//        rightBackDriveMotor.setPower(0.3);
-//        leftFrontDriveMotor.setPower(0.3);
-//        leftBackDriveMotor.setPower(0.3);
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -226,12 +226,12 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
-//        rightFrontDriveMotor.setPower(0);
-//        rightBackDriveMotor.setPower(0);
-//        leftFrontDriveMotor.setPower(0);
-//        leftBackDriveMotor.setPower(0);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.5);
+        clawServo.setPosition(0.7);
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
@@ -271,7 +271,7 @@ public class TestRedRR extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeTo(new Vector2d(-2.5, -34))
+                        .strafeTo(new Vector2d(-2.5, -37))
 
                         .build()
         );
@@ -281,10 +281,10 @@ public class TestRedRR extends RobotLinearOpMode{
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #3
-//        rightFrontDriveMotor.setPower(0.3);
-//        rightBackDriveMotor.setPower(0.3);
-//        leftFrontDriveMotor.setPower(0.3);
-//        leftBackDriveMotor.setPower(0.3);
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -293,12 +293,12 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
-//        rightFrontDriveMotor.setPower(0);
-//        rightBackDriveMotor.setPower(0);
-//        leftFrontDriveMotor.setPower(0);
-//        leftBackDriveMotor.setPower(0);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.5);
+        clawServo.setPosition(0.7);
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
@@ -342,15 +342,15 @@ public class TestRedRR extends RobotLinearOpMode{
                         .build()
         );
 
-        yPosition = -34;
+        yPosition = -37;
         xPosition = -4;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #4
-//        rightFrontDriveMotor.setPower(0.3);
-//        rightBackDriveMotor.setPower(0.3);
-//        leftFrontDriveMotor.setPower(0.3);
-//        leftBackDriveMotor.setPower(0.3);
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.65);
@@ -359,22 +359,22 @@ public class TestRedRR extends RobotLinearOpMode{
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
-//        rightFrontDriveMotor.setPower(0);
-//        rightBackDriveMotor.setPower(0);
-//        leftFrontDriveMotor.setPower(0);
-//        leftBackDriveMotor.setPower(0);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.5);
+        clawServo.setPosition(0.7);
 
         //swing arm back to pick up position
 
         //Park
-        Actions.runBlocking(
-                drive.actionBuilder(activePose)
-                        .strafeTo(new Vector2d(35, -58))
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0.9);
+        sleep(100);
+        intakeServo.setPosition(0.7);
+        sleep(100);
 
-                        .build()
-        );
         telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
         telemetry.update();
     }
