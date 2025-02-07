@@ -411,7 +411,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (y2Pressed) {
                 y2Pressed = false;
-                intakeServo.setPosition(0.7);
+                intakeMotor.setPower(0);
 //                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.FORWARD);
 //                slideUpTop.setPower(0.01);
 //                slideUpBottom.setPower(0.01);
@@ -427,7 +427,7 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (a2Pressed) {
                 a2Pressed = false;
-                intakeServo.setPosition(0.4);
+                //intakeServo.setPosition(0.4);
 //                encoderSlideUp(0.5, 5,MOVEMENT_DIRECTION.REVERSE);
 //                slideUpTop.setPower(0.01);
 //                slideUpBottom.setPower(0.01);
@@ -449,12 +449,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            }
 
             if (gamepad2.left_bumper) {
-                slideUpTop.setPower(-0.8);
-                slideUpBottom.setPower(-0.8);
+                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+                hSlide.setPower(0.75);
             }
             else{
-                slideUpTop.setPower(0);
-                slideUpBottom.setPower(0);
+                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+                hSlide.setPower(0.05);
             }
 
             //
