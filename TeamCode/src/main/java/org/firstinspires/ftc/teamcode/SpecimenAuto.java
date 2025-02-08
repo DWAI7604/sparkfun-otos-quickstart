@@ -1,37 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.Trajectory;
-
 // RR-specific imports
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
+    import com.acmerobotics.roadrunner.Pose2d;
+    import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.opencv.core.Mat;
 
 @Config
-@Autonomous(name = "RedAuto", group = "RRAutos")
-public class TestRedRR extends RobotLinearOpMode{
+@Autonomous(name = "SpecAuto", group = "RRAutos")
+public class SpecimenAuto extends RobotLinearOpMode{
 //    private DcMotor leftFrontDriveMotor = null;
 //    private DcMotor leftBackDriveMotor = null;
 //    private DcMotor rightFrontDriveMotor = null;

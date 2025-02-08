@@ -17,6 +17,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -27,6 +28,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.opencv.core.Mat;
 
 @Config
+@Disabled
 @Autonomous(name = "BlueAuto", group = "RRAutos")
 public class BlueAutoRR extends RobotLinearOpMode{
     private DcMotor leftFrontDriveMotor = null;

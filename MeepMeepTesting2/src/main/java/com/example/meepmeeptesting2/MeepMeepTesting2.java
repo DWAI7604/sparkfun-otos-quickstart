@@ -18,37 +18,29 @@ public class MeepMeepTesting2 {
                 .setConstraints(50, 60, Math.toRadians(180), Math.toRadians(180), 13.669840915663318)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-1, -65, Math.toRadians(90)))
-                .lineToY(-34)
-
-
-                .lineToY(-37)
-                .strafeToLinearHeading(new Vector2d(32,-42), Math.toRadians(45))
-
-
-                .waitSeconds(1)
-
-
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-32, -65, Math.toRadians(0)))
+                .lineToX(-54)
                 .setTangent(Math.toRadians(90))
-                .lineToYLinearHeading(-40, Math.toRadians(-45))
-
-
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(46, -42), Math.toRadians(45))
-                .waitSeconds(1)
+                .strafeTo(new Vector2d(-36, -36))
                 .setTangent(Math.toRadians(90))
-                .lineToYLinearHeading(-40, Math.toRadians(-45))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(56, -42), Math.toRadians(45))
-                .waitSeconds(1)
+                .lineToY(-12)
+                .setTangent(Math.toRadians(0))
+                .lineToXLinearHeading(-42, Math.toRadians(-15))
                 .setTangent(Math.toRadians(90))
-                .lineToYLinearHeading(-40, Math.toRadians(-45))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(38, -52), Math.toRadians(90))
+                .strafeTo(new Vector2d(-52, -56))
+                .strafeToLinearHeading(new Vector2d(-42, -12), Math.toRadians(0))
+                .setTangent(Math.toRadians(0))
+                .lineToX(-54)
                 .setTangent(Math.toRadians(90))
-                .lineToY(-57)
-                .waitSeconds(1)
-                .strafeTo(new Vector2d(0, -34))
+                .lineToY(-56)
+                .lineToY(-12)
+                .setTangent(Math.toRadians(0))
+                .lineToX(-64)
+                .setTangent(Math.toRadians(90))
+                .lineToY(-54)
+                .strafeTo(new Vector2d(-36, -12))
+                .setTangent(Math.toRadians(0))
+                .lineToX(-26)
 
                 .build());
 
