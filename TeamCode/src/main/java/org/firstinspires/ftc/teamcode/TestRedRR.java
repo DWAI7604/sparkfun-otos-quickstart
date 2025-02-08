@@ -132,9 +132,9 @@ public class TestRedRR extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
+        armServoRight.setPosition(0.01);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoLeft.setPosition(0.01);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -235,9 +235,9 @@ public class TestRedRR extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
+        armServoRight.setPosition(0.01);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoLeft.setPosition(0.01);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -302,9 +302,9 @@ public class TestRedRR extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
+        armServoRight.setPosition(0.01);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoLeft.setPosition(0.01);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
