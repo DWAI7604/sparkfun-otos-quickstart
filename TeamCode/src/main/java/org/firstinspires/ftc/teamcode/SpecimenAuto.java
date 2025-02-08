@@ -135,7 +135,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
                         .setTangent(Math.toRadians(0))
                         .lineToX(45)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-44)
+                        .lineToY(-45)
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
                         .lineToX(54)
