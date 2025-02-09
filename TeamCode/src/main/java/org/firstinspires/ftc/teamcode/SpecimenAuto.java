@@ -118,9 +118,9 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.01);
+        armServoRight.setPosition(0.001);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.01);
+        armServoLeft.setPosition(0.001);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -221,9 +221,9 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.01);
+        armServoRight.setPosition(0.001);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.01);
+        armServoLeft.setPosition(0.001);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -233,13 +233,13 @@ public class SpecimenAuto extends RobotLinearOpMode{
                         .setTangent(Math.toRadians(90))
                         .strafeTo(new Vector2d(38, -54))
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-57)
+                        .lineToY(-57.5)
 
                         .build()
         );
 
         xPosition = 38;
-        yPosition = -57;
+        yPosition = -57.5;
 
         activePose = new Pose2d(new Vector2d(xPosition, yPosition), heading);
 
@@ -288,9 +288,9 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.01);
+        armServoRight.setPosition(0.001);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.01);
+        armServoLeft.setPosition(0.001);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 

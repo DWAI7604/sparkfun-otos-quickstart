@@ -526,9 +526,9 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = true;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.01);
+                armServoRight.setPosition(0.001);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.01);
+                armServoLeft.setPosition(0.001);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.67);
             }
