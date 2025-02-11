@@ -1,0 +1,307 @@
+package org.firstinspires.ftc.teamcode;
+
+// RR-specific imports
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
+
+// Non-RR imports
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
+import org.firstinspires.ftc.robotcore.external.Func;
+
+@Config
+@Autonomous(name = "FiveSpecTest", group = "RRAutos")
+public class FiveSpecAutoTest extends RobotLinearOpMode{
+    //    private DcMotor leftFrontDriveMotor = null;
+//    private DcMotor leftBackDriveMotor = null;
+//    private DcMotor rightFrontDriveMotor = null;
+//    private DcMotor rightBackDriveMotor = null;
+    DcMotor slideUpTop;
+    DcMotor slideUpBottom;
+    DcMotor hSlide;
+    DcMotor intakeMotor;
+    private Servo clawServo;
+    private Servo wristServo;
+    private Servo armServoLeft;
+    private Servo armServoRight;
+    private Servo intakeServo;
+    private double xPosition = 24;
+    private double yPosition = -65;
+    private double heading = Math.toRadians(90);
+    private Pose2d activePose;
+    double getBatteryVoltage() { double result = Double.POSITIVE_INFINITY; for (VoltageSensor sensor : hardwareMap.voltageSensor) { double voltage = sensor.getVoltage(); if (voltage > 0) { result = Math.min(result, voltage); } } return result; }
+
+    @Override
+    public void runOpMode(){
+//        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
+//        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
+//        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
+//        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
+        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
+        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
+        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
+        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
+        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
+        clawServo.setDirection(Servo.Direction.REVERSE);
+
+//        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+//        leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
+
+//        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        declareHardwareProperties();
+
+        activePose = setActivePoseTotal(xPosition, yPosition, heading);
+        PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
+        drive.updatePoseEstimate();
+
+        waitForStart();
+
+        //set servos
+        initialMovements();
+        activePose = setActivePoseTotal(xPosition, yPosition, heading);
+
+        //drive and push 3 samples into observation zone
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        //drive to sample 1
+                        .strafeTo(new Vector2d(36, -36))
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-17)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(45)
+                        //push 1
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-45)
+                        //drive to sample 2
+                        .lineToY(-17)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(54)
+                        //push 2
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-45)
+                        //drive to sample 3
+                        .lineToY(-17)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(63)
+                        //push 3
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-49)
+
+                        .build()
+        );
+
+        activePose = setActivePoseXY(63, -49);
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.001);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.001);
+        wristServo.setDirection(Servo.Direction.FORWARD);
+        wristServo.setPosition(0.67);
+
+        //drive to pickup
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-56)
+                        .build()
+        );
+
+        activePose = setActivePoseY(-56);
+
+        //Pick up #1
+        pickUp1();
+
+        //Place #1
+        activePose = strafeToPlacePositionAndPlace(1, drive, activePose);
+
+        //pick up #2
+        activePose = strafeToPickupPosition(drive, activePose);
+
+        //place #2
+        activePose = strafeToPlacePositionAndPlace(2, drive, activePose);
+
+        //pick up #3
+        activePose = strafeToPickupPosition(drive, activePose);
+
+        //place #3
+        activePose = strafeToPlacePositionAndPlace(3, drive, activePose);
+
+        //pick up #4
+        activePose = strafeToPickupPosition(drive, activePose);
+
+        //place #4
+        activePose = strafeToPlacePositionAndPlace(4, drive, activePose);
+
+        //pick up #5
+        activePose = strafeToPickupPosition(drive, activePose);
+
+        //place #5
+        activePose = strafeToPlacePositionAndPlace(5, drive, activePose);
+
+        //Park
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0.9);
+        sleep(100);
+        intakeServo.setPosition(0.7);
+        sleep(100);
+
+        telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
+        telemetry.update();
+    }
+
+    public void initialMovements(){
+        hSlide.setPower(0.1);
+        clawServo.setPosition(0.7);
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.3);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.3);
+        wristServo.setDirection(Servo.Direction.FORWARD);
+        wristServo.setPosition(0.67);
+    }
+
+    public Pose2d setActivePoseX(double xPos){
+        xPosition = xPos;
+        return new Pose2d(xPosition, yPosition, heading);
+    }
+
+    public Pose2d setActivePoseY(double yPos){
+        yPosition = yPos;
+        return new Pose2d(xPosition, yPosition, heading);
+    }
+
+    public Pose2d setActivePoseXY(double xPos, double yPos){
+        xPosition = xPos;
+        yPosition = yPos;
+        return new Pose2d(xPosition, yPosition, heading);
+    }
+
+    public Pose2d setActivePoseTotal(double xPos, double yPos, double head){
+        xPosition = xPos;
+        yPosition = yPos;
+        heading = Math.toRadians(head);
+        return new Pose2d(xPosition, yPosition, heading);
+    }
+
+    public void pickUp1(){
+        rightFrontDriveMotor.setPower(-0.3);
+        rightBackDriveMotor.setPower(-0.3);
+        leftFrontDriveMotor.setPower(-0.3);
+        leftBackDriveMotor.setPower(-0.3);
+        sleep(200);
+        //close claw and lift to ready position
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.1);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.3);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.3);
+    }
+
+    public void pickUp(){
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.1);
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.3);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.3);
+    }
+
+    public void placeSpecimen(){
+        rightFrontDriveMotor.setPower(0.3);
+        rightBackDriveMotor.setPower(0.3);
+        leftFrontDriveMotor.setPower(0.3);
+        leftBackDriveMotor.setPower(0.3);
+        //Swing arm forward to place position, wait, open claw
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.65);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.65);
+        wristServo.setDirection(Servo.Direction.FORWARD);
+        wristServo.setPosition(0.01);
+        sleep(600);
+        rightFrontDriveMotor.setPower(0);
+        rightBackDriveMotor.setPower(0);
+        leftFrontDriveMotor.setPower(0);
+        leftBackDriveMotor.setPower(0);
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.7);
+
+        //swing arm back to pick up position
+        armServoRight.setDirection(Servo.Direction.REVERSE);
+        armServoRight.setPosition(0.001);
+        armServoLeft.setDirection(Servo.Direction.FORWARD);
+        armServoLeft.setPosition(0.001);
+        wristServo.setDirection(Servo.Direction.FORWARD);
+        wristServo.setPosition(0.67);
+    }
+
+    public Pose2d strafeToPickupPosition(PinpointDrive dr, Pose2d actPose){
+        Actions.runBlocking(
+                dr.actionBuilder(actPose)
+                        .strafeTo(new Vector2d(38, -54))
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-57.5)
+
+                        .build()
+        );
+
+        pickUp();
+        return setActivePoseXY(38, -57.5);
+    }
+
+    public Pose2d strafeToPlacePositionAndPlace(int placeNum, PinpointDrive dr, Pose2d actPose){
+        int pXPos;
+
+        if (placeNum == 1){
+            pXPos = 4;
+        }
+        else if (placeNum == 2){
+            pXPos = 2;
+        }
+        else if (placeNum == 3){
+            pXPos = 0;
+        }
+        else if (placeNum == 4){
+            pXPos = -2;
+        }
+        else{
+            pXPos = -4;
+        }
+
+        Actions.runBlocking(
+                dr.actionBuilder(actPose)
+                        .strafeTo(new Vector2d(pXPos, -37))
+
+                        .build()
+        );
+
+        placeSpecimen();
+        return setActivePoseXY(pXPos, -34);
+    }
+
+}
