@@ -94,10 +94,10 @@ public class TestRedRR extends RobotLinearOpMode{
         intakeServo.setPosition(0.7);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.1);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.5);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.5);
 
         //drive to first place position
         Actions.runBlocking(
@@ -115,26 +115,28 @@ public class TestRedRR extends RobotLinearOpMode{
         rightBackDriveMotor.setPower(0.3);
         leftFrontDriveMotor.setPower(0.3);
         leftBackDriveMotor.setPower(0.3);
-        //Swing arm forward to place position, wait, open claw
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.65);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.65);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.01);
-        sleep(600);
+
+
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
         leftFrontDriveMotor.setPower(0);
         leftBackDriveMotor.setPower(0);
+        //Swing arm forward to place position, wait, open claw
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.87);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.87);
+        wristServo.setDirection(Servo.Direction.FORWARD);
+        wristServo.setPosition(0.01);
+        sleep(600);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.5);
 
         //swing arm back to pick up position
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.14);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.14);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -194,10 +196,10 @@ public class TestRedRR extends RobotLinearOpMode{
         rightBackDriveMotor.setPower(0);
         leftFrontDriveMotor.setPower(0);
         leftBackDriveMotor.setPower(0);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.5);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.5);
 
         //drive to place position
 
@@ -219,10 +221,10 @@ public class TestRedRR extends RobotLinearOpMode{
 //        leftFrontDriveMotor.setPower(0.3);
 //        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.65);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.65);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.87);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.87);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
@@ -234,10 +236,10 @@ public class TestRedRR extends RobotLinearOpMode{
         clawServo.setPosition(0.5);
 
         //swing arm back to pick up position
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.14);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.14);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -262,10 +264,10 @@ public class TestRedRR extends RobotLinearOpMode{
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.1);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.5);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.5);
 
         //drive to place position
         Actions.runBlocking(
@@ -286,10 +288,10 @@ public class TestRedRR extends RobotLinearOpMode{
 //        leftFrontDriveMotor.setPower(0.3);
 //        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.65);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.65);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.87);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.87);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);
@@ -301,10 +303,10 @@ public class TestRedRR extends RobotLinearOpMode{
         clawServo.setPosition(0.5);
 
         //swing arm back to pick up position
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.02);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.02);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.14);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.14);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -329,10 +331,10 @@ public class TestRedRR extends RobotLinearOpMode{
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.1);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoLeft.setPosition(0.5);
 
         //drive to place position
         Actions.runBlocking(
@@ -352,10 +354,10 @@ public class TestRedRR extends RobotLinearOpMode{
 //        leftFrontDriveMotor.setPower(0.3);
 //        leftBackDriveMotor.setPower(0.3);
         //Swing arm forward to place position, wait, open claw
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.65);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.65);
+        armServoRight.setDirection(Servo.Direction.FORWARD);
+        armServoRight.setPosition(0.87);
+        armServoLeft.setDirection(Servo.Direction.REVERSE);
+        armServoLeft.setPosition(0.87);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
         sleep(600);

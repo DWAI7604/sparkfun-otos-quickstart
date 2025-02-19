@@ -381,10 +381,10 @@ public class TeleOpMain extends RobotLinearOpMode {
                 x2Pressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
                 clawServo.setPosition(0.1);
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.3);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.3);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.5);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.5);
             }
             //
 
@@ -449,13 +449,22 @@ public class TeleOpMain extends RobotLinearOpMode {
 //                //encoderSlideForward(0.5, 5, MOVEMENT_DIRECTION.REVERSE);
 //            }
 
+//            if (gamepad2.left_bumper) {
+//                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+//                hSlide.setPower(0.75);
+//            }
+//            else{
+//                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+//                hSlide.setPower(0.05);
+//            }
+
             if (gamepad2.left_bumper) {
-                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
-                hSlide.setPower(0.75);
+                slideUpTop.setPower(1);
+                slideUpBottom.setPower(1);
             }
             else{
-                hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
-                hSlide.setPower(0.05);
+                slideUpTop.setPower(0);
+                slideUpBottom.setPower(0);
             }
 
             //
@@ -504,10 +513,10 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (dPadUpPressed2) {
                 dPadUpPressed2 = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.3);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.3);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.5);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.5);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
             }
@@ -522,12 +531,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (dPadLeftPressed2) {
                 dPadLeftPressed2 = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.02);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.02);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.15);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.15);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.67);
+                wristServo.setPosition(0.01);
             }
 
             //
@@ -540,12 +549,12 @@ public class TeleOpMain extends RobotLinearOpMode {
 
             if (dPadRightPressed2) {
                 dPadRightPressed2 = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.65);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.65);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.87);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.87);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.67);
             }
 
 //
