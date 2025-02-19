@@ -84,7 +84,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         //drive to sample 1
-                        .strafeTo(new Vector2d(36, -36))
+                        .strafeTo(new Vector2d(37, -37))
                         .setTangent(Math.toRadians(90))
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
@@ -114,9 +114,9 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         yPosition = -49;
         activePose = new Pose2d(xPosition, yPosition, heading);
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.001);
+        armServoRight.setPosition(0.85);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.001);
+        armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
 
@@ -248,18 +248,22 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         leftFrontDriveMotor.setPower(0);
         leftBackDriveMotor.setPower(0);
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
+        armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoLeft.setPosition(0.5);
+        sleep(100);
+        wristServo.setPosition(0.01);
     }
 
     public void pickUp(){
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.1);
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
+        armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoLeft.setPosition(0.5);
+        sleep(100);
+        wristServo.setPosition(0.01);
     }
 
     public void placeSpecimen(){
@@ -267,26 +271,28 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         rightBackDriveMotor.setPower(0.3);
         leftFrontDriveMotor.setPower(0.3);
         leftBackDriveMotor.setPower(0.3);
+        sleep(300);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.65);
+        armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.65);
+        armServoLeft.setPosition(0.3);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
-        sleep(600);
+        sleep(200);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
         leftFrontDriveMotor.setPower(0);
         leftBackDriveMotor.setPower(0);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.7);
+        sleep(100);
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.001);
+        armServoRight.setPosition(0.85);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.001);
+        armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
     }
