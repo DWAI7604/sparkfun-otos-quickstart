@@ -508,12 +508,12 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (dPadUpPressed2) {
                 dPadUpPressed2 = false;
                 pickingUp = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
                 armServoRight.setPosition(0.5);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.5);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.67);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
             }
@@ -526,13 +526,13 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
             }
 
-            if (dPadLeftPressed2) {
-                dPadLeftPressed2 = false;
+            if (dPadRightPressed2) {
+                dPadRightPressed2 = false;
                 pickingUp = true;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.85);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.85);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.7);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.7);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.67);
             }
@@ -545,13 +545,13 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadRightPressed2 = false;
             }
 
-            if (dPadRightPressed2) {
-                dPadRightPressed2 = false;
+            if (dPadLeftPressed2) {
+                dPadLeftPressed2 = false;
                 pickingUp = false;
-                armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.3);
-                armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.3);
+                armServoRight.setDirection(Servo.Direction.FORWARD);
+                armServoRight.setPosition(0.12);
+                armServoLeft.setDirection(Servo.Direction.REVERSE);
+                armServoLeft.setPosition(0.12);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.01);
             }
