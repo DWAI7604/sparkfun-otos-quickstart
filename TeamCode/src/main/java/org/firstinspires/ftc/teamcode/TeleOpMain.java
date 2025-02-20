@@ -507,9 +507,11 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadUpPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.65);
+                armServoRight.setPosition(0.5);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.65);
+                armServoLeft.setPosition(0.5);
+                wristServo.setDirection(Servo.Direction.FORWARD);
+                wristServo.setPosition(0.01);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
             }
@@ -526,9 +528,9 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = true;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.001);
+                armServoRight.setPosition(0.85);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.001);
+                armServoLeft.setPosition(0.85);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.67);
             }
@@ -545,9 +547,9 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadRightPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.REVERSE);
-                armServoRight.setPosition(0.99);
+                armServoRight.setPosition(0.3);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
-                armServoLeft.setPosition(0.99);
+                armServoLeft.setPosition(0.3);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.01);
             }
