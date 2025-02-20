@@ -453,8 +453,8 @@ public class TeleOpMain extends RobotLinearOpMode {
 //            }
 
             if (gamepad2.left_bumper) {
-                slideUpTop.setPower(0.8);
-                slideUpBottom.setPower(0.8);
+                slideUpTop.setPower(1);
+                slideUpBottom.setPower(1);
             }
             else{
                 slideUpTop.setPower(0);
