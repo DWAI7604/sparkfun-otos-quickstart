@@ -31,7 +31,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     private Servo armServoLeft;
     private Servo armServoRight;
     private Servo intakeServo;
-    private double xPosition = 24;
+    private double xPosition = 2;
     private double yPosition = -65;
     private double heading = Math.toRadians(90);
     private Pose2d activePose;
@@ -76,84 +76,115 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         waitForStart();
 
-        //set servos
         initialMovements();
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-        //drive and push 3 samples into observation zone
+        //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        //drive to sample 1
-                        .strafeTo(new Vector2d(37, -37))
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-17)
-                        .setTangent(Math.toRadians(0))
-                        .lineToX(45)
-                        //push 1
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-45)
-                        //drive to sample 2
-                        .lineToY(-17)
-                        .setTangent(Math.toRadians(0))
-                        .lineToX(54)
-                        //push 2
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-45)
-                        //drive to sample 3
-                        .lineToY(-17)
-                        .setTangent(Math.toRadians(0))
-                        .lineToX(63)
-                        //push 3
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-49)
+                        .lineToY(-38)
 
                         .build()
         );
 
-        xPosition = 63;
-        yPosition = -49;
+        yPosition = -35;
         activePose = new Pose2d(xPosition, yPosition, heading);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.85);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.85);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.67);
-
-        //drive to pickup
-        Actions.runBlocking(
-                drive.actionBuilder(activePose)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-56)
-                        .build()
-        );
-
-        yPosition = -56;
-        activePose = new Pose2d(xPosition, yPosition, heading);
-
-        //Pick up #1
-        pickUp1();
 
         //Place #1
-        strafeToPlacePositionAndPlace(1, drive, activePose);
-        xPosition = 4;
-        yPosition = -37;
+        placeSpecimen();
+
+        //drive to intake position #1
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-41)
+                        .setTangent(Math.toRadians(0))
+                        .lineToXLinearHeading(41, Math.toRadians(60))
+
+                        .build()
+        );
+
+        xPosition = 41;
+        yPosition = -41;
+        heading = Math.toRadians(60);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-        //pick up #2
-        strafeToPickupPosition(drive, activePose);
+        //intake sample #1
+        intakeSample();
+
+        //deposit sample #1
+        turnToDepositSample(drive, activePose);
+
+        yPosition = -50;
+        heading = Math.toRadians(-55);
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        //drive to intake position #2
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(54, -43), Math.toRadians(60))
+
+                        .build()
+        );
+
+        xPosition = 54;
+        yPosition = -43;
+        heading = Math.toRadians(60);
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        //intake sample #2
+        intakeSample();
+
+        //deposit sample #2
+        turnToDepositSample(drive, activePose);
+
+        yPosition = -50;
+        heading = Math.toRadians(-50);
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        //drive to intake position #3
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(61, -43), Math.toRadians(55))
+
+                        .build()
+        );
+
+        xPosition = 60;
+        yPosition = -43;
+        heading = Math.toRadians(60);
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        //intake sample #3
+        intakeSample();
+
+        //deposit sample #3
+        turnToDepositSample(drive, activePose);
+
+        yPosition = -50;
+        heading = Math.toRadians(-50);
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        //drive to wall and pick up #1
+        pickUp1(drive, activePose);
+
         xPosition = 38;
         yPosition = -57.5;
+        heading = Math.toRadians(90);
         activePose = new Pose2d(xPosition, yPosition, heading);
+        hSlide.setPower(0.1);
+        intakeMotor.setPower(0);
+
 
         //place #2
         strafeToPlacePositionAndPlace(2, drive, activePose);
-        xPosition = 2;
-        yPosition = -37;
+        xPosition = 2.5;
+        yPosition = -34;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-
-        //pick up #3
+        //pickup #2
         strafeToPickupPosition(drive, activePose);
         xPosition = 38;
         yPosition = -57.5;
@@ -161,11 +192,11 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         //place #3
         strafeToPlacePositionAndPlace(3, drive, activePose);
-        xPosition = 0;
-        yPosition = -37;
+        xPosition = 0.5;
+        yPosition = -34;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-        //pick up #4
+        //pickup #3
         strafeToPickupPosition(drive, activePose);
         xPosition = 38;
         yPosition = -57.5;
@@ -173,20 +204,20 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         //place #4
         strafeToPlacePositionAndPlace(4, drive, activePose);
-        xPosition = -2;
-        yPosition = -37;
+        xPosition = -1;
+        yPosition = -34;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-        //pick up #5
+        //pickup #4
         strafeToPickupPosition(drive, activePose);
         xPosition = 38;
         yPosition = -57.5;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //place #5
-        strafeToPlacePositionAndPlace(4, drive, activePose);
-        xPosition = -4;
-        yPosition = -37;
+        strafeToPlacePositionAndPlace(5, drive, activePose);
+        xPosition = -2.5;
+        yPosition = -34;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Park
@@ -202,11 +233,12 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
     public void initialMovements(){
         hSlide.setPower(0.1);
-        clawServo.setPosition(0.7);
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
+        armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoLeft.setPosition(0.5);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.67);
     }
@@ -234,36 +266,55 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         return new Pose2d(xPosition, yPosition, heading);
     }
 
-    public void pickUp1(){
-        rightFrontDriveMotor.setPower(-0.3);
-        rightBackDriveMotor.setPower(-0.3);
-        leftFrontDriveMotor.setPower(-0.3);
-        leftBackDriveMotor.setPower(-0.3);
-        sleep(200);
-        //close claw and lift to ready position
-        clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
-        rightFrontDriveMotor.setPower(0);
-        rightBackDriveMotor.setPower(0);
-        leftFrontDriveMotor.setPower(0);
-        leftBackDriveMotor.setPower(0);
-        armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.5);
-        armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.5);
-        sleep(100);
-        wristServo.setPosition(0.01);
+    public void intakeSample(){
+        intakeServo.setPosition(0.4);
+        intakeMotor.setPower(-0.9);
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0.8);
+        sleep(600);
+        hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        hSlide.setPower(0.8);
+        intakeServo.setPosition(0.7);
+    }
+
+    public void turnToDepositSample(PinpointDrive dr, Pose2d actPose){
+        Actions.runBlocking(
+                dr.actionBuilder(actPose)
+                        .setTangent(Math.toRadians(90))
+                        .lineToYLinearHeading(-50, Math.toRadians(-55))
+
+                        .build()
+        );
+
+        intakeMotor.setPower(0.7);
+        intakeServo.setPosition(0.4);
+        sleep(500);
+        intakeServo.setPosition(0.7);
+
+    }
+
+    public void pickUp1(PinpointDrive dr, Pose2d actPose){
+        Actions.runBlocking(
+                dr.actionBuilder(actPose)
+                        .strafeToLinearHeading(new Vector2d(38, -54), Math.toRadians(90))
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(-57.5)
+
+                        .build()
+        );
+
+        pickUp();
     }
 
     public void pickUp(){
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
+        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.5);
         sleep(100);
-        wristServo.setPosition(0.01);
+        wristServo.setPosition(0.67);
     }
 
     public void placeSpecimen(){
@@ -271,14 +322,12 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         rightBackDriveMotor.setPower(0.3);
         leftFrontDriveMotor.setPower(0.3);
         leftBackDriveMotor.setPower(0.3);
-        sleep(300);
+        sleep(200);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.3);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.01);
         sleep(200);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
@@ -294,15 +343,17 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.67);
+        wristServo.setPosition(0.01);
     }
 
     public void strafeToPickupPosition(PinpointDrive dr, Pose2d actPose){
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeTo(new Vector2d(38, -54))
+                        .setTangent(90)
+                        .lineToY(-38)
+                        .strafeTo(new Vector2d(37, -57.5))
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-57.5)
+                        //.lineToY(-57.5)
 
                         .build()
         );
@@ -311,19 +362,19 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     }
 
     public void strafeToPlacePositionAndPlace(int placeNum, PinpointDrive dr, Pose2d actPose){
-        int pXPos;
+        double pXPos;
 
-        if (placeNum == 1){
-            pXPos = 4;
-        }
-        else if (placeNum == 2){
-            pXPos = 2;
+        if (placeNum == 2){
+            pXPos = 2.5;
         }
         else if (placeNum == 3){
-            pXPos = 0;
+            pXPos = 0.5;
         }
         else if (placeNum == 4){
-            pXPos = -2;
+            pXPos = -1;
+        }
+        else if (placeNum == 5){
+            pXPos = -2.5;
         }
         else{
             pXPos = -4;
@@ -331,7 +382,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeTo(new Vector2d(pXPos, -37))
+                        .strafeTo(new Vector2d(pXPos, -34))
 
                         .build()
         );

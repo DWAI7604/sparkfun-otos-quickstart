@@ -79,7 +79,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         hSlide.setPower(0.1);
         intakeServo.setPosition(0.7);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
+        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -124,7 +124,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.67);
+        wristServo.setPosition(0.01);
 
         //Push 2 reds into Observation zone and drive to pick up position
         Actions.runBlocking(
@@ -177,7 +177,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         sleep(200);
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
+        clawServo.setPosition(0.01);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
         leftFrontDriveMotor.setPower(0);
@@ -187,7 +187,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.5);
         sleep(100);
-        wristServo.setPosition(0.01);
+        wristServo.setPosition(0.67);
 
         //drive to place position
 
@@ -214,8 +214,8 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.3);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.01);
+//        wristServo.setDirection(Servo.Direction.FORWARD);
+//        wristServo.setPosition(0.01);
         sleep(200);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
@@ -231,7 +231,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.67);
+        wristServo.setPosition(0.01);
 
         //Drive to pickup position
         Actions.runBlocking(
@@ -253,13 +253,13 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
+        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.5);
         sleep(100);
-        wristServo.setPosition(0.01);
+        wristServo.setPosition(0.67);
 
         //drive to place position
         Actions.runBlocking(
@@ -285,8 +285,8 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.3);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.01);
+//        wristServo.setDirection(Servo.Direction.FORWARD);
+//        wristServo.setPosition(0.01);
         sleep(200);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
@@ -302,7 +302,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.85);
         wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.67);
+        wristServo.setPosition(0.01);
 
         //drive to pickup position
         Actions.runBlocking(
@@ -324,13 +324,13 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //close claw and lift to ready position
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.1);
+        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.5);
         sleep(100);
-        wristServo.setPosition(0.01);
+        wristServo.setPosition(0.67);
 
         //drive to place position
         Actions.runBlocking(
@@ -355,8 +355,8 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.3);
-        wristServo.setDirection(Servo.Direction.FORWARD);
-        wristServo.setPosition(0.01);
+//        wristServo.setDirection(Servo.Direction.FORWARD);
+//        wristServo.setPosition(0.01);
         sleep(200);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
