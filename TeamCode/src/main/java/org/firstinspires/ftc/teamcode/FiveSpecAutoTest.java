@@ -147,14 +147,16 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeToLinearHeading(new Vector2d(61, -43), Math.toRadians(55))
+                        .lineToY(-37)
+                        .splineTo(new Vector2d(30, -36), Math.toRadians(30))
+                        .strafeToLinearHeading(new Vector2d(61, -43), Math.toRadians(50))
 
                         .build()
         );
 
         xPosition = 60;
         yPosition = -43;
-        heading = Math.toRadians(60);
+        heading = Math.toRadians(50);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //intake sample #3
@@ -309,6 +311,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     public void pickUp(){
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.01);
+        sleep(100);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -349,11 +352,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     public void strafeToPickupPosition(PinpointDrive dr, Pose2d actPose){
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .setTangent(90)
-                        .lineToY(-38)
-                        .strafeTo(new Vector2d(37, -57.5))
-                        .setTangent(Math.toRadians(90))
-                        //.lineToY(-57.5)
+                        .strafeTo(new Vector2d(38, -57.5))
 
                         .build()
         );

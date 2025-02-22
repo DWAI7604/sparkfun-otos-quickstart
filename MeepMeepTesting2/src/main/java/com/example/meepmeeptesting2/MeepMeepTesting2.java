@@ -15,16 +15,18 @@ public class MeepMeepTesting2 {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(50, 60, Math.toRadians(180), Math.toRadians(180), 13.669840915663318)
+                .setConstraints(50, 60, Math.toRadians(90), Math.toRadians(180), 13.669840915663318)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(2, -65, Math.toRadians(90)))
                 //drive and push 3 samples into observation (block #1)
                         .lineToY(-34)
-                        .lineToY(-40)
-                        .strafeToLinearHeading(new Pose2d())
                         .setTangent(Math.toRadians(0))
-                        .lineToXLinearHeading(36, Math.toRadians(55))
+                        .splineToConstantHeading(new Vector2d(15, -40), Math.toRadians(60))
+//                        .setTangent(Math.toRadians(0))
+//                        .lineToXLinearHeading(34, Math.toRadians(30))
+                        .setTangent(Math.toRadians(90))
+                        .splineTo(new Vector2d(30, -36), Math.toRadians(30))
 
                 .build());
 
