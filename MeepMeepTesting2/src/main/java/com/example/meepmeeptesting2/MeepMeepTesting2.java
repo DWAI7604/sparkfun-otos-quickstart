@@ -21,12 +21,21 @@ public class MeepMeepTesting2 {
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(2, -65, Math.toRadians(90)))
                 //drive and push 3 samples into observation (block #1)
                         .lineToY(-34)
-                        .setTangent(Math.toRadians(0))
-                        .splineToConstantHeading(new Vector2d(15, -40), Math.toRadians(60))
+
+                        .strafeToLinearHeading(new Vector2d(10, -40), Math.toRadians(20))
+                        .setTangent(Math.toRadians(20))
+                        .lineToX(32)
+
+//                        .setTangent(Math.toRadians(270))
+//                        .splineToConstantHeading(new Vector2d(16, -40), Math.toRadians(270))
+//                        .setTangent(90)
+//                        .splineToConstantHeading(new Vector2d(32, -40), Math.toRadians(90))
+//                        //.setTangent(0)
+//                        .turn(Math.toRadians(-45))
 //                        .setTangent(Math.toRadians(0))
 //                        .lineToXLinearHeading(34, Math.toRadians(30))
-                        .setTangent(Math.toRadians(90))
-                        .splineTo(new Vector2d(30, -36), Math.toRadians(30))
+//                        .setTangent(Math.toRadians(90))
+//                        .splineTo(new Vector2d(30, -36), Math.toRadians(30))
 
                 .build());
 

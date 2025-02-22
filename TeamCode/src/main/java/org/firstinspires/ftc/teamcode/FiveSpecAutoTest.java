@@ -96,18 +96,33 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         //drive to intake position #1
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .setTangent(Math.toRadians(90))
-                        .lineToY(-41)
-                        .setTangent(Math.toRadians(0))
-                        .lineToXLinearHeading(41, Math.toRadians(60))
+                        .strafeToLinearHeading(new Vector2d(10, -41), Math.toRadians(20))
+                        .setTangent(Math.toRadians(20))
+                        .lineToX(22)
 
                         .build()
         );
 
-        xPosition = 41;
+        xPosition = 22;
         yPosition = -41;
-        heading = Math.toRadians(60);
+        heading = Math.toRadians(20);
         activePose = new Pose2d(xPosition, yPosition, heading);
+
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0.4);
+        intakeServo.setPosition(0.35);
+        intakeMotor.setPower(-0.9);
+
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(20))
+                        .lineToX(28)
+
+                        .build()
+        );
+
+        hSlide.setPower(0);
+        intakeServo.setPosition(0.7);
 
         //intake sample #1
         intakeSample();
