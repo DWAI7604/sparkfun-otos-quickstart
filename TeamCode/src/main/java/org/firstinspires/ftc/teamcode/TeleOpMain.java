@@ -534,7 +534,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.7);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.67);
+                wristServo.setPosition(0.01);
             }
 
             //
@@ -553,7 +553,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.12);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.67);
             }
 
 //
