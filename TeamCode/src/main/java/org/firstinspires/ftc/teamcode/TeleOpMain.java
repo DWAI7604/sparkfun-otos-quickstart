@@ -259,7 +259,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 intakeServo.setPosition(0.7);
                 intakeMotor.setPower(-0.9);
 //                clawServo.setDirection(Servo.Direction.FORWARD);
-//                clawServo.setPosition(0.01);
+//                clawServo.setPosition(0.1);
             }
 
             //
@@ -387,7 +387,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
                 armServoLeft.setPosition(0.5);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.70);
             }
             //
 
@@ -400,7 +400,7 @@ public class TeleOpMain extends RobotLinearOpMode {
             if (b2Pressed) {
                 b2Pressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
-                clawServo.setPosition(0.5);
+                clawServo.setPosition(0.99);
 
             }
 
@@ -513,7 +513,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.5);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.70);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
             }
@@ -534,7 +534,7 @@ public class TeleOpMain extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.7);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.01);
+                wristServo.setPosition(0.70);
             }
 
             //
@@ -549,11 +549,11 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.12);
+                armServoRight.setPosition(0.14);
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.12);
+                armServoLeft.setPosition(0.14);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.67);
+                wristServo.setPosition(0.01);
             }
 
 //
