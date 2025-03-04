@@ -530,9 +530,9 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadRightPressed2 = false;
                 pickingUp = true;
                 armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.7);
+                armServoRight.setPosition(0.87);
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.7);
+                armServoLeft.setPosition(0.87);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.70);
             }
@@ -549,9 +549,9 @@ public class TeleOpMain extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.14);
+                armServoRight.setPosition(0.16);
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.14);
+                armServoLeft.setPosition(0.16);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.01);
             }
