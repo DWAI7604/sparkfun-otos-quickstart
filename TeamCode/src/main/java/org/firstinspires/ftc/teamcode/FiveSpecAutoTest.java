@@ -22,16 +22,16 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 //    private DcMotor leftBackDriveMotor = null;
 //    private DcMotor rightFrontDriveMotor = null;
 //    private DcMotor rightBackDriveMotor = null;
-    DcMotor slideUpTop;
-    DcMotor slideUpBottom;
-    DcMotor hSlide;
-    DcMotor intakeMotor;
-    private Servo clawServo;
-    private Servo wristServo;
-    private Servo armServoLeft;
-    private Servo armServoRight;
-    private Servo intakeServo;
-    private double xPosition = 2;
+//    DcMotor slideUpTop;
+//    DcMotor slideUpBottom;
+//    DcMotor hSlide;
+//    DcMotor intakeMotor;
+//    private Servo clawServo;
+//    private Servo wristServo;
+//    private Servo armServoLeft;
+//    private Servo armServoRight;
+//    private Servo intakeServo;
+    private double xPosition = 9;
     private double yPosition = -65;
     private double heading = Math.toRadians(90);
     private Pose2d activePose;
@@ -43,17 +43,17 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 //        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
 //        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
 //        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
-        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
-        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
-        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
-        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        wristServo = hardwareMap.get(Servo.class, "wristServo");
-        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
-        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
-        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
+//        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
+//        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
+//        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
+//        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+//
+//        clawServo = hardwareMap.get(Servo.class, "clawServo");
+//        wristServo = hardwareMap.get(Servo.class, "wristServo");
+//        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
+//        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
+//        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
+//        clawServo.setDirection(Servo.Direction.REVERSE);
 
 //        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
 //        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
@@ -64,9 +64,9 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 //        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         declareHardwareProperties();
 
@@ -82,12 +82,12 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         //drive to place position
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .lineToY(-38)
+                        .lineToY(-40)
 
                         .build()
         );
 
-        yPosition = -35;
+        yPosition = -38;
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #1
@@ -98,20 +98,40 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
                 drive.actionBuilder(activePose)
                         .strafeToLinearHeading(new Vector2d(10, -41), Math.toRadians(20))
                         .setTangent(Math.toRadians(20))
-                        .lineToX(22)
+                        .lineToX(28)
 
                         .build()
         );
 
-        xPosition = 22;
-        yPosition = -41;
+        xPosition = 26.914;
+        yPosition = -34.844;
+        heading = Math.toRadians(Math.toRadians(20));
+
+        intakeServo.setPosition(0.4);
+        intakeMotor.setPower(-0.9);
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0.8);
+        sleep(800);
+
+        hSlide.setPower(0);
+        sleep(50000);
+
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .lineToY(22)
+
+                        .build()
+        );
+
+        xPosition = 21.276;
+        yPosition = -36.896;
         heading = Math.toRadians(20);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
-        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        hSlide.setPower(0.4);
-        intakeServo.setPosition(0.35);
-        intakeMotor.setPower(-0.9);
+        turnToDepositSample(drive, activePose);
+
+        sleep(50000);
 
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
@@ -121,8 +141,12 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
                         .build()
         );
 
+        turnToDepositSample(drive, activePose);
+
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         hSlide.setPower(0);
-        intakeServo.setPosition(0.7);
+        intakeServo.setPosition(0.35);
+        intakeMotor.setPower(-0.9);
 
         //intake sample #1
         intakeSample();
@@ -295,6 +319,9 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     }
 
     public void turnToDepositSample(PinpointDrive dr, Pose2d actPose){
+        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        hSlide.setPower(0);
+
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
                         .setTangent(Math.toRadians(90))
@@ -304,10 +331,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         );
 
         intakeMotor.setPower(0.7);
-        intakeServo.setPosition(0.4);
         sleep(500);
-        intakeServo.setPosition(0.7);
-
     }
 
     public void pickUp1(PinpointDrive dr, Pose2d actPose){

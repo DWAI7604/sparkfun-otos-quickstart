@@ -98,6 +98,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
     DcMotor slideUpTop;
     DcMotor slideUpBottom;
     DcMotor hSlide;
+    DcMotor intakeMotor;
     Servo clawServo;
     Servo wristServo;
     Servo armServoLeft;
@@ -1792,13 +1793,15 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
         slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
         hSlide = hardwareMap.get(DcMotor.class, "hSlide");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
         //clawServo = hardwareMap.get(Servo.class, "clawServo");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
         wristServo = hardwareMap.get(Servo.class, "wristServo");
         armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
         armServoRight = hardwareMap.get(Servo.class, "armServoRight");
         intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        //clawServo.setDirection(Servo.Direction.REVERSE);
+        clawServo.setDirection(Servo.Direction.REVERSE);
 
         rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
         leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
@@ -1813,6 +1816,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     enum MOVEMENT_DIRECTION {
