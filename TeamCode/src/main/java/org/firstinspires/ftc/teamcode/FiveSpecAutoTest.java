@@ -74,6 +74,10 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
         drive.updatePoseEstimate();
 
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.01);
+
+
         waitForStart();
 
         initialMovements();
@@ -107,22 +111,35 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         yPosition = -34.844;
         heading = Math.toRadians(Math.toRadians(20));
 
-        intakeServo.setPosition(0.4);
+        //intake 1
+        intakeServo.setPosition(0.35);
         intakeMotor.setPower(-0.9);
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        hSlide.setPower(0.8);
+        hSlide.setPower(0.6);
         sleep(800);
 
         hSlide.setPower(0);
-        sleep(50000);
 
+        //deposit 1
+        turnToDepositSample(drive, activePose);
+
+        //drive to intake 2
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(22)
+                        .strafeToLinearHeading(new Vector2d(54, -43), Math.toRadians(60))
+                        .setTangent(90)
+                        .lineToY(-35)
 
                         .build()
         );
+
+
+
+        intakeMotor.setPower(0);
+
+        sleep(50000);
+
 
         xPosition = 21.276;
         yPosition = -36.896;
@@ -130,6 +147,12 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         turnToDepositSample(drive, activePose);
+
+
+
+
+
+        intakeMotor.setPower(0);
 
         sleep(50000);
 
@@ -145,7 +168,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         hSlide.setPower(0);
-        intakeServo.setPosition(0.35);
+        intakeServo.setPosition(0.3);
         intakeMotor.setPower(-0.9);
 
         //intake sample #1
@@ -324,14 +347,15 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .setTangent(Math.toRadians(90))
-                        .lineToYLinearHeading(-50, Math.toRadians(-55))
+                        .setTangent(Math.toRadians(0))
+                        .lineToXLinearHeading(40, Math.toRadians(-60))
 
                         .build()
         );
 
         intakeMotor.setPower(0.7);
-        sleep(500);
+        sleep(600);
+        intakeMotor.setPower(-.9);
     }
 
     public void pickUp1(PinpointDrive dr, Pose2d actPose){
@@ -370,7 +394,7 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         armServoRight.setPosition(0.3);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
         armServoLeft.setPosition(0.3);
-        sleep(200);
+        sleep(500);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
         leftFrontDriveMotor.setPower(0);
