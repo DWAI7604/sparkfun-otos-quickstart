@@ -102,20 +102,21 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
                 drive.actionBuilder(activePose)
                         .strafeToLinearHeading(new Vector2d(10, -41), Math.toRadians(20))
                         .setTangent(Math.toRadians(20))
-                        .lineToX(28)
+                        .lineToX(31)
 
                         .build()
         );
 
-        xPosition = 26.914;
-        yPosition = -34.844;
+        xPosition = 29.734;
+        yPosition = -33.818;
         heading = Math.toRadians(Math.toRadians(20));
+        activePose = new Pose2d(xPosition, yPosition, heading);
 
         //intake 1
         intakeServo.setPosition(0.35);
         intakeMotor.setPower(-0.9);
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        hSlide.setPower(0.6);
+        hSlide.setPower(0.4);
         sleep(800);
 
         hSlide.setPower(0);
@@ -123,18 +124,64 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         //deposit 1
         turnToDepositSample(drive, activePose);
 
+        yPosition = -50;
+        heading = Math.toRadians(Math.toRadians(-60));
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        intakeServo.setPosition(0.35);
+
         //drive to intake 2
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
                         .setTangent(Math.toRadians(90))
-                        .strafeToLinearHeading(new Vector2d(54, -43), Math.toRadians(60))
-                        .setTangent(90)
-                        .lineToY(-35)
+                        .strafeToLinearHeading(new Vector2d(38, -33), Math.toRadians(20))
+                        .setTangent(0)
+                        .lineToX(43)
 
                         .build()
         );
 
+        xPosition = 43;
+        yPosition = -33;
+        heading = Math.toRadians(Math.toRadians(20));
+        activePose = new Pose2d(xPosition, yPosition, heading);
 
+        turnToDepositSample(drive, activePose);
+
+        intakeServo.setPosition(0.35);
+
+        //drive to intake 3
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(46, -33), Math.toRadians(20))
+                        .setTangent(0)
+                        .lineToX(53)
+
+                        .build()
+        );
+
+        xPosition = 60;
+        yPosition = -33;
+        heading = Math.toRadians(Math.toRadians(20));
+        activePose = new Pose2d(xPosition, yPosition, heading);
+
+        hSlide.setDirection(DcMotorSimple.Direction.FORWARD);
+        hSlide.setPower(0.6);
+
+        Actions.runBlocking(
+                drive.actionBuilder(activePose)
+                        .setTangent(Math.toRadians(0))
+                        .lineToX(55)
+
+                        .build()
+        );
+
+        hSlide.setPower(0);
+
+        turnToDepositSample(drive, activePose);
+
+        sleep(50000);
 
         intakeMotor.setPower(0);
 
@@ -344,17 +391,18 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
     public void turnToDepositSample(PinpointDrive dr, Pose2d actPose){
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         hSlide.setPower(0);
+        intakeServo.setPosition(0.45);
 
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .setTangent(Math.toRadians(0))
-                        .lineToXLinearHeading(40, Math.toRadians(-60))
+                        .setTangent(Math.toRadians(90))
+                        .lineToYLinearHeading(-46, Math.toRadians(-60))
 
                         .build()
         );
 
-        intakeMotor.setPower(0.7);
-        sleep(600);
+        intakeMotor.setPower(0.6);
+        sleep(800);
         intakeMotor.setPower(-.9);
     }
 
