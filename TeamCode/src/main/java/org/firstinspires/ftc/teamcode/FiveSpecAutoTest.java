@@ -331,9 +331,9 @@ public class FiveSpecAutoTest extends RobotLinearOpMode{
         sleep(200);
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.3);
+        armServoRight.setPosition(0.25);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.3);
+        armServoLeft.setPosition(0.25);
         sleep(500);
         rightFrontDriveMotor.setPower(0);
         rightBackDriveMotor.setPower(0);
