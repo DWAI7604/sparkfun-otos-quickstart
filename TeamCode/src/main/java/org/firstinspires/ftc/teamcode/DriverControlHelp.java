@@ -646,9 +646,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void initialMovements(){
         hSlide.setPower(0.1);
         armServoRight.setDirection(Servo.Direction.FORWARD);
-        armServoRight.setPosition(0.085);
+        armServoRight.setPosition(0.12);
         armServoLeft.setDirection(Servo.Direction.REVERSE);
-        armServoLeft.setPosition(0.085);
+        armServoLeft.setPosition(0.12);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.77);
         wristServo.setDirection(Servo.Direction.FORWARD);
@@ -658,7 +658,7 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void pickUp(){
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.01);
-        sleep(400);
+        sleep(500);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -669,9 +669,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void placeSpecimen(){
         //Swing arm forward to place position, wait, open claw
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.20);
+        armServoRight.setPosition(0.23);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.20);
+        armServoLeft.setPosition(0.23);
         sleep(300);
 
     }
@@ -685,9 +685,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void resetArm(){
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.FORWARD);
-        armServoRight.setPosition(0.08);
+        armServoRight.setPosition(0.12);
         armServoLeft.setDirection(Servo.Direction.REVERSE);
-        armServoLeft.setPosition(0.08);
+        armServoLeft.setPosition(0.12);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
     }
