@@ -559,9 +559,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.1);
+                armServoRight.setPosition(0.13);
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.1);
+                armServoLeft.setPosition(0.13);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.01);
             }
@@ -579,14 +579,14 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 //drive to place position
                 Actions.runBlocking(
                         drive.actionBuilder(activePose)
-                                .lineToY(-60)
+                                .lineToY(-59)
 
                                 .build()
                 );
                 pickUp();
 
                 xPosition = 34;
-                yPosition = -60;
+                yPosition = -59;
                 activePose = new Pose2d(xPosition, yPosition, heading);
 
                 Actions.runBlocking(
@@ -604,7 +604,7 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(activePose)
                                 .setTangent(Math.toRadians(90))
-                                .strafeTo(new Vector2d(-14,-38))
+                                .strafeTo(new Vector2d(-14,-37))
 
                                 .build()
                 );
@@ -646,9 +646,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void initialMovements(){
         hSlide.setPower(0.1);
         armServoRight.setDirection(Servo.Direction.FORWARD);
-        armServoRight.setPosition(0.12);
+        armServoRight.setPosition(0.13);
         armServoLeft.setDirection(Servo.Direction.REVERSE);
-        armServoLeft.setPosition(0.12);
+        armServoLeft.setPosition(0.13);
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.77);
         wristServo.setDirection(Servo.Direction.FORWARD);
