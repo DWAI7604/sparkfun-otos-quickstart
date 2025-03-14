@@ -73,13 +73,16 @@ public class SpecimenAuto extends RobotLinearOpMode{
         PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
         drive.updatePoseEstimate();
 
+        clawServo.setDirection(Servo.Direction.FORWARD);
+        clawServo.setPosition(0.01);
+
         waitForStart();
 
         //set up for first place
         hSlide.setPower(0.1);
-        intakeServo.setPosition(0.7);
-        clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.01);
+//        intakeServo.setPosition(0.7);
+//        clawServo.setDirection(Servo.Direction.FORWARD);
+//        clawServo.setPosition(0.01);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -110,16 +113,16 @@ public class SpecimenAuto extends RobotLinearOpMode{
                         .setTangent(Math.toRadians(90))
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
-                        .lineToX(45)
+                        .lineToX(47)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-45)
+                        .lineToY(-46)
                         .lineToY(-17)
                         .setTangent(Math.toRadians(0))
-                        .lineToX(54)
+                        .lineToX(56)
                         .setTangent(Math.toRadians(90))
-                        .lineToY(-51)
+                        .lineToY(-48)
                         .lineToYLinearHeading(-44, Math.toRadians(-90))
-                        .strafeTo(new Vector2d(40, -61))
+                        .strafeTo(new Vector2d(40, -61.5))
 
 //                        .strafeTo(new Vector2d(38, -52))
 //                        .setTangent(Math.toRadians(90))
@@ -129,7 +132,8 @@ public class SpecimenAuto extends RobotLinearOpMode{
         );
 
         xPosition = 40;
-        yPosition = -61;
+        yPosition = -61.5;
+        heading = Math.toRadians(-90);
 
         pickUp();
 
@@ -139,35 +143,35 @@ public class SpecimenAuto extends RobotLinearOpMode{
         strafeToPlacePositionAndPlace(2, drive, activePose);
 
         xPosition = 7;
-        yPosition = -37;
+        yPosition = -38;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         strafeToPickupPosition(drive, activePose);
 
-        xPosition = 39;
-        yPosition = -61;
+        xPosition = 40;
+        yPosition = -60;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         strafeToPlacePositionAndPlace(3, drive, activePose);
 
         xPosition = 5;
-        yPosition = -37;
+        yPosition = -37.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         strafeToPickupPosition(drive, activePose);
 
-        xPosition = 39;
-        yPosition = -61;
+        xPosition = 40;
+        yPosition = -60;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         strafeToPlacePositionAndPlace(4, drive, activePose);
 
         xPosition = 3;
-        yPosition = -37;
+        yPosition = -37.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
@@ -175,6 +179,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         hSlide.setPower(0.9);
+        intakeServo.setPosition(0.45);
 
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
@@ -424,7 +429,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
     public void strafeToPickupPosition(PinpointDrive dr, Pose2d actPose){
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeTo(new Vector2d(39, -61))
+                        .strafeTo(new Vector2d(40, -60))
 
                         .build()
         );
@@ -453,7 +458,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeToLinearHeading(new Vector2d(pXPos, -37), Math.toRadians(-90))
+                        .strafeToLinearHeading(new Vector2d(pXPos, -38), Math.toRadians(-90))
 
                         .build()
         );
@@ -469,7 +474,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setPosition(0.8);
         sleep(500);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.7);
+        clawServo.setPosition(0.8);
         sleep(100);
 
         //swing arm back to pick up position
@@ -499,7 +504,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         armServoLeft.setPosition(0.25);
         sleep(300);
         clawServo.setDirection(Servo.Direction.FORWARD);
-        clawServo.setPosition(0.7);
+        clawServo.setPosition(0.8);
         sleep(100);
 
         //swing arm back to pick up position
