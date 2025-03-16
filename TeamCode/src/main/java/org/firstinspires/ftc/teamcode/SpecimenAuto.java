@@ -34,7 +34,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
     private double xPosition = 9;
     private double yPosition = -65;
     private double heading = Math.toRadians(90);
-    double getBatteryVoltage() { double result = Double.POSITIVE_INFINITY; for (VoltageSensor sensor : hardwareMap.voltageSensor) { double voltage = sensor.getVoltage(); if (voltage > 0) { result = Math.min(result, voltage); } } return result; }
+    //double getBatteryVoltage() { double result = Double.POSITIVE_INFINITY; for (VoltageSensor sensor : hardwareMap.voltageSensor) { double voltage = sensor.getVoltage(); if (voltage > 0) { result = Math.min(result, voltage); } } return result; }
 
     @Override
     public void runOpMode(){
@@ -143,14 +143,14 @@ public class SpecimenAuto extends RobotLinearOpMode{
         strafeToPlacePositionAndPlace(2, drive, activePose);
 
         xPosition = 7;
-        yPosition = -38;
+        yPosition = -37.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         strafeToPickupPosition(drive, activePose);
 
         xPosition = 40;
-        yPosition = -60;
+        yPosition = -60.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
@@ -164,7 +164,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
         strafeToPickupPosition(drive, activePose);
 
         xPosition = 40;
-        yPosition = -60;
+        yPosition = -60.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
@@ -179,16 +179,14 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         hSlide.setPower(0.9);
-        intakeServo.setPosition(0.45);
+        intakeServo.setPosition(0.6);
 
         Actions.runBlocking(
                 drive.actionBuilder(activePose)
-                        .strafeToLinearHeading(new Vector2d(20, -47), Math.toRadians(-45))
+                        .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45))
 
                         .build()
         );
-
-        sleep(50000);
 
 
 //        Actions.runBlocking(
@@ -409,8 +407,8 @@ public class SpecimenAuto extends RobotLinearOpMode{
 //        intakeServo.setPosition(0.7);
 //        sleep(100);
 
-        telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
-        telemetry.update();
+//        telemetry.addData("voltage", "%.1f volts", new Func<Double>() { @Override public Double value() { return getBatteryVoltage(); } });
+//        telemetry.update();
     }
 
 
@@ -429,7 +427,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
     public void strafeToPickupPosition(PinpointDrive dr, Pose2d actPose){
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeTo(new Vector2d(40, -60))
+                        .strafeTo(new Vector2d(40, -60.5))
 
                         .build()
         );
@@ -458,7 +456,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         Actions.runBlocking(
                 dr.actionBuilder(actPose)
-                        .strafeToLinearHeading(new Vector2d(pXPos, -38), Math.toRadians(-90))
+                        .strafeToLinearHeading(new Vector2d(pXPos, -37.5), Math.toRadians(-90))
 
                         .build()
         );

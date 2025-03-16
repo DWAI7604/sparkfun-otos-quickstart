@@ -168,9 +168,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
 
         declareHardwareProperties();
 
-        activePose = new Pose2d(xPosition, yPosition, heading);
-        PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
-        drive.updatePoseEstimate();
+        //activePose = new Pose2d(xPosition, yPosition, heading);
+//        PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
+//        drive.updatePoseEstimate();
 
 
         // ########################################################################################
@@ -206,7 +206,7 @@ public class DriverControlHelp extends RobotLinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral - yaw;
+            double leftFrontPower  = -(-axial - lateral + yaw);
             double rightFrontPower = -axial - lateral - yaw;
             double leftBackPower   = -axial + lateral + yaw;
             double rightBackPower  = -axial + lateral - yaw;
@@ -403,12 +403,15 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 x2Pressed = false;
                 clawServo.setDirection(Servo.Direction.FORWARD);
                 clawServo.setPosition(0.01);
+                clawServo.setPosition(0.01);
+                sleep(200);
                 armServoRight.setDirection(Servo.Direction.REVERSE);
                 armServoRight.setPosition(0.5);
                 armServoLeft.setDirection(Servo.Direction.FORWARD);
                 armServoLeft.setPosition(0.5);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.70);
+                sleep(100);
+                wristServo.setPosition(0.67);
             }
             //
 
@@ -523,7 +526,7 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
                 armServoLeft.setPosition(0.5);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.70);
+                wristServo.setPosition(0.67);
                 //wristServo.setDirection(Servo.Direction.FORWARD);
                 //wristServo.setPosition(0.02);
             }
@@ -539,12 +542,12 @@ public class DriverControlHelp extends RobotLinearOpMode {
             if (dPadRightPressed2) {
                 dPadRightPressed2 = false;
                 pickingUp = true;
-                armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.87);
-                armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.87);
+                armServoRight.setDirection(Servo.Direction.REVERSE);
+                armServoRight.setPosition(0.21);
+                armServoLeft.setDirection(Servo.Direction.FORWARD);
+                armServoLeft.setPosition(0.21);
                 wristServo.setDirection(Servo.Direction.FORWARD);
-                wristServo.setPosition(0.70);
+                wristServo.setPosition(0.67);
             }
 
             //
@@ -559,9 +562,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 dPadLeftPressed2 = false;
                 pickingUp = false;
                 armServoRight.setDirection(Servo.Direction.FORWARD);
-                armServoRight.setPosition(0.13);
+                armServoRight.setPosition(0.135);
                 armServoLeft.setDirection(Servo.Direction.REVERSE);
-                armServoLeft.setPosition(0.13);
+                armServoLeft.setPosition(0.135);
                 wristServo.setDirection(Servo.Direction.FORWARD);
                 wristServo.setPosition(0.01);
             }
@@ -574,12 +577,23 @@ public class DriverControlHelp extends RobotLinearOpMode {
 
             if (dPadDownPressed2) {
                 dPadDownPressed2 = false;
-                initialMovements();
+
+                xPosition = 34;
+                yPosition = -54;
+                heading = Math.toRadians(90);
                 activePose = new Pose2d(xPosition, yPosition, heading);
+
+                PinpointDrive drive = new PinpointDrive(hardwareMap, activePose);
+                drive.updatePoseEstimate();
+
+                initialMovements();
+
                 //drive to place position
                 Actions.runBlocking(
                         drive.actionBuilder(activePose)
-                                .lineToY(-59)
+                                //.setTangent(Math.toRadians(0))
+                                //.lineToX(39)
+                                .lineToYLinearHeading(-59, Math.toRadians(90))
 
                                 .build()
                 );
@@ -592,13 +606,13 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 Actions.runBlocking(
                         drive.actionBuilder(activePose)
                                 .setTangent(Math.toRadians(90))
-                                .strafeTo(new Vector2d(-4, -38))
+                                .strafeToLinearHeading(new Vector2d(-4, -36), Math.toRadians(90))
 
                                 .build()
                 );
                 placeSpecimen();
                 xPosition = -4;
-                yPosition = -38;
+                yPosition = -36;
                 activePose = new Pose2d(xPosition, yPosition, heading);
 
                 Actions.runBlocking(
@@ -611,7 +625,7 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 releaseSpecimen();
 
                 xPosition = -14;
-                yPosition = -38;
+                yPosition = -37;
                 activePose = new Pose2d(xPosition,yPosition,heading);
 
                 Actions.runBlocking(
@@ -624,6 +638,8 @@ public class DriverControlHelp extends RobotLinearOpMode {
                 resetArm();
                 xPosition = 34;
                 yPosition = -54;
+
+                declareHardwareProperties();
 
             }
 
@@ -685,9 +701,9 @@ public class DriverControlHelp extends RobotLinearOpMode {
     public void resetArm(){
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.FORWARD);
-        armServoRight.setPosition(0.12);
+        armServoRight.setPosition(0.135);
         armServoLeft.setDirection(Servo.Direction.REVERSE);
-        armServoLeft.setPosition(0.12);
+        armServoLeft.setPosition(0.135);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
     }
