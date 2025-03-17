@@ -156,7 +156,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         strafeToPlacePositionAndPlace(3, drive, activePose);
 
-        xPosition = 5;
+        xPosition = 6;
         yPosition = -37.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
@@ -170,23 +170,23 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         strafeToPlacePositionAndPlace(4, drive, activePose);
 
-        xPosition = 3;
+        xPosition = 1;
         yPosition = -37.5;
         heading = Math.toRadians(-90);
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Park
 
-        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        hSlide.setPower(0.9);
-        intakeServo.setPosition(0.6);
-
-        Actions.runBlocking(
-                drive.actionBuilder(activePose)
-                        .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45))
-
-                        .build()
-        );
+//        hSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+//        hSlide.setPower(0.9);
+//        intakeServo.setPosition(0.6);
+//
+//        Actions.runBlocking(
+//                drive.actionBuilder(activePose)
+//                        .strafeToLinearHeading(new Vector2d(21, -46), Math.toRadians(-45))
+//
+//                        .build()
+//        );
 
 
 //        Actions.runBlocking(
@@ -415,7 +415,7 @@ public class SpecimenAuto extends RobotLinearOpMode{
     public void pickUp(){
         clawServo.setDirection(Servo.Direction.FORWARD);
         clawServo.setPosition(0.01);
-        sleep(100);
+        sleep(400);
         armServoRight.setDirection(Servo.Direction.REVERSE);
         armServoRight.setPosition(0.5);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
@@ -442,13 +442,13 @@ public class SpecimenAuto extends RobotLinearOpMode{
             pXPos = 7;
         }
         else if (placeNum == 3){
-            pXPos = 5;
+            pXPos = 6;
         }
         else if (placeNum == 4){
-            pXPos = 3;
+            pXPos = 1;
         }
         else if (placeNum == 5){
-            pXPos = 1;
+            pXPos = 3;
         }
         else{
             pXPos = -1;
@@ -477,9 +477,9 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.21);
+        armServoRight.setPosition(0.125);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.21);
+        armServoLeft.setPosition(0.125);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
     }
@@ -507,9 +507,9 @@ public class SpecimenAuto extends RobotLinearOpMode{
 
         //swing arm back to pick up position
         armServoRight.setDirection(Servo.Direction.REVERSE);
-        armServoRight.setPosition(0.21);
+        armServoRight.setPosition(0.125);
         armServoLeft.setDirection(Servo.Direction.FORWARD);
-        armServoLeft.setPosition(0.21);
+        armServoLeft.setPosition(0.125);
         wristServo.setDirection(Servo.Direction.FORWARD);
         wristServo.setPosition(0.01);
     }
