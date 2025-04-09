@@ -76,6 +76,12 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
+
+/*
+This class is where we write all our methods needed across all programs. As you'll notice most of our classes extend
+RobotLinearOpMode (this class) and not LinearOpMode, that is intentional
+*/
+
 /**
  * This file is where each method should be written or referenced. Then when writing Autos and TeleOps,
  * programmers need to make files that extends RobotLinearOpMode instead of extending LinearOpMode.
@@ -95,22 +101,30 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
     DcMotor leftFrontDriveMotor;
     DcMotor rightBackDriveMotor;
     DcMotor leftBackDriveMotor;
+
+    //Declaration of other motors
     DcMotor slideUpTop;
     DcMotor slideUpBottom;
     DcMotor hSlide;
     DcMotor intakeMotor;
+
+    //Declaration of servos
     Servo clawServo;
     Servo wristServo;
     Servo armServoLeft;
     Servo armServoRight;
     Servo intakeServo;
+
+    //Declaration of any other sensors
     NormalizedColorSensor colorSensor;
     AprilTagProcessor aprilTag;
     VisionPortal visionPortal;
+
+    //It's good to declare any sensors you might need as you aren't required to instantiate them later
+
+
+    //Any other variables needed
     boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
-    boolean placingPixel = false;
-    boolean searching;
-    boolean aTagSeen = false;
     boolean aWasPressed = false;
     boolean bWasPressed = false;
     boolean xWasPressed = false;
@@ -119,9 +133,89 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
     boolean placeAndPark;
     private ElapsedTime runtime = new ElapsedTime();
 
+    //This method can be called in every class you use to instantiate motors, servos, and sensors
+    public void declareHardwareProperties() {
 
+        //Motor instantiation: "hardwareMap.get(DcMotor.class" is used to say its a motor and "rightFrontDriveMotor"
+        //is the device name (must match your robot configuration)
+        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
+        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
+        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
+        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
+        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
+        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
+        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+
+        //Servo instantiation: Same as motor but with "Servo.class"
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
+        wristServo = hardwareMap.get(Servo.class, "wristServo");
+        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
+        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
+        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
+
+        //Servos technically have directions, but all this line does is switch which end of direction range is 0 and which
+        //is 1.0
+        clawServo.setDirection(Servo.Direction.REVERSE);
+
+        //Set the directions the motors were spin (test with basic linear op mode)
+        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        slideUpTop.setDirection(DcMotorEx.Direction.REVERSE);
+
+        //The .BRAKE function makes it so when you set the power to 0, the motor tries to hold itself in place (less drift)
+        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
+    //This method can be used to declare variables before hitting the start button on your driver station
+    //for example: you instantiate and then set a delay before your robot starts (used to avoid collisions) or have
+    // 1 auto class and use buttons to set which branch of code to run. Call this code before the wait for start method
+    // call and after your motor instantiation
+    public void declareAutoVariables(){
+        if(gamepad1.a&&!aWasPressed) {
+            waitTime+=500;
+            aWasPressed=true;
+        } else if(!gamepad1.a&&aWasPressed) {
+            aWasPressed=false;
+        }
+
+        if(gamepad1.b&&!bWasPressed&&waitTime>=500) {
+            waitTime-=500;
+            bWasPressed=true;
+        } else if(!gamepad1.b&&bWasPressed) {
+            bWasPressed=false;
+        }
+
+        if(gamepad1.x&&!xWasPressed) {
+            placeAndPark = true;
+            xWasPressed=true;
+        } else if(!gamepad1.x&&xWasPressed) {
+            xWasPressed = false;
+        }
+
+        if(gamepad1.y&&!yWasPressed) {
+            placeAndPark = false;
+            yWasPressed=true;
+        } else if(!gamepad1.y&&yWasPressed) {
+            yWasPressed=false;
+        }
+
+        telemetry.addData("Wait Duration (A to increase, B to decrease)",waitTime);
+        telemetry.addData("place and park", placeAndPark);
+        telemetry.update();
+    }
+
+    //Method to drive the robot autonomously using encoders, (see main lesson doc for examples)
     public void encoderDrive(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
-
 
         //Specifications of hardware
         final double WHEEL_DIAMETER_INCHES = 3.77953;
@@ -287,19 +381,116 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         rightBackDriveMotor.setPower(0);
     }
 
-//    public void encoderSlideUpTime(double power, double seconds, MOVEMENT_DIRECTION movement_direction){
-//        runtime.reset();
-//        while (runtime.seconds() < seconds){
-//            if (movement_direction == MOVEMENT_DIRECTION.FORWARD){
-//                slideUp.setPower(power);
-//            }
-//            else{
-//                slideUp.setPower(-power);
-//            }
-//        }
-//        slideUp.setPower(0);
-//    }
+    //This code pairs with encoder drive to turn the robot in place a certain amount of degrees
+    public void encoderTurn(double power, double degrees, TURN_DIRECTION turn_direction) {
 
+        //Declaration of important variables
+
+        final double WHEEL_DIAMETER_INCHES = 3.77953;
+        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
+        final double TICKS_PER_ROTATION = (537.7);
+        final double ROBOT_LENGTH = 16;
+        final double ROBOT_WIDTH = 16;
+        final double TICKS_PER_INCH = (TICKS_PER_ROTATION/WHEEL_CIRCUMFERENCE_INCHES);
+
+        final double TURNING_DISTANCE = ((degrees/360) * 3.141592653589793 * Math.sqrt((Math.pow(ROBOT_LENGTH, 2)) + Math.pow(ROBOT_WIDTH, 2)));
+        final double TICK_TARGET = TURNING_DISTANCE * TICKS_PER_INCH;
+
+
+        declareHardwareProperties();
+
+        //Target # of ticks for each motor
+        int leftFrontTarget;
+        int rightFrontTarget;
+        int leftBackTarget;
+        int rightBackTarget;
+
+        leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        //Resets motor encoders to 0 ticks
+        leftFrontDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBackDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBackDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //Sets the taret # of ticks by intaking the number of desired inches of movement and converting to ticks
+        leftFrontTarget = leftFrontDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
+        rightFrontTarget = rightFrontDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
+        leftBackTarget = leftBackDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
+        rightBackTarget = rightBackDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
+
+        if(turn_direction == TURN_DIRECTION.TURN_RIGHT) {
+
+            //Sets the target # of ticks to the target position of the motors
+            leftFrontDriveMotor.setTargetPosition(-leftFrontTarget);
+            rightFrontDriveMotor.setTargetPosition(-rightFrontTarget);
+            leftBackDriveMotor.setTargetPosition(leftBackTarget);
+            rightBackDriveMotor.setTargetPosition(-rightBackTarget);
+
+            //Tells the motors to drive until they reach the target position
+            leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Sets the motor powers to the power entered on use
+            leftFrontDriveMotor.setPower(power);
+            rightFrontDriveMotor.setPower(power);
+            leftBackDriveMotor.setPower(power);
+            rightBackDriveMotor.setPower(power);
+
+            while (rightFrontDriveMotor.isBusy() && opModeIsActive()) {
+
+            }
+
+            leftFrontDriveMotor.setPower(0);
+            rightFrontDriveMotor.setPower(0);
+            leftBackDriveMotor.setPower(0);
+            rightBackDriveMotor.setPower(0);
+        }
+
+        if(turn_direction == TURN_DIRECTION.TURN_LEFT) {
+
+            //Sets the target # of ticks to the target position of the motors
+            leftFrontDriveMotor.setTargetPosition(leftFrontTarget);
+            rightFrontDriveMotor.setTargetPosition(rightFrontTarget);
+            leftBackDriveMotor.setTargetPosition(-leftBackTarget );
+            rightBackDriveMotor.setTargetPosition(rightBackTarget );
+
+            //Tells the motors to drive until they reach the target position
+            leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            //Sets the motor powers to the power entered on use
+            leftFrontDriveMotor.setPower(power);
+            rightFrontDriveMotor.setPower(power);
+            leftBackDriveMotor.setPower(power);
+            rightBackDriveMotor.setPower(power);
+
+            while (rightFrontDriveMotor.isBusy() && opModeIsActive()) {
+
+            }
+
+            leftFrontDriveMotor.setPower(0);
+            rightFrontDriveMotor.setPower(0);
+            leftBackDriveMotor.setPower(0);
+            rightBackDriveMotor.setPower(0);
+
+        }
+
+        leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+//      PID Code that kind of worked, mess around with it
 //    public void EncoderSlide(double TargetPos, int TargetTime, int UpdateSpeed, double Kp, double Kd)
 //    {
 //        //TargetPos is the goal position in inches
@@ -410,6 +601,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
 //        slideUp2.setPower(0);
 //    }
 
+   //Encoder movement of 1 motor (the slide motor). This is basically encoder drive but only effecting 1 motor instead of 4
     public void encoderSlideForward(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
 
 
@@ -473,6 +665,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         hSlide.setPower(0);
     }
 
+    //Same as above but this was for a slide extending upwards and not forwards, same code tho
     public void encoderSlideUp(double power, double inches, MOVEMENT_DIRECTION movement_direction) {
         //Specifications of hardware
         final double WHEEL_DIAMETER_INCHES = 1.625984;
@@ -517,6 +710,30 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         slideUpBottom.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    //This method runs 1 motor (the motor attached to a slide) for a specific amount of time. This code can be modified to
+    //move multiple motors at once based on time
+
+//    public void encoderSlideUpTime(double power, double seconds, MOVEMENT_DIRECTION movement_direction){
+//
+//        //set runtime to 0
+//        runtime.reset();
+//
+//        //for however long you specify in the parameters:
+//        while (runtime.seconds() < seconds){
+//            if (movement_direction == MOVEMENT_DIRECTION.FORWARD){
+//                //set the motor power
+//                slideUp.setPower(power);
+//            }
+//            else{
+//                slideUp.setPower(-power);
+//            }
+//        }
+//
+//        //set the power back to 0 after time expires
+//        slideUp.setPower(0);
+//    }
+
+    //Same as above code for encoder slide up time
     public void encoderSlideForwardTime(double power, double seconds, MOVEMENT_DIRECTION movement_direction){
         runtime.reset();
         while (runtime.seconds() < seconds){
@@ -530,449 +747,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         hSlide.setPower(0);
     }
 
-    /*public void encoderLift(double power, double inches, LIFT_DIRECTION lift_direction) {
-
-        //Specifications of hardware
-        final double wheelDiameter = 1.5;
-        final double wheelCircumference = (wheelDiameter * 3.141592653589793);
-        final double ticksPerRotation = 28;
-        final double ticksPerInch = (ticksPerRotation / wheelCircumference);
-
-        int liftTarget;
-
-
-        leftLifter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLifter.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        liftTarget = leftLifter.getCurrentPosition() + (int) (inches * ticksPerInch);
-
-
-        if (lift_direction == LIFT_DIRECTION.UP) {
-            leftLifter.setTargetPosition(liftTarget);
-            rightLifter.setTargetPosition(liftTarget);
-
-            leftLifter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightLifter.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            leftLifter.setPower(power);
-            rightLifter.setPower(power);
-
-
-            while (leftLifter.isBusy() && opModeIsActive()) {
-
-            }
-
-            //Kills the motors to prepare for next call of method
-            leftLifter.setPower(0);
-            rightLifter.setPower(0);
-
-        }
-    }*/
-
-    public void encoderTurn(double power, double degrees, TURN_DIRECTION turn_direction) {
-
-
-
-
-
-        //Declaration of important variables
-//        final double WHEEL_DIAMETER_INCHES = 3.77953;
-//        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
-//        final double DRIVE_GEAR_REDUCTION = 1.0;
-//        final double COUNTS_PER_ROTATION_AT_MOTOR = 537.7;
-//        final double TICKS_PER_ROTATION = (COUNTS_PER_ROTATION_AT_MOTOR);
-//
-//        final double TICKS_PER_INCH = (TICKS_PER_ROTATION/WHEEL_CIRCUMFERENCE_INCHES);
-//        //Measure in inches
-//        final double ROBOT_LENGTH = 13;
-//        final double ROBOT_WIDTH = (15 +(7/8));
-//        //Uses pythagorean theorem to find the radius from the center of the robot to a point on its turning circle and subsequently the circumference of said circle
-//        final double ROBOT_DIAMETER = (Math.sqrt(Math.pow(ROBOT_LENGTH, 2) + Math.pow(ROBOT_WIDTH, 2)));
-//        final double ROBOT_CIRCUMFERENCE = (ROBOT_DIAMETER * 3.141592653589793);
-//        //Finds the number of degrees each tick covers
-//        final double INCHES_PER_DEGREE = (ROBOT_CIRCUMFERENCE/360);
-//        final double TICKS_PER_DEGREE = (TICKS_PER_INCH * INCHES_PER_DEGREE);
-
-        final double WHEEL_DIAMETER_INCHES = 3.77953;
-        final double WHEEL_CIRCUMFERENCE_INCHES = (WHEEL_DIAMETER_INCHES * 3.141592653589793);
-        final double TICKS_PER_ROTATION = (537.7);
-        final double ROBOT_LENGTH = 16;
-        final double ROBOT_WIDTH = 16;
-        final double TICKS_PER_INCH = (TICKS_PER_ROTATION/WHEEL_CIRCUMFERENCE_INCHES);
-
-        final double TURNING_DISTANCE = ((degrees/360) * 3.141592653589793 * Math.sqrt((Math.pow(ROBOT_LENGTH, 2)) + Math.pow(ROBOT_WIDTH, 2)));
-        final double TICK_TARGET = TURNING_DISTANCE * TICKS_PER_INCH;
-
-
-
-
-
-        declareHardwareProperties();
-
-        //Target # of ticks for each motor
-        int leftFrontTarget;
-        int rightFrontTarget;
-        int leftBackTarget;
-        int rightBackTarget;
-
-        leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        //Resets motor encoders to 0 ticks
-        leftFrontDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFrontDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBackDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBackDriveMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //Sets the taret # of ticks by intaking the number of desired inches of movement and converting to ticks
-        leftFrontTarget = leftFrontDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
-        rightFrontTarget = rightFrontDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
-        leftBackTarget = leftBackDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
-        rightBackTarget = rightBackDriveMotor.getCurrentPosition() + (int) (TICK_TARGET);
-
-        if(turn_direction == TURN_DIRECTION.TURN_RIGHT) {
-
-            //Sets the target # of ticks to the target position of the motors
-            leftFrontDriveMotor.setTargetPosition(-leftFrontTarget);
-            rightFrontDriveMotor.setTargetPosition(-rightFrontTarget);
-            leftBackDriveMotor.setTargetPosition(leftBackTarget);
-            rightBackDriveMotor.setTargetPosition(-rightBackTarget);
-
-            //Tells the motors to drive until they reach the target position
-            leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            //Sets the motor powers to the power entered on use
-            leftFrontDriveMotor.setPower(power);
-            rightFrontDriveMotor.setPower(power);
-            leftBackDriveMotor.setPower(power);
-            rightBackDriveMotor.setPower(power);
-
-            while (rightFrontDriveMotor.isBusy() && opModeIsActive()) {
-
-            }
-
-            leftFrontDriveMotor.setPower(0);
-            rightFrontDriveMotor.setPower(0);
-            leftBackDriveMotor.setPower(0);
-            rightBackDriveMotor.setPower(0);
-        }
-
-        if(turn_direction == TURN_DIRECTION.TURN_LEFT) {
-
-            //Sets the target # of ticks to the target position of the motors
-            leftFrontDriveMotor.setTargetPosition(leftFrontTarget);
-            rightFrontDriveMotor.setTargetPosition(rightFrontTarget);
-            leftBackDriveMotor.setTargetPosition(-leftBackTarget );
-            rightBackDriveMotor.setTargetPosition(rightBackTarget );
-
-            //Tells the motors to drive until they reach the target position
-            leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            //Sets the motor powers to the power entered on use
-            leftFrontDriveMotor.setPower(power);
-            rightFrontDriveMotor.setPower(power);
-            leftBackDriveMotor.setPower(power);
-            rightBackDriveMotor.setPower(power);
-
-            while (rightFrontDriveMotor.isBusy() && opModeIsActive()) {
-
-            }
-
-            leftFrontDriveMotor.setPower(0);
-            rightFrontDriveMotor.setPower(0);
-            leftBackDriveMotor.setPower(0);
-            rightBackDriveMotor.setPower(0);
-
-        }
-
-        leftFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBackDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    public void initAprilTag() {
-
-        USE_WEBCAM = true;
-        // Create the AprilTag processor the easy way.
-        aprilTag = AprilTagProcessor.easyCreateWithDefaults();
-
-        // Create the vision portal the easy way.
-        if (USE_WEBCAM) {
-            visionPortal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "Webcam 1"), aprilTag);
-        } else {
-            visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, aprilTag);
-        }
-    }
-
-    public boolean[] getAprilTags()
-    {
-        List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-        telemetry.addData("# AprilTags Detected", currentDetections.size());
-        boolean[] aprilTags = new boolean[7];
-        // Step through the list of detections and display info for each one.
-        for (AprilTagDetection detection : currentDetections)
-        {
-            if (detection.metadata != null)
-            {
-                aprilTags[detection.id] = true;
-                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-            }
-            else
-            {
-                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
-            }
-
-        }   // end for() loop
-        // Add "key" information to telemetry
-        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-        telemetry.addLine("RBE = Range, Bearing & Elevation");
-        return aprilTags;
-    }// end method telemetryAprilTag
-
-    public void aprilTagCentering() {
-
-        List<AprilTagDetection> currentDetection = aprilTag.getDetections();
-
-        for (AprilTagDetection detection : currentDetection)
-        {
-            if (detection.metadata != null)
-            {
-                telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
-                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
-                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-            }
-            else
-            {
-                telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
-                telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
-            }
-
-
-
-        }   // end for() loop
-
-
-
-    }
-
-
-
-
-    public void colorSensorDrive(double power, MOVEMENT_DIRECTION movement_direction, TAPE_COLOR tape_color) {
-        if (tape_color == TAPE_COLOR.RED_TAPE) {
-            if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
-                while (opModeIsActive() && colorSensor() != 2) {
-                    leftFrontDriveMotor.setPower(power);
-                    leftBackDriveMotor.setPower(power);
-                    rightFrontDriveMotor.setPower(power);
-                    rightBackDriveMotor.setPower(power);
-
-                    if (colorSensor() == 2) {
-                        motorKill();
-                        encoderDrive(power, .5, MOVEMENT_DIRECTION.REVERSE);
-                    }
-
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
-                while (opModeIsActive() && colorSensor() != 2) {
-                    leftFrontDriveMotor.setPower(-power);
-                    leftBackDriveMotor.setPower(-power);
-                    rightFrontDriveMotor.setPower(-power);
-                    rightBackDriveMotor.setPower(-power);
-
-                    if (colorSensor() == 2) {
-                        motorKill();
-                        encoderDrive(power, .5, MOVEMENT_DIRECTION.FORWARD);
-                    }
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_LEFT) {
-                while (opModeIsActive() && colorSensor() != 2) {
-                    leftFrontDriveMotor.setPower(power);
-                    leftBackDriveMotor.setPower(-power);
-                    rightFrontDriveMotor.setPower(power);
-                    rightBackDriveMotor.setPower(-power);
-
-                    if (colorSensor() == 2) {
-                        motorKill();
-                    }
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_RIGHT) {
-                while (opModeIsActive() && colorSensor() != 2) {
-                    leftFrontDriveMotor.setPower(-power);
-                    leftBackDriveMotor.setPower(power);
-                    rightFrontDriveMotor.setPower(-power);
-                    rightBackDriveMotor.setPower(power);
-
-                    if (colorSensor() == 2) {
-                        motorKill();
-                    }
-                }
-            }
-        } else if (tape_color == TAPE_COLOR.BLUE_TAPE) {
-            if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
-                while (opModeIsActive() && colorSensor() != 1) {
-                    leftFrontDriveMotor.setPower(power);
-                    leftBackDriveMotor.setPower(power);
-                    rightFrontDriveMotor.setPower(power);
-                    rightBackDriveMotor.setPower(power);
-
-                    if (colorSensor() == 1) {
-                        motorKill();
-                        encoderDrive(power, .5, MOVEMENT_DIRECTION.REVERSE);
-                    }
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
-                while (opModeIsActive() && colorSensor() != 1) {
-                    leftFrontDriveMotor.setPower(-power);
-                    leftBackDriveMotor.setPower(-power);
-                    rightFrontDriveMotor.setPower(-power);
-                    rightBackDriveMotor.setPower(-power);
-
-                    if (colorSensor() == 1) {
-                        motorKill();
-                        encoderDrive(power, .5, MOVEMENT_DIRECTION.FORWARD);
-                    }
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_LEFT) {
-                while (opModeIsActive() && colorSensor() != 1) {
-                    leftFrontDriveMotor.setPower(power);
-                    leftBackDriveMotor.setPower(-power);
-                    rightFrontDriveMotor.setPower(power);
-                    rightBackDriveMotor.setPower(-power);
-
-                    if (colorSensor() == 1) {
-                        motorKill();
-                    }
-                }
-            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_RIGHT) {
-                while (opModeIsActive() && colorSensor() !=1) {
-                    leftFrontDriveMotor.setPower(-power);
-                    leftBackDriveMotor.setPower(power);
-                    rightFrontDriveMotor.setPower(-power);
-                    rightBackDriveMotor.setPower(power);
-
-                    if (colorSensor() == 1) {
-                        motorKill();
-                    }
-                }
-            }
-        }
-    }
-
-    public double distanceSensor(SENSOR_DIRECTION sensor_direction) {
-        DistanceSensor sensorDistance = null;
-        double distance;
-
-        if (sensor_direction == SENSOR_DIRECTION.REAR) {
-            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_rear");
-
-            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
-
-
-        } else if (sensor_direction == SENSOR_DIRECTION.FRONT) {
-            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_front");
-
-            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
-
-
-        } else if (sensor_direction == SENSOR_DIRECTION.LEFT) {
-            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_left");
-
-            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
-
-
-        } else if (sensor_direction == SENSOR_DIRECTION.RIGHT) {
-            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_right");
-
-            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
-
-        }
-        // you can use this as a regular DistanceSensor.
-        return sensorDistance.getDistance(DistanceUnit.INCH);
-
-
-
-        // you can also cast this to a Rev2mDistanceSensor if you want to use added
-        // methods associated with the Rev2mDistanceSensor class.
-
-    }
-    public void distSensorDrive(double inputPower, double distanceFromObjectCM, MOVEMENT_DIRECTION movement_direction) {
-
-        double power;
-        double dist = distanceSensor(SENSOR_DIRECTION.REAR);
-        if (dist > 10) {
-            dist = 10;
-        }
-
-//        if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
-//
-//            while (opModeIsActive() && distanceSensor(SENSOR_DIRECTION.REAR) > distanceFromObjectCM) {
-//                double distanceToSpeed = (Math.atan(distanceSensor(SENSOR_DIRECTION.REAR) - distanceFromObjectCM))/4;
-//                if (distanceToSpeed > inputPower) {
-//                    power = inputPower;
-//                } else {
-//                    power = distanceToSpeed;
-//                }
-//                leftFrontDriveMotor.setPower(-power);
-//                rightFrontDriveMotor.setPower(-power);
-//                leftBackDriveMotor.setPower(-power);
-//                rightBackDriveMotor.setPower(-power);
-//
-//                if (distanceSensor(SENSOR_DIRECTION.REAR) <= distanceFromObjectCM) {
-//                    motorKill();
-//                }
-//                telemetry.addData("Power", power);
-//                telemetry.update();
-//            }
-        encoderDrive(inputPower, dist - distanceFromObjectCM, MOVEMENT_DIRECTION.REVERSE);
-        encoderDrive(.1, 1, MOVEMENT_DIRECTION.REVERSE);
-
-
-
-//                    leftFrontDriveMotor.setPower(-power);
-//                    rightFrontDriveMotor.setPower(-power);
-//                    leftBackDriveMotor.setPower(-power);
-//                    rightBackDriveMotor.setPower(-power);
-//                    sleep(200);
-//                } while (distanceFromObjectCM > distanceSensor(SENSOR_DIRECTION.REAR));
-
-
-//            while (distanceFromObjectCM >= distanceSensor(SENSOR_DIRECTION.REAR)) {
-//
-//                double power = Math.log(distanceSensor(SENSOR_DIRECTION.REAR));
-//                if (power > inputPower) {
-//                    power = inputPower;
-//                }
-//                leftFrontDriveMotor.setPower(power);
-//                rightFrontDriveMotor.setPower(power);
-//                leftBackDriveMotor.setPower(power);
-//                rightBackDriveMotor.setPower(power);
-//                sleep(50);
-//            }
-//            if (distanceFromObjectCM <= distanceSensor(SENSOR_DIRECTION.REAR)) {
-//                motorKill();
-//            }
-    }
-
-
-
+    //sets up color sensor for color sensor drive method below
     public float colorSensor() {
         int colorValue = 0;
 
@@ -1066,669 +841,220 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         return(colorValue);
     }
 
-    public void purplePixelPlace() {
 
-        Servo purplePlacer;
+    //This code drives the robot forward at a constant speed until a color sensor on the robot detects a certain color
+    //typically red or blue or white (colors of tape on field) however this code is for red or blue tape. Comments end
+    //after first set of loops because its all the same for the most part (forward vs backwards, red vs blue etc
+    public void colorSensorDrive(double power, MOVEMENT_DIRECTION movement_direction, TAPE_COLOR tape_color) {
+        //If searching for red
+        if (tape_color == TAPE_COLOR.RED_TAPE) {
+            //move forward
+            if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
+                while (opModeIsActive() && colorSensor() != 2) {
+                    leftFrontDriveMotor.setPower(power);
+                    leftBackDriveMotor.setPower(power);
+                    rightFrontDriveMotor.setPower(power);
+                    rightBackDriveMotor.setPower(power);
 
-        purplePlacer = hardwareMap.get(Servo.class, "purplePlacer");
+                    //move forward until color is detected and stop movement
+                    if (colorSensor() == 2) {
+                        motorKill();
+                        //This is a trick used to stop the robot in place with no drift, force the motors to spin backwards slightly
+                        encoderDrive(power, .5, MOVEMENT_DIRECTION.REVERSE);
+                    }
 
-        purplePlacer.setPosition(100);
-        sleep(500);
-        purplePlacer.setPosition(0);
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
+                while (opModeIsActive() && colorSensor() != 2) {
+                    leftFrontDriveMotor.setPower(-power);
+                    leftBackDriveMotor.setPower(-power);
+                    rightFrontDriveMotor.setPower(-power);
+                    rightBackDriveMotor.setPower(-power);
+
+                    if (colorSensor() == 2) {
+                        motorKill();
+                        encoderDrive(power, .5, MOVEMENT_DIRECTION.FORWARD);
+                    }
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_LEFT) {
+                while (opModeIsActive() && colorSensor() != 2) {
+                    leftFrontDriveMotor.setPower(power);
+                    leftBackDriveMotor.setPower(-power);
+                    rightFrontDriveMotor.setPower(power);
+                    rightBackDriveMotor.setPower(-power);
+
+                    if (colorSensor() == 2) {
+                        motorKill();
+                    }
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_RIGHT) {
+                while (opModeIsActive() && colorSensor() != 2) {
+                    leftFrontDriveMotor.setPower(-power);
+                    leftBackDriveMotor.setPower(power);
+                    rightFrontDriveMotor.setPower(-power);
+                    rightBackDriveMotor.setPower(power);
+
+                    if (colorSensor() == 2) {
+                        motorKill();
+                    }
+                }
+            }
+        } else if (tape_color == TAPE_COLOR.BLUE_TAPE) {
+            if (movement_direction == MOVEMENT_DIRECTION.FORWARD) {
+                while (opModeIsActive() && colorSensor() != 1) {
+                    leftFrontDriveMotor.setPower(power);
+                    leftBackDriveMotor.setPower(power);
+                    rightFrontDriveMotor.setPower(power);
+                    rightBackDriveMotor.setPower(power);
+
+                    if (colorSensor() == 1) {
+                        motorKill();
+                        encoderDrive(power, .5, MOVEMENT_DIRECTION.REVERSE);
+                    }
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
+                while (opModeIsActive() && colorSensor() != 1) {
+                    leftFrontDriveMotor.setPower(-power);
+                    leftBackDriveMotor.setPower(-power);
+                    rightFrontDriveMotor.setPower(-power);
+                    rightBackDriveMotor.setPower(-power);
+
+                    if (colorSensor() == 1) {
+                        motorKill();
+                        encoderDrive(power, .5, MOVEMENT_DIRECTION.FORWARD);
+                    }
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_LEFT) {
+                while (opModeIsActive() && colorSensor() != 1) {
+                    leftFrontDriveMotor.setPower(power);
+                    leftBackDriveMotor.setPower(-power);
+                    rightFrontDriveMotor.setPower(power);
+                    rightBackDriveMotor.setPower(-power);
+
+                    if (colorSensor() == 1) {
+                        motorKill();
+                    }
+                }
+            } else if (movement_direction == MOVEMENT_DIRECTION.STRAFE_RIGHT) {
+                while (opModeIsActive() && colorSensor() !=1) {
+                    leftFrontDriveMotor.setPower(-power);
+                    leftBackDriveMotor.setPower(power);
+                    rightFrontDriveMotor.setPower(-power);
+                    rightBackDriveMotor.setPower(power);
+
+                    if (colorSensor() == 1) {
+                        motorKill();
+                    }
+                }
+            }
+        }
+    }
+
+    //This method is used with the one beneath it, this method basically defines which distance sensor is being used
+    //if you have multiple
+    public double distanceSensor(SENSOR_DIRECTION sensor_direction) {
+        DistanceSensor sensorDistance = null;
+        double distance;
+
+        if (sensor_direction == SENSOR_DIRECTION.REAR) {
+            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_rear");
+
+            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+
+
+        } else if (sensor_direction == SENSOR_DIRECTION.FRONT) {
+            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_front");
+
+            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+
+
+        } else if (sensor_direction == SENSOR_DIRECTION.LEFT) {
+            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_left");
+
+            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+
+
+        } else if (sensor_direction == SENSOR_DIRECTION.RIGHT) {
+            sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_distance_right");
+
+            Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorDistance;
+
+        }
+        // you can use this as a regular DistanceSensor.
+        return sensorDistance.getDistance(DistanceUnit.INCH);
 
 
 
+        // you can also cast this to a Rev2mDistanceSensor if you want to use added
+        // methods associated with the Rev2mDistanceSensor class.
 
     }
 
-    public void yellowPixelPlace() {
+    //drive the robot until it becomes a certain distance away from a wall. This worked 2 years ago and hasn't been
+    //used since so expect to trouble shoot. Commented lines left in case 2 lines don't work and trouble shooting is needed
+    public void distSensorDrive(double inputPower, double distanceFromObjectCM, MOVEMENT_DIRECTION movement_direction) {
 
-        Servo yellowPlacer = null;
-
-        yellowPlacer = hardwareMap.get(Servo.class, "yellowPlacer");
-
-
-        yellowPlacer.setPosition(355);
-        sleep(600);
-        yellowPlacer.setPosition(0);
-        sleep(400);
-
-    }
-
-//    public void cameraCodeBlue() {
-//        OpenCvInternalCamera phoneCam;
-//        SkystoneDeterminationExample.SkystoneDeterminationPipeline pipelineBlue;
-//
-//
-//        waitForStart();
-//        /**
-//         * NOTE: Many comments have been omitted from this sample for the
-//         * sake of conciseness. If you're just starting out with EasyOpenCv,
-//         * you should take a look at {@link InternalCamera1Example} or its
-//         * webcam counterpart, {@link WebcamExample} first.
-//         */
-//
-//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-//        pipelineBlue = new SkystoneDeterminationExample.SkystoneDeterminationPipeline();
-//        phoneCam.setPipeline(pipelineBlue);
-//
-//        // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
-//        // out when the RC activity is in portrait. We do our actual image processing assuming
-//        // landscape orientation, though.
-//        phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-//
-//        phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-//            @Override
-//            public void onOpened() {
-//                phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
-//            }
-//
-//            @Override
-//            public void onError(int errorCode) {
-//                /*
-//                 * This will be called if the camera could not be opened
-//                 */
-//            }
-//        });
-//waitForStart();
-//
-//        while (opModeIsActive()) {
-//            telemetry.addData("Analysis", pipelineBlue.getAnalysis());
-//            telemetry.update();
-//
-//
-//
-//            // Don't burn CPU cycles busy-looping in this sample
-//            sleep(50);
+        double power;
+        double dist = distanceSensor(SENSOR_DIRECTION.REAR);
+//        if (dist > 10) {
+//            dist = 10;
 //        }
+
+//        if (movement_direction == MOVEMENT_DIRECTION.REVERSE) {
 //
-//    }
-//        public static class imgPipelineBlue extends OpenCvPipeline
-//        {
-//            /*
-//             * An enum to define the skystone position
-//             */
-//            public enum SkystonePosition
-//            {
-//                LEFT,
-//                CENTER,
-//                RIGHT
-//            }
-//
-//            /*
-//             * Some color constants
-//             */
-//            static final Scalar BLUE = new Scalar(0, 0, 255);
-//            static final Scalar GREEN = new Scalar(0, 255, 0);
-//
-//            /*
-//             * The core values which define the location and size of the sample regions
-//             */
-//            static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,120);
-//            static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(107,120);
-//            static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(213,120);
-//            static final int REGION_WIDTH = 106;
-//            static final int REGION_HEIGHT = 60;
-//
-//            /*
-//             * Points which actually define the sample region rectangles, derived from above values
-//             *
-//             * Example of how points A and B work to define a rectangle
-//             *
-//             *   ------------------------------------
-//             *   | (0,0) Point A                    |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                  Point B (70,50) |
-//             *   ------------------------------------
-//             *
-//             */
-//            Point region1_pointA = new Point(
-//                    REGION1_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION1_TOPLEFT_ANCHOR_POINT.y);
-//            Point region1_pointB = new Point(
-//                    REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//            Point region2_pointA = new Point(
-//                    REGION2_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION2_TOPLEFT_ANCHOR_POINT.y);
-//            Point region2_pointB = new Point(
-//                    REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//            Point region3_pointA = new Point(
-//                    REGION3_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION3_TOPLEFT_ANCHOR_POINT.y);
-//            Point region3_pointB = new Point(
-//                    REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//
-//            /*
-//             * Working variables
-//             */
-//            Mat region1_Cb, region2_Cb, region3_Cb;
-//            Mat YCrCb = new Mat();
-//            Mat Cb = new Mat();
-//            int avg1, avg2, avg3;
-//
-//            // Volatile since accessed by OpMode thread w/o synchronization
-//            private volatile SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition positionBlue = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.RIGHT;
-//
-//            /*
-//             * This function takes the RGB frame, converts to YCrCb,
-//             * and extracts the Cb channel to the 'Cb' variable
-//             */
-//            void inputToCb(Mat input)
-//            {
-//                Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-//                Core.extractChannel(YCrCb, Cb, 2);
-//            }
-//
-//            @Override
-//            public void init(Mat firstFrame)
-//            {
-//                /*
-//                 * We need to call this in order to make sure the 'Cb'
-//                 * object is initialized, so that the submats we make
-//                 * will still be linked to it on subsequent frames. (If
-//                 * the object were to only be initialized in processFrame,
-//                 * then the submats would become delinked because the backing
-//                 * buffer would be re-allocated the first time a real frame
-//                 * was crunched)
-//                 */
-//                inputToCb(firstFrame);
-//
-//                /*
-//                 * Submats are a persistent reference to a region of the parent
-//                 * buffer. Any changes to the child affect the parent, and the
-//                 * reverse also holds true.
-//                 */
-//                region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-//                region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-//                region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
-//            }
-//
-//            @Override
-//            public Mat processFrame(Mat input)
-//            {
-//                /*
-//                 * Overview of what we're doing:
-//                 *
-//                 * We first convert to YCrCb color space, from RGB color space.
-//                 * Why do we do this? Well, in the RGB color space, chroma and
-//                 * luma are intertwined. In YCrCb, chroma and luma are separated.
-//                 * YCrCb is a 3-channel color space, just like RGB. YCrCb's 3 channels
-//                 * are Y, the luma channel (which essentially just a B&W image), the
-//                 * Cr channel, which records the difference from red, and the Cb channel,
-//                 * which records the difference from blue. Because chroma and luma are
-//                 * not related in YCrCb, vision code written to look for certain values
-//                 * in the Cr/Cb channels will not be severely affected by differing
-//                 * light intensity, since that difference would most likely just be
-//                 * reflected in the Y channel.
-//                 *
-//                 * After we've converted to YCrCb, we extract just the 2nd channel, the
-//                 * Cb channel. We do this because stones are bright yellow and contrast
-//                 * STRONGLY on the Cb channel against everything else, including SkyStones
-//                 * (because SkyStones have a black label).
-//                 *
-//                 * We then take the average pixel value of 3 different regions on that Cb
-//                 * channel, one positioned over each stone. The brightest of the 3 regions
-//                 * is where we assume the SkyStone to be, since the normal stones show up
-//                 * extremely darkly.
-//                 *
-//                 * We also draw rectangles on the screen showing where the sample regions
-//                 * are, as well as drawing a solid rectangle over top the sample region
-//                 * we believe is on top of the SkyStone.
-//                 *
-//                 * In order for this whole process to work correctly, each sample region
-//                 * should be positioned in the center of each of the first 3 stones, and
-//                 * be small enough such that only the stone is sampled, and not any of the
-//                 * surroundings.
-//                 */
-//
-//                /*
-//                 * Get the Cb channel of the input frame after conversion to YCrCb
-//                 */
-//                inputToCb(input);
-//
-//                /*
-//                 * Compute the average pixel value of each submat region. We're
-//                 * taking the average of a single channel buffer, so the value
-//                 * we need is at index 0. We could have also taken the average
-//                 * pixel value of the 3-channel image, and referenced the value
-//                 * at index 2 here.
-//                 */
-//                avg1 = (int) Core.mean(region1_Cb).val[0];
-//                avg2 = (int) Core.mean(region2_Cb).val[0];
-//                avg3 = (int) Core.mean(region3_Cb).val[0];
-//
-//                /*
-//                 * Draw a rectangle showing sample region 1 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region1_pointA, // First point which defines the rectangle
-//                        region1_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//                /*
-//                 * Draw a rectangle showing sample region 2 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region2_pointA, // First point which defines the rectangle
-//                        region2_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//                /*
-//                 * Draw a rectangle showing sample region 3 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region3_pointA, // First point which defines the rectangle
-//                        region3_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//
-//                /*
-//                 * Find the max of the 3 averages
-//                 */
-//                int maxOneTwo = Math.max(avg1, avg2);
-//                int max = Math.max(maxOneTwo, avg3);
-//
-//                /*
-//                 * Now that we found the max, we actually need to go and
-//                 * figure out which sample region that value was from
-//                 */
-//                if(max == avg1) // Was it from region 1?
-//                {
-//                    positionBlue = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.LEFT; // Record our analysis
-//
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region1_pointA, // First point which defines the rectangle
-//                            region1_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
+//            while (opModeIsActive() && distanceSensor(SENSOR_DIRECTION.REAR) > distanceFromObjectCM) {
+//                double distanceToSpeed = (Math.atan(distanceSensor(SENSOR_DIRECTION.REAR) - distanceFromObjectCM))/4;
+//                if (distanceToSpeed > inputPower) {
+//                    power = inputPower;
+//                } else {
+//                    power = distanceToSpeed;
 //                }
-//                else if(max == avg2) // Was it from region 2?
-//                {
-//                    positionBlue = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.CENTER; // Record our analysis
+//                leftFrontDriveMotor.setPower(-power);
+//                rightFrontDriveMotor.setPower(-power);
+//                leftBackDriveMotor.setPower(-power);
+//                rightBackDriveMotor.setPower(-power);
 //
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region2_pointA, // First point which defines the rectangle
-//                            region2_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
+//                if (distanceSensor(SENSOR_DIRECTION.REAR) <= distanceFromObjectCM) {
+//                    motorKill();
 //                }
-//                else if(max == avg3) // Was it from region 3?
-//                {
-//                    positionBlue = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.RIGHT; // Record our analysis
-//
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region3_pointA, // First point which defines the rectangle
-//                            region3_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
-//                }
-//
-//                /*
-//                 * Render the 'input' buffer to the viewport. But note this is not
-//                 * simply rendering the raw camera feed, because we called functions
-//                 * to add some annotations to this buffer earlier up.
-//                 */
-//                return input;
-//            }
-//
-//
-//            /*
-//             * Call this from the OpMode thread to obtain the latest analysis
-//             */
-//            public SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition getAnalysis()
-//            {
-//                return positionBlue;
-//            }
-//        }
-//
-//        public void cameraCodeRed() {
-//            OpenCvInternalCamera phoneCam;
-//            SkystoneDeterminationExample.SkystoneDeterminationPipeline pipelineRed;
-//
-//
-//            waitForStart();
-//            /**
-//             * NOTE: Many comments have been omitted from this sample for the
-//             * sake of conciseness. If you're just starting out with EasyOpenCv,
-//             * you should take a look at {@link InternalCamera1Example} or its
-//             * webcam counterpart, {@link WebcamExample} first.
-//             */
-//
-//            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//            phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-//            pipelineRed = new SkystoneDeterminationExample.SkystoneDeterminationPipeline();
-//            phoneCam.setPipeline(pipelineRed);
-//
-//            // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
-//            // out when the RC activity is in portrait. We do our actual image processing assuming
-//            // landscape orientation, though.
-//            phoneCam.setViewportRenderingPolicy(OpenCvCamera.ViewportRenderingPolicy.OPTIMIZE_VIEW);
-//
-//            phoneCam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-//                @Override
-//                public void onOpened() {
-//                    phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
-//                }
-//
-//                @Override
-//                public void onError(int errorCode) {
-//                    /*
-//                     * This will be called if the camera could not be opened
-//                     */
-//                }
-//            });
-//            waitForStart();
-//
-//            while (opModeIsActive()) {
-//                telemetry.addData("Analysis", pipelineRed.getAnalysis());
+//                telemetry.addData("Power", power);
 //                telemetry.update();
+//            }
+
+        //Only one sensor was on the robot so no need to discern direction
+        //Use encoder drive to drive a set amount of inches away from an object
+        //Example: your 20 inches away and want to be 3 inches away, 20 - 3 = 17 inches of travel
+        encoderDrive(inputPower, dist - distanceFromObjectCM, MOVEMENT_DIRECTION.REVERSE);
+        encoderDrive(.1, 1, MOVEMENT_DIRECTION.REVERSE);
+
+
+
+//                    leftFrontDriveMotor.setPower(-power);
+//                    rightFrontDriveMotor.setPower(-power);
+//                    leftBackDriveMotor.setPower(-power);
+//                    rightBackDriveMotor.setPower(-power);
+//                    sleep(200);
+//                } while (distanceFromObjectCM > distanceSensor(SENSOR_DIRECTION.REAR));
+
+
+//            while (distanceFromObjectCM >= distanceSensor(SENSOR_DIRECTION.REAR)) {
 //
-//                // Don't burn CPU cycles busy-looping in this sample
+//                double power = Math.log(distanceSensor(SENSOR_DIRECTION.REAR));
+//                if (power > inputPower) {
+//                    power = inputPower;
+//                }
+//                leftFrontDriveMotor.setPower(power);
+//                rightFrontDriveMotor.setPower(power);
+//                leftBackDriveMotor.setPower(power);
+//                rightBackDriveMotor.setPower(power);
 //                sleep(50);
 //            }
-//        }
-//        public static class imgPipelineRed extends OpenCvPipeline {
-//            /*
-//             * An enum to define the skystone position
-//             */
-//            public enum SkystonePosition
-//            {
-//                LEFT,
-//                CENTER,
-//                RIGHT
+//            if (distanceFromObjectCM <= distanceSensor(SENSOR_DIRECTION.REAR)) {
+//                motorKill();
 //            }
-//
-//            /*
-//             * Some color constants
-//             */
-//            static final Scalar BLUE = new Scalar(0, 0, 255);
-//            static final Scalar GREEN = new Scalar(0, 255, 0);
-//
-//            /*
-//             * The core values which define the location and size of the sample regions
-//             */
-//            static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,120);
-//            static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(107,120);
-//            static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(213,120);
-//            static final int REGION_WIDTH = 106;
-//            static final int REGION_HEIGHT = 60;
-//
-//            /*
-//             * Points which actually define the sample region rectangles, derived from above values
-//             *
-//             * Example of how points A and B work to define a rectangle
-//             *
-//             *   ------------------------------------
-//             *   | (0,0) Point A                    |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                                  |
-//             *   |                  Point B (70,50) |
-//             *   ------------------------------------
-//             *
-//             */
-//            Point region1_pointA = new Point(
-//                    REGION1_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION1_TOPLEFT_ANCHOR_POINT.y);
-//            Point region1_pointB = new Point(
-//                    REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//            Point region2_pointA = new Point(
-//                    REGION2_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION2_TOPLEFT_ANCHOR_POINT.y);
-//            Point region2_pointB = new Point(
-//                    REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//            Point region3_pointA = new Point(
-//                    REGION3_TOPLEFT_ANCHOR_POINT.x,
-//                    REGION3_TOPLEFT_ANCHOR_POINT.y);
-//            Point region3_pointB = new Point(
-//                    REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-//                    REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-//
-//            /*
-//             * Working variables
-//             */
-//            Mat region1_Cb, region2_Cb, region3_Cb;
-//            Mat YCrCb = new Mat();
-//            Mat Cb = new Mat();
-//            int avg1, avg2, avg3;
-//
-//            // Volatile since accessed by OpMode thread w/o synchronization
-//            private volatile SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition positionRed = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.RIGHT;
-//
-//            /*
-//             * This function takes the RGB frame, converts to YCrCb,
-//             * and extracts the Cb channel to the 'Cb' variable
-//             */
-//            void inputToCb(Mat input)
-//            {
-//                Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
-//                Core.extractChannel(YCrCb, Cb, 2);
-//            }
-//
-//            @Override
-//            public void init(Mat firstFrame)
-//            {
-//                /*
-//                 * We need to call this in order to make sure the 'Cb'
-//                 * object is initialized, so that the submats we make
-//                 * will still be linked to it on subsequent frames. (If
-//                 * the object were to only be initialized in processFrame,
-//                 * then the submats would become delinked because the backing
-//                 * buffer would be re-allocated the first time a real frame
-//                 * was crunched)
-//                 */
-//                inputToCb(firstFrame);
-//
-//                /*
-//                 * Submats are a persistent reference to a region of the parent
-//                 * buffer. Any changes to the child affect the parent, and the
-//                 * reverse also holds true.
-//                 */
-//                region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-//                region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-//                region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
-//            }
-//
-//            @Override
-//            public Mat processFrame(Mat input)
-//            {
-//                /*
-//                 * Overview of what we're doing:
-//                 *
-//                 * We first convert to YCrCb color space, from RGB color space.
-//                 * Why do we do this? Well, in the RGB color space, chroma and
-//                 * luma are intertwined. In YCrCb, chroma and luma are separated.
-//                 * YCrCb is a 3-channel color space, just like RGB. YCrCb's 3 channels
-//                 * are Y, the luma channel (which essentially just a B&W image), the
-//                 * Cr channel, which records the difference from red, and the Cb channel,
-//                 * which records the difference from blue. Because chroma and luma are
-//                 * not related in YCrCb, vision code written to look for certain values
-//                 * in the Cr/Cb channels will not be severely affected by differing
-//                 * light intensity, since that difference would most likely just be
-//                 * reflected in the Y channel.
-//                 *
-//                 * After we've converted to YCrCb, we extract just the 2nd channel, the
-//                 * Cb channel. We do this because stones are bright yellow and contrast
-//                 * STRONGLY on the Cb channel against everything else, including SkyStones
-//                 * (because SkyStones have a black label).
-//                 *
-//                 * We then take the average pixel value of 3 different regions on that Cb
-//                 * channel, one positioned over each stone. The brightest of the 3 regions
-//                 * is where we assume the SkyStone to be, since the normal stones show up
-//                 * extremely darkly.
-//                 *
-//                 * We also draw rectangles on the screen showing where the sample regions
-//                 * are, as well as drawing a solid rectangle over top the sample region
-//                 * we believe is on top of the SkyStone.
-//                 *
-//                 * In order for this whole process to work correctly, each sample region
-//                 * should be positioned in the center of each of the first 3 stones, and
-//                 * be small enough such that only the stone is sampled, and not any of the
-//                 * surroundings.
-//                 */
-//
-//                /*
-//                 * Get the Cb channel of the input frame after conversion to YCrCb
-//                 */
-//                inputToCb(input);
-//
-//                /*
-//                 * Compute the average pixel value of each submat region. We're
-//                 * taking the average of a single channel buffer, so the value
-//                 * we need is at index 0. We could have also taken the average
-//                 * pixel value of the 3-channel image, and referenced the value
-//                 * at index 2 here.
-//                 */
-//                avg1 = (int) Core.mean(region1_Cb).val[0];
-//                avg2 = (int) Core.mean(region2_Cb).val[0];
-//                avg3 = (int) Core.mean(region3_Cb).val[0];
-//
-//                /*
-//                 * Draw a rectangle showing sample region 1 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region1_pointA, // First point which defines the rectangle
-//                        region1_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//                /*
-//                 * Draw a rectangle showing sample region 2 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region2_pointA, // First point which defines the rectangle
-//                        region2_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//                /*
-//                 * Draw a rectangle showing sample region 3 on the screen.
-//                 * Simply a visual aid. Serves no functional purpose.
-//                 */
-//                Imgproc.rectangle(
-//                        input, // Buffer to draw on
-//                        region3_pointA, // First point which defines the rectangle
-//                        region3_pointB, // Second point which defines the rectangle
-//                        BLUE, // The color the rectangle is drawn in
-//                        2); // Thickness of the rectangle lines
-//
-//
-//                /*
-//                 * Find the max of the 3 averages
-//                 */
-//                int minOneTwo = Math.min(avg1, avg2);
-//                int min = Math.min(minOneTwo, avg3);
-//
-//                /*
-//                 * Now that we found the max, we actually need to go and
-//                 * figure out which sample region that value was from
-//                 */
-//                if(min == avg1) // Was it from region 1?
-//                {
-//                    positionRed = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.LEFT; // Record our analysis
-//
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region1_pointA, // First point which defines the rectangle
-//                            region1_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
-//                }
-//                else if(min == avg2) // Was it from region 2?
-//                {
-//                    positionRed = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.CENTER; // Record our analysis
-//
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region2_pointA, // First point which defines the rectangle
-//                            region2_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
-//                }
-//                else if(min == avg3) // Was it from region 3?
-//                {
-//                    positionRed = SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition.RIGHT; // Record our analysis
-//
-//                    /*
-//                     * Draw a solid rectangle on top of the chosen region.
-//                     * Simply a visual aid. Serves no functional purpose.
-//                     */
-//                    Imgproc.rectangle(
-//                            input, // Buffer to draw on
-//                            region3_pointA, // First point which defines the rectangle
-//                            region3_pointB, // Second point which defines the rectangle
-//                            GREEN, // The color the rectangle is drawn in
-//                            -1); // Negative thickness means solid fill
-//                }
-//
-//                /*
-//                 * Render the 'input' buffer to the viewport. But note this is not
-//                 * simply rendering the raw camera feed, because we called functions
-//                 * to add some annotations to this buffer earlier up.
-//                 */
-//                return input;
-//            }
-//
-//            /*
-//             * Call this from the OpMode thread to obtain the latest analysis
-//             */
-//            public SkystoneDeterminationExample.SkystoneDeterminationPipeline.SkystonePosition getAnalysis()
-//            {
-//                return positionRed;
-//            }
-//        }
+    }
 
-
+    //sets all motor powers to 0
     public void motorKill() {
         //Kills the motors to prepare for next call of method
         leftFrontDriveMotor.setPower(0);
@@ -1737,87 +1063,7 @@ public abstract class RobotLinearOpMode extends LinearOpMode {
         rightBackDriveMotor.setPower(0);
     }
 
-//    public void declareSlideProperty(){
-//        slide = hardwareMap.get(DcMotor.class, "slide");
-//        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//    }
-
-    public void declareAutoVariables(){
-        if(gamepad1.a&&!aWasPressed) {
-            waitTime+=500;
-            aWasPressed=true;
-        } else if(!gamepad1.a&&aWasPressed) {
-            aWasPressed=false;
-        }
-
-        if(gamepad1.b&&!bWasPressed&&waitTime>=500) {
-            waitTime-=500;
-            bWasPressed=true;
-        } else if(!gamepad1.b&&bWasPressed) {
-            bWasPressed=false;
-        }
-
-        if(gamepad1.x&&!xWasPressed) {
-            placeAndPark = true;
-            xWasPressed=true;
-        } else if(!gamepad1.x&&xWasPressed) {
-            xWasPressed = false;
-        }
-
-        if(gamepad1.y&&!yWasPressed) {
-            placeAndPark = false;
-            yWasPressed=true;
-        } else if(!gamepad1.y&&yWasPressed) {
-            yWasPressed=false;
-        }
-
-        telemetry.addData("Wait Duration (A to increase, B to decrease)",waitTime);
-        telemetry.addData("place and park", placeAndPark);
-        telemetry.update();
-    }
-
-//    public void declareSlideProperty()
-//    {
-//        slideUp = hardwareMap.get(DcMotor.class, "slideUp");
-//        slideUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//
-//        slideUp2 = hardwareMap.get(DcMotor.class, "slideUp2");
-//        slideUp2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//    }
-
-    public void declareHardwareProperties() {
-        rightFrontDriveMotor = hardwareMap.get(DcMotor.class, "rightFrontDriveMotor");
-        leftBackDriveMotor = hardwareMap.get(DcMotor.class, "leftFrontDriveMotor");
-        rightBackDriveMotor = hardwareMap.get(DcMotor.class, "rightBackDriveMotor");
-        leftFrontDriveMotor = hardwareMap.get(DcMotor.class, "leftBackDriveMotor");
-        slideUpTop = hardwareMap.get(DcMotor.class, "slideUpTop");
-        slideUpBottom = hardwareMap.get(DcMotor.class, "slideUpBottom");
-        hSlide = hardwareMap.get(DcMotor.class, "hSlide");
-        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-
-        //clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        wristServo = hardwareMap.get(Servo.class, "wristServo");
-        armServoLeft = hardwareMap.get(Servo.class, "armServoLeft");
-        armServoRight = hardwareMap.get(Servo.class, "armServoRight");
-        intakeServo = hardwareMap.get(Servo.class, "intakeServo");
-        clawServo.setDirection(Servo.Direction.REVERSE);
-
-        rightFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        leftFrontDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        rightBackDriveMotor.setDirection(DcMotorEx.Direction.FORWARD);
-        leftBackDriveMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        slideUpTop.setDirection(DcMotorEx.Direction.REVERSE);
-
-        leftBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFrontDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideUpTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        slideUpBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        hSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
+    //These are all the enumerations for this class, if you don't know what enumerations are just google it
 
     enum MOVEMENT_DIRECTION {
         STRAFE_LEFT,
