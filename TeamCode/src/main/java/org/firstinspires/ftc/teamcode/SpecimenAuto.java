@@ -101,7 +101,6 @@ public class SpecimenAuto extends RobotLinearOpMode{
         activePose = new Pose2d(xPosition, yPosition, heading);
 
         //Place #1
-
         placeSpecimen1();
 
         //Push 2 reds into Observation zone and drive to pick up position
